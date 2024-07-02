@@ -7,23 +7,59 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32676ADD2C33C8A2001E572E /* AskOTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32676ADC2C33C8A1001E572E /* AskOTPViewController.swift */; };
+		32676ADF2C33C9D6001E572E /* UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32676ADE2C33C9D6001E572E /* UIAlertController.swift */; };
+		32676AE12C33D25C001E572E /* LoaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32676AE02C33D25C001E572E /* LoaderButton.swift */; };
+		32676AE52C3400E7001E572E /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32676AE42C3400E7001E572E /* Date.swift */; };
+		32676AE72C340222001E572E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32676AE62C340222001E572E /* String.swift */; };
+		32676AED2C34103C001E572E /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32676AEC2C34103C001E572E /* HomeViewController.swift */; };
+		32676AEF2C34128D001E572E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32676AEE2C34128D001E572E /* LoginViewController.swift */; };
+		32C56CB72C34671800C260D9 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32C56CB62C34671800C260D9 /* Home.storyboard */; };
 		32F471042C32E5190031C265 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F471032C32E5190031C265 /* AppDelegate.swift */; };
 		32F471062C32E5190031C265 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F471052C32E5190031C265 /* SceneDelegate.swift */; };
-		32F471082C32E5190031C265 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F471072C32E5190031C265 /* ViewController.swift */; };
 		32F4710B2C32E5190031C265 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 32F4710A2C32E5190031C265 /* Base */; };
 		32F4710D2C32E51A0031C265 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32F4710C2C32E51A0031C265 /* Assets.xcassets */; };
 		32F471102C32E51A0031C265 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 32F4710F2C32E51A0031C265 /* Base */; };
+		32F471192C32E98D0031C265 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F471182C32E98D0031C265 /* Constants.swift */; };
+		32F4711C2C32ED090031C265 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 32F4711B2C32ED090031C265 /* Auth */; };
+		32F4711E2C32ED090031C265 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 32F4711D2C32ED090031C265 /* Storage */; };
+		32F471212C32EDE30031C265 /* Supabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F471202C32EDE30031C265 /* Supabase.swift */; };
+		32F471232C32EE4E0031C265 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 32F471222C32EE4E0031C265 /* PostgREST */; };
+		32F471262C32EE920031C265 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 32F471252C32EE920031C265 /* Supabase */; };
+		32F471282C32F20D0031C265 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F471272C32F20D0031C265 /* User.swift */; };
+		32F4712B2C32F2A90031C265 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F4712A2C32F2A90031C265 /* UserDefaults.swift */; };
+		32F471302C32F38E0031C265 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32F4712F2C32F38E0031C265 /* Auth.storyboard */; };
+		32F471332C3306D80031C265 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F471322C3306D80031C265 /* SignUpViewController.swift */; };
+		32F471352C33090E0031C265 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F471342C33090E0031C265 /* UIWindow.swift */; };
+		32F471372C330D280031C265 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F471362C330D280031C265 /* UIViewController.swift */; };
+		32F471392C3341250031C265 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F471382C3341250031C265 /* Gender.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		32676ADC2C33C8A1001E572E /* AskOTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskOTPViewController.swift; sourceTree = "<group>"; };
+		32676ADE2C33C9D6001E572E /* UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertController.swift; sourceTree = "<group>"; };
+		32676AE02C33D25C001E572E /* LoaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderButton.swift; sourceTree = "<group>"; };
+		32676AE42C3400E7001E572E /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		32676AE62C340222001E572E /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		32676AEC2C34103C001E572E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		32676AEE2C34128D001E572E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		32C56CB62C34671800C260D9 /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		32F471002C32E5190031C265 /* iHospital.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iHospital.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32F471032C32E5190031C265 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		32F471052C32E5190031C265 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		32F471072C32E5190031C265 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		32F4710A2C32E5190031C265 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		32F4710C2C32E51A0031C265 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		32F4710F2C32E51A0031C265 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		32F471112C32E51A0031C265 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		32F471182C32E98D0031C265 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		32F471202C32EDE30031C265 /* Supabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supabase.swift; sourceTree = "<group>"; };
+		32F471272C32F20D0031C265 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		32F4712A2C32F2A90031C265 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		32F4712F2C32F38E0031C265 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
+		32F471322C3306D80031C265 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		32F471342C33090E0031C265 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
+		32F471362C330D280031C265 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		32F471382C3341250031C265 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +67,55 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32F471262C32EE920031C265 /* Supabase in Frameworks */,
+				32F471232C32EE4E0031C265 /* PostgREST in Frameworks */,
+				32F4711E2C32ED090031C265 /* Storage in Frameworks */,
+				32F4711C2C32ED090031C265 /* Auth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		32676AE82C340E60001E572E /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				32F471312C3306BC0031C265 /* Controllers */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		32676AE92C34100F001E572E /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				32676AEA2C341021001E572E /* Home */,
+				32676AE82C340E60001E572E /* Auth */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		32676AEA2C341021001E572E /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				32676AEB2C341029001E572E /* Controllers */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		32676AEB2C341029001E572E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				32676AEC2C34103C001E572E /* HomeViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		32F470F72C32E5190031C265 = {
 			isa = PBXGroup;
 			children = (
 				32F471022C32E5190031C265 /* iHospital */,
 				32F471012C32E5190031C265 /* Products */,
+				32F471242C32EE8D0031C265 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +130,77 @@
 		32F471022C32E5190031C265 /* iHospital */ = {
 			isa = PBXGroup;
 			children = (
+				32676AE92C34100F001E572E /* Scenes */,
+				32F4712C2C32F3680031C265 /* Storyboards */,
+				32F471292C32F2900031C265 /* Extensions */,
+				32F4711F2C32EDD70031C265 /* Modules */,
+				32F471172C32E77D0031C265 /* Models */,
 				32F471032C32E5190031C265 /* AppDelegate.swift */,
 				32F471052C32E5190031C265 /* SceneDelegate.swift */,
-				32F471072C32E5190031C265 /* ViewController.swift */,
 				32F471092C32E5190031C265 /* Main.storyboard */,
 				32F4710C2C32E51A0031C265 /* Assets.xcassets */,
 				32F4710E2C32E51A0031C265 /* LaunchScreen.storyboard */,
 				32F471112C32E51A0031C265 /* Info.plist */,
+				32F471182C32E98D0031C265 /* Constants.swift */,
 			);
 			path = iHospital;
+			sourceTree = "<group>";
+		};
+		32F471172C32E77D0031C265 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				32F471272C32F20D0031C265 /* User.swift */,
+				32F471382C3341250031C265 /* Gender.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		32F4711F2C32EDD70031C265 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				32F471202C32EDE30031C265 /* Supabase.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		32F471242C32EE8D0031C265 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		32F471292C32F2900031C265 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				32676AE02C33D25C001E572E /* LoaderButton.swift */,
+				32F4712A2C32F2A90031C265 /* UserDefaults.swift */,
+				32F471342C33090E0031C265 /* UIWindow.swift */,
+				32F471362C330D280031C265 /* UIViewController.swift */,
+				32676ADE2C33C9D6001E572E /* UIAlertController.swift */,
+				32676AE42C3400E7001E572E /* Date.swift */,
+				32676AE62C340222001E572E /* String.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		32F4712C2C32F3680031C265 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				32F4712F2C32F38E0031C265 /* Auth.storyboard */,
+				32C56CB62C34671800C260D9 /* Home.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		32F471312C3306BC0031C265 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				32F471322C3306D80031C265 /* SignUpViewController.swift */,
+				32676ADC2C33C8A1001E572E /* AskOTPViewController.swift */,
+				32676AEE2C34128D001E572E /* LoginViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +219,12 @@
 			dependencies = (
 			);
 			name = iHospital;
+			packageProductDependencies = (
+				32F4711B2C32ED090031C265 /* Auth */,
+				32F4711D2C32ED090031C265 /* Storage */,
+				32F471222C32EE4E0031C265 /* PostgREST */,
+				32F471252C32EE920031C265 /* Supabase */,
+			);
 			productName = iHospital;
 			productReference = 32F471002C32E5190031C265 /* iHospital.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +253,9 @@
 				Base,
 			);
 			mainGroup = 32F470F72C32E5190031C265;
+			packageReferences = (
+				32F4711A2C32ED090031C265 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			productRefGroup = 32F471012C32E5190031C265 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -126,7 +271,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				32F4710D2C32E51A0031C265 /* Assets.xcassets in Resources */,
+				32C56CB72C34671800C260D9 /* Home.storyboard in Resources */,
 				32F471102C32E51A0031C265 /* Base in Resources */,
+				32F471302C32F38E0031C265 /* Auth.storyboard in Resources */,
 				32F4710B2C32E5190031C265 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,9 +285,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32F471082C32E5190031C265 /* ViewController.swift in Sources */,
 				32F471042C32E5190031C265 /* AppDelegate.swift in Sources */,
+				32676AE52C3400E7001E572E /* Date.swift in Sources */,
+				32F471332C3306D80031C265 /* SignUpViewController.swift in Sources */,
+				32676ADD2C33C8A2001E572E /* AskOTPViewController.swift in Sources */,
+				32676AE12C33D25C001E572E /* LoaderButton.swift in Sources */,
+				32F471372C330D280031C265 /* UIViewController.swift in Sources */,
+				32676ADF2C33C9D6001E572E /* UIAlertController.swift in Sources */,
+				32F471352C33090E0031C265 /* UIWindow.swift in Sources */,
+				32F471212C32EDE30031C265 /* Supabase.swift in Sources */,
+				32F4712B2C32F2A90031C265 /* UserDefaults.swift in Sources */,
+				32F471392C3341250031C265 /* Gender.swift in Sources */,
+				32676AED2C34103C001E572E /* HomeViewController.swift in Sources */,
 				32F471062C32E5190031C265 /* SceneDelegate.swift in Sources */,
+				32676AEF2C34128D001E572E /* LoginViewController.swift in Sources */,
+				32676AE72C340222001E572E /* String.swift in Sources */,
+				32F471282C32F20D0031C265 /* User.swift in Sources */,
+				32F471192C32E98D0031C265 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,6 +461,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -328,6 +490,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -363,6 +526,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		32F4711A2C32ED090031C265 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		32F4711B2C32ED090031C265 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 32F4711A2C32ED090031C265 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		32F4711D2C32ED090031C265 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 32F4711A2C32ED090031C265 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		32F471222C32EE4E0031C265 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 32F4711A2C32ED090031C265 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		32F471252C32EE920031C265 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 32F4711A2C32ED090031C265 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 32F470F82C32E5190031C265 /* Project object */;
 }
