@@ -38,10 +38,8 @@ struct PaddedTextFieldStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
             .padding()
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-            )
+            .background(Color(.systemGray6))
+            .cornerRadius(8)
     }
 }
 
