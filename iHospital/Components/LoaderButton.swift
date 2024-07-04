@@ -33,7 +33,6 @@ struct LoaderButton<Content: View>: View {
             }
             .frame(maxWidth: .infinity)
             .background(Color.accentColor)
-            .foregroundColor(.white)
             .cornerRadius(8)
             .disabled(isLoading)
         }
