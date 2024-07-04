@@ -28,6 +28,9 @@
 		32AF569B2C354A4D002E599F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AF569A2C354A4D002E599F /* Constants.swift */; };
 		32AF569E2C354A9E002E599F /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 32AF569D2C354A9E002E599F /* Auth */; };
 		32AF56A02C354A9E002E599F /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 32AF569F2C354A9E002E599F /* Storage */; };
+		F554F8A32C3675BC00253D64 /* FeatureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8A22C3675BC00253D64 /* FeatureButton.swift */; };
+		F554F8A52C367F0F00253D64 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8A42C367F0F00253D64 /* ImageButton.swift */; };
+		F554F8A72C367FE400253D64 /* AppointmentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8A62C367FE400253D64 /* AppointmentButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +52,9 @@
 		32AF56952C354839002E599F /* VerifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyView.swift; sourceTree = "<group>"; };
 		32AF56982C354973002E599F /* Supabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supabase.swift; sourceTree = "<group>"; };
 		32AF569A2C354A4D002E599F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F554F8A22C3675BC00253D64 /* FeatureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureButton.swift; sourceTree = "<group>"; };
+		F554F8A42C367F0F00253D64 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
+		F554F8A62C367FE400253D64 /* AppointmentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +102,9 @@
 			isa = PBXGroup;
 			children = (
 				324C9CAF2C35587C00712E84 /* LoaderButton.swift */,
+				F554F8A22C3675BC00253D64 /* FeatureButton.swift */,
+				F554F8A42C367F0F00253D64 /* ImageButton.swift */,
+				F554F8A62C367FE400253D64 /* AppointmentButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -241,12 +250,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F554F8A52C367F0F00253D64 /* ImageButton.swift in Sources */,
 				32AF56922C3547E7002E599F /* LoginView.swift in Sources */,
 				324C9CA92C354F3A00712E84 /* Date.swift in Sources */,
 				32AF56992C354973002E599F /* Supabase.swift in Sources */,
 				324C9CEA2C35AEAD00712E84 /* DashboardView.swift in Sources */,
 				324C9CB02C35587C00712E84 /* LoaderButton.swift in Sources */,
 				32AF56962C354839002E599F /* VerifyView.swift in Sources */,
+				F554F8A32C3675BC00253D64 /* FeatureButton.swift in Sources */,
 				32AF56942C354803002E599F /* SignUpView.swift in Sources */,
 				324C9CA42C354D9600712E84 /* Gender.swift in Sources */,
 				324C9CE62C35625D00712E84 /* AuthView.swift in Sources */,
@@ -254,6 +265,7 @@
 				32AF569B2C354A4D002E599F /* Constants.swift in Sources */,
 				324C9CE82C35A69700712E84 /* CheckBox.swift in Sources */,
 				324C9CAD2C3553CB00712E84 /* View.swift in Sources */,
+				F554F8A72C367FE400253D64 /* AppointmentButton.swift in Sources */,
 				32AF56852C354541002E599F /* MainView.swift in Sources */,
 				32AF56832C354541002E599F /* iHospitalApp.swift in Sources */,
 			);
