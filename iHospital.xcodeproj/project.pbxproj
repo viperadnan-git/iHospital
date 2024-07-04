@@ -31,6 +31,12 @@
 		F554F8A32C3675BC00253D64 /* FeatureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8A22C3675BC00253D64 /* FeatureButton.swift */; };
 		F554F8A52C367F0F00253D64 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8A42C367F0F00253D64 /* ImageButton.swift */; };
 		F554F8A72C367FE400253D64 /* AppointmentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8A62C367FE400253D64 /* AppointmentButton.swift */; };
+		F554F8A92C36A22600253D64 /* ProfileSwitchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8A82C36A22600253D64 /* ProfileSwitchingView.swift */; };
+		F554F8AB2C36A43100253D64 /* AppointmentBookingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8AA2C36A43100253D64 /* AppointmentBookingView.swift */; };
+		F554F8AD2C36A44E00253D64 /* BedBookingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8AC2C36A44E00253D64 /* BedBookingView.swift */; };
+		F554F8AF2C36A6F100253D64 /* MedicalInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8AE2C36A6F100253D64 /* MedicalInformationView.swift */; };
+		F554F8B12C36A80F00253D64 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8B02C36A80F00253D64 /* SearchBar.swift */; };
+		F554F8B32C36B41900253D64 /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8B22C36B41900253D64 /* UserDetailsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +61,12 @@
 		F554F8A22C3675BC00253D64 /* FeatureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureButton.swift; sourceTree = "<group>"; };
 		F554F8A42C367F0F00253D64 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		F554F8A62C367FE400253D64 /* AppointmentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentButton.swift; sourceTree = "<group>"; };
+		F554F8A82C36A22600253D64 /* ProfileSwitchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSwitchingView.swift; sourceTree = "<group>"; };
+		F554F8AA2C36A43100253D64 /* AppointmentBookingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentBookingView.swift; sourceTree = "<group>"; };
+		F554F8AC2C36A44E00253D64 /* BedBookingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedBookingView.swift; sourceTree = "<group>"; };
+		F554F8AE2C36A6F100253D64 /* MedicalInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalInformationView.swift; sourceTree = "<group>"; };
+		F554F8B02C36A80F00253D64 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		F554F8B22C36B41900253D64 /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +117,7 @@
 				F554F8A22C3675BC00253D64 /* FeatureButton.swift */,
 				F554F8A42C367F0F00253D64 /* ImageButton.swift */,
 				F554F8A62C367FE400253D64 /* AppointmentButton.swift */,
+				F554F8B02C36A80F00253D64 /* SearchBar.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -159,6 +172,11 @@
 				32AF56952C354839002E599F /* VerifyView.swift */,
 				324C9CE52C35625C00712E84 /* AuthView.swift */,
 				324C9CE92C35AEAD00712E84 /* DashboardView.swift */,
+				F554F8A82C36A22600253D64 /* ProfileSwitchingView.swift */,
+				F554F8AA2C36A43100253D64 /* AppointmentBookingView.swift */,
+				F554F8AC2C36A44E00253D64 /* BedBookingView.swift */,
+				F554F8AE2C36A6F100253D64 /* MedicalInformationView.swift */,
+				F554F8B22C36B41900253D64 /* UserDetailsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -250,12 +268,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F554F8AF2C36A6F100253D64 /* MedicalInformationView.swift in Sources */,
 				F554F8A52C367F0F00253D64 /* ImageButton.swift in Sources */,
 				32AF56922C3547E7002E599F /* LoginView.swift in Sources */,
+				F554F8A92C36A22600253D64 /* ProfileSwitchingView.swift in Sources */,
 				324C9CA92C354F3A00712E84 /* Date.swift in Sources */,
 				32AF56992C354973002E599F /* Supabase.swift in Sources */,
 				324C9CEA2C35AEAD00712E84 /* DashboardView.swift in Sources */,
 				324C9CB02C35587C00712E84 /* LoaderButton.swift in Sources */,
+				F554F8AB2C36A43100253D64 /* AppointmentBookingView.swift in Sources */,
 				32AF56962C354839002E599F /* VerifyView.swift in Sources */,
 				F554F8A32C3675BC00253D64 /* FeatureButton.swift in Sources */,
 				32AF56942C354803002E599F /* SignUpView.swift in Sources */,
@@ -263,9 +284,12 @@
 				324C9CE62C35625D00712E84 /* AuthView.swift in Sources */,
 				324C9CA62C354DA800712E84 /* User.swift in Sources */,
 				32AF569B2C354A4D002E599F /* Constants.swift in Sources */,
+				F554F8B32C36B41900253D64 /* UserDetailsView.swift in Sources */,
+				F554F8B12C36A80F00253D64 /* SearchBar.swift in Sources */,
 				324C9CE82C35A69700712E84 /* CheckBox.swift in Sources */,
 				324C9CAD2C3553CB00712E84 /* View.swift in Sources */,
 				F554F8A72C367FE400253D64 /* AppointmentButton.swift in Sources */,
+				F554F8AD2C36A44E00253D64 /* BedBookingView.swift in Sources */,
 				32AF56852C354541002E599F /* MainView.swift in Sources */,
 				32AF56832C354541002E599F /* iHospitalApp.swift in Sources */,
 			);
