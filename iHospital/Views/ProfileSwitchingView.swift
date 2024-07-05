@@ -10,9 +10,13 @@ import SwiftUI
 struct ProfileSwitchingView: View {
     var body: some View {
         Text("Profile Switching View")
+            .font(.largeTitle)
+            .navigationTitle("Profile")
     }
 }
 
-#Preview {
-    ProfileSwitchingView()
+struct ProfileSwitchingView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfileSwitchingView()
+    }
 }

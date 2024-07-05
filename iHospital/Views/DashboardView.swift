@@ -11,7 +11,7 @@ struct DashboardView: View {
     @State private var text: String = ""
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     Text("What do you feel ?")
@@ -19,8 +19,9 @@ struct DashboardView: View {
                         .fontWeight(.bold)
                         .padding(.horizontal)
                     
-                    ImageButton(imageName: "Image") {
-                        // Handle image button action
+                    NavigationLink(destination: AppointmentView()) {
+                        Image("Image").resizable().aspectRatio(contentMode: .fit)
+                            .padding()
                     }
                     
                     Text("Next Appointment")
@@ -49,15 +50,15 @@ struct DashboardView: View {
                     GeometryReader { geometry in
                         HStack(spacing: 20) {
                             NavigationLink(destination: BedBookingView()) {
-                                FeatureButton(imageName: "bed.double.fill", title: "Bed Booking")
+                                FeatureButton(imageName: "Image", title: "Bed Booking")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
                             NavigationLink(destination: AppointmentBookingView()) {
-                                FeatureButton(imageName: "calendar.badge.plus", title: "Appointment")
+                                FeatureButton(imageName: "Image", title: "Appointment")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
                             NavigationLink(destination: MedicalInformationView()) {
-                                FeatureButton(imageName: "doc.text.fill", title: "Medical Information")
+                                FeatureButton(imageName: "Image", title: "Medical Information")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
                         }
