@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @State private var text: String = ""
-    @State private var profiles = ["Vicky", "Shoaib"] // Sample profiles, replace with actual data
-    @State private var showProfileSheet = false
+    @EnvironmentObject private var patientViewModel: PatientViewModel
     @State private var showLogoutAlert = false
-    
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -31,16 +29,12 @@ struct DashboardView: View {
                         .fontWeight(.bold)
                         .padding(.horizontal)
                     
-                    AppointmentButton(
-                        imageName: "doctor_image",
-                        doctorName: "Dr. Darlene Robertson",
-                        specialty: "Dental Specialist",
-                        experience: "3 Years",
-                        appointmentDate: "Monday, May 12",
-                        appointmentTime: "11:00 - 12:00 AM",
-                        action: {
-                            // Handle appointment button action
-                        }
+                    AppointmentCard(
+                        doctorName: "Dr. Alana Rueter",
+                        consultationType: "Dentist Consultation",
+                        appointmentDate: "Monday, 26 July",
+                        appointmentTime: "09:00 - 10:00",
+                        doctorImage: "doctor_image"
                     )
                     
                     Text("Additional features")
@@ -70,49 +64,14 @@ struct DashboardView: View {
                 .padding(.top)
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    VStack(alignment: .leading) {
-                        Text("Hello, \(User.shared?.firstName ?? "Unknown") 👋")
-                            .font(.system(size: 30))
-                            .fontWeight(.bold)
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: ProfileView().environmentObject(patientViewModel)) {
+                        Image(systemName: "person.circle")
+                            .font(.title)
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Image(systemName: "person.circle")
-                        .font(.title)
-                        .contextMenu {
-                            ForEach(profiles, id: \.self) { profile in
-                                Button(action: {
-                                    // Switch to this profile
-                                }) {
-                                    Text(profile)
-                                }
-                            }
-                            
-                            Button(action: {
-                                showProfileSheet.toggle()
-                            }) {
-                                Text("Add New Profile")
-                            }
-                            
-                            Divider()
-                            
-                            Button(action: {
-                                showLogoutAlert = true
-                            }) {
-                                HStack {
-                                    Spacer()
-                                    Text("Logout")
-                                        .foregroundColor(.white)
-                                        .padding()
-                                        .background(Color.red)
-                                        .cornerRadius(8)
-                                    Spacer()
-                                }
-                            }
-                        }
-                }
             }
+            .navigationTitle("Hello Adnan")
             .alert(isPresented: $showLogoutAlert) {
                 Alert(
                     title: Text("Logout"),
@@ -130,33 +89,9 @@ struct DashboardView: View {
                 )
             }
         }
-        .sheet(isPresented: $showProfileSheet) {
-            // Sheet content for adding a new profile
-            AddProfileView(profiles: $profiles)
-        }
-        .tabViewStyle(PageTabViewStyle())
-        .tabItem {
-            Image(systemName: "person.fill")
-            Text("Dashboard")
-        }
-    }
-}
-
-struct AddProfileView: View {
-    @Binding var profiles: [String]
-    
-    var body: some View {
-        NavigationView {
-            // Directly navigate to UserDetailsView when Add Profile is tapped
-            UserDetailsView()
-                .navigationBarTitle("Add New Profile", displayMode: .inline)
-                .navigationBarItems(trailing: Button("Done") {
-                    // Close the sheet if needed
-                })
-        }
     }
 }
 
 #Preview {
-    DashboardView()
+    DashboardView().environmentObject(PatientViewModel())
 }
