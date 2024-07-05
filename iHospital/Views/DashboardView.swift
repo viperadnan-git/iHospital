@@ -24,9 +24,9 @@ struct DashboardView: View {
                     SearchBar(text: $text)
                     
                     ImageButton(imageName: "Image") {
-//                        Task {
-//                            try await User.logOut()
-//                        }
+                        Task {
+                            try await User.logOut()
+                        }
                     }
                     
                     Text("Next Appointment")

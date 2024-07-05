@@ -17,7 +17,7 @@ struct iHospitalApp: App {
                 if isAuthenticated {
                     MainView()
                 } else {
-                    AuthView()
+                    LoginView()
                 }
             }
             .task {

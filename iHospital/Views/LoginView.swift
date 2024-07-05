@@ -13,70 +13,70 @@ struct LoginView: View {
     @State private var alertTitle: String? = "Invalid Login"
     @State private var alertMessage: String?
     @State private var isLoading: Bool = false
-
+    
     var body: some View {
-        VStack {
-            Spacer()
-            
-            Text("Login")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            
-            Text("Welcome back, Sign in to continue")
-                .font(.subheadline)
-                .multilineTextAlignment(.center)
-                .foregroundColor(.gray)
-                .padding(.top, 1)
-                .padding(.bottom, 20)
-            
-            Spacer()
-            
-            VStack(spacing: 16) {
-                TextField("Email", text: $email)
-                    .autocapitalization(.none)
-                    .keyboardType(.emailAddress)
-                    .textContentType(.emailAddress)
-                    .paddedTextFieldStyle()
-                    
+        NavigationView{
+            VStack {
+                Spacer()
                 
-                SecureField("Password", text: $password)
-                    .paddedTextFieldStyle()
+                Text("Login")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                
+                Text("Welcome back, Sign in to continue")
+                    .font(.subheadline)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.gray)
+                    .padding(.top, 1)
+                    .padding(.bottom, 20)
+                
+                Spacer()
+                
+                VStack(spacing: 16) {
+                    TextField("Email", text: $email)
+                        .autocapitalization(.none)
+                        .keyboardType(.emailAddress)
+                        .textContentType(.emailAddress)
+                        .paddedTextFieldStyle()
+                    
+                    
+                    SecureField("Password", text: $password)
+                        .paddedTextFieldStyle()
+                    
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            alertMessage = "Forgot password action not implemented yet"
+                        }) {
+                            Text("Forgot password?")
+                        }
+                        .padding(.trailing, 16)
+                    }
+                }
+                .padding()
+                
+                Spacer()
+                
+                LoaderButton(isLoading: $isLoading,
+                             action: onLogin) {
+                    Text("Sign In")
+                }
+                             .buttonStyle(.borderedProminent)
+                             .padding(.horizontal, 16)
+                             .padding(.bottom, 20)
                 
                 HStack {
-                    Spacer()
-                    Button(action: {
-                       alertMessage = "Forgot password action not implemented yet"
-                    }) {
-                        Text("Forgot password?")
+                    Text("Don't have an account?")
+                        .foregroundColor(.gray)
+                    
+                    NavigationLink(destination: SignUpView()) {
+                        Text("Create account")
                     }
-                    .padding(.trailing, 16)
                 }
             }
-            .padding()
-            
-            Spacer()
-            
-            LoaderButton(isLoading: $isLoading,
-                         action: onLogin) {
-                Text("Sign In")
-            }
-            .buttonStyle(.borderedProminent)
-            .padding(.horizontal, 16)
-            .padding(.bottom, 20)
-            
-            HStack {
-                Text("Don't have an account?")
-                    .foregroundColor(.gray)
-                
-                Button(action: {
-                    // Handle create account action
-                }) {
-                    Text("Create account")
-                }
-            }
+            .padding(.bottom, 16)
+            .errorAlert(title: $alertTitle, message: $alertMessage)
         }
-        .padding(.bottom, 16)
-        .errorAlert(title: $alertTitle, message: $alertMessage)
     }
     
     func onLogin() {
@@ -85,7 +85,7 @@ struct LoginView: View {
             return
         }
         
-       
+        
         Task {
             isLoading = true
             defer {
