@@ -11,9 +11,10 @@ struct DashboardView: View {
     @State private var text: String = ""
     @State private var profiles = ["Vicky", "Shoaib"] // Sample profiles, replace with actual data
     @State private var showProfileSheet = false
+    @State private var showLogoutAlert = false
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     Text("What do you feel ?")
@@ -21,12 +22,8 @@ struct DashboardView: View {
                         .fontWeight(.bold)
                         .padding(.horizontal)
                     
-                    SearchBar(text: $text)
-                    
                     ImageButton(imageName: "Image") {
-                        Task {
-                            try await User.logOut()
-                        }
+                        // Handle image button action
                     }
                     
                     Text("Next Appointment")
@@ -54,11 +51,11 @@ struct DashboardView: View {
                     GeometryReader { geometry in
                         HStack(spacing: 20) {
                             NavigationLink(destination: BedBookingView()) {
-                                FeatureButton(imageName: "Bed Booking", title: "Bed            Bookings")
+                                FeatureButton(imageName: "Bed Booking", title: "Bed Booking")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
                             NavigationLink(destination: AllAppointmentsView()) {
-                                FeatureButton(imageName: "Appointments", title: "Appointment Viewing")
+                                FeatureButton(imageName: "Appointments", title: "Appointment")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
                             NavigationLink(destination: MedicalInformationView()) {
@@ -97,8 +94,40 @@ struct DashboardView: View {
                             }) {
                                 Text("Add New Profile")
                             }
+                            
+                            Divider()
+                            
+                            Button(action: {
+                                showLogoutAlert = true
+                            }) {
+                                HStack {
+                                    Spacer()
+                                    Text("Logout")
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(Color.red)
+                                        .cornerRadius(8)
+                                    Spacer()
+                                }
+                            }
                         }
                 }
+            }
+            .alert(isPresented: $showLogoutAlert) {
+                Alert(
+                    title: Text("Logout"),
+                    message: Text("Are you sure you want to logout?"),
+                    primaryButton: .destructive(Text("Logout")) {
+                        Task {
+                            do {
+                                try await User.logOut()
+                            } catch {
+                                // Handle logout error
+                            }
+                        }
+                    },
+                    secondaryButton: .cancel()
+                )
             }
         }
         .sheet(isPresented: $showProfileSheet) {
