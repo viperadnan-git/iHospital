@@ -33,6 +33,7 @@
 		32AF569B2C354A4D002E599F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AF569A2C354A4D002E599F /* Constants.swift */; };
 		32AF569E2C354A9E002E599F /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 32AF569D2C354A9E002E599F /* Auth */; };
 		32AF56A02C354A9E002E599F /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 32AF569F2C354A9E002E599F /* Storage */; };
+		4850DB642C380328001D10A1 /* EditPatientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB632C380328001D10A1 /* EditPatientView.swift */; };
 		F554F8A32C3675BC00253D64 /* FeatureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8A22C3675BC00253D64 /* FeatureButton.swift */; };
 		F554F8A52C367F0F00253D64 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8A42C367F0F00253D64 /* ImageButton.swift */; };
 		F554F8A92C36A22600253D64 /* ProfileSwitchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8A82C36A22600253D64 /* ProfileSwitchingView.swift */; };
@@ -68,6 +69,7 @@
 		32AF56952C354839002E599F /* VerifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyView.swift; sourceTree = "<group>"; };
 		32AF56982C354973002E599F /* Supabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supabase.swift; sourceTree = "<group>"; };
 		32AF569A2C354A4D002E599F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4850DB632C380328001D10A1 /* EditPatientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPatientView.swift; sourceTree = "<group>"; };
 		F554F8A22C3675BC00253D64 /* FeatureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureButton.swift; sourceTree = "<group>"; };
 		F554F8A42C367F0F00253D64 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		F554F8A82C36A22600253D64 /* ProfileSwitchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSwitchingView.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				F554F8AC2C36A44E00253D64 /* BedBookingView.swift */,
 				F554F8AE2C36A6F100253D64 /* MedicalInformationView.swift */,
 				F554F8B22C36B41900253D64 /* AddPatientView.swift */,
+				4850DB632C380328001D10A1 /* EditPatientView.swift */,
 				F554F8B42C37151000253D64 /* AppointmentScheduleView.swift */,
 				328409852C37F5AF00473841 /* ProfileView.swift */,
 			);
@@ -313,6 +316,7 @@
 				328409862C37F5AF00473841 /* ProfileView.swift in Sources */,
 				324C9CB02C35587C00712E84 /* LoaderButton.swift in Sources */,
 				F554F8AB2C36A43100253D64 /* AppointmentBookingView.swift in Sources */,
+				4850DB642C380328001D10A1 /* EditPatientView.swift in Sources */,
 				32AF56962C354839002E599F /* VerifyView.swift in Sources */,
 				F554F8A32C3675BC00253D64 /* FeatureButton.swift in Sources */,
 				32AF56942C354803002E599F /* SignUpView.swift in Sources */,

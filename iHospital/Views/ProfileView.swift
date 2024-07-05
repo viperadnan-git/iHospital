@@ -15,7 +15,9 @@ struct ProfileView: View {
         Form {
             Section(header: Text("Your Patients")) {
                 ForEach(patientViewModel.patients, id: \.patientId) { patient in
-                    Text(patient.name)
+                    NavigationLink(destination: EditPatientView(patient: patient)) {
+                        Text(patient.name)
+                    }
                 }
             }
             
