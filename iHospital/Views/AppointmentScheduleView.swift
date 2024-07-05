@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AppointmentView: View {
+struct AppointmentScheduleView: View {
     @State private var selectedDate = Date()
     @State private var isDatePickerVisible = true
     
@@ -111,9 +111,9 @@ struct AppointmentView: View {
     }
 }
 
-struct AppointmentView_Previews: PreviewProvider {
+struct AppointmentScheduleView_Previews: PreviewProvider {
     static var previews: some View {
-        AppointmentView()
+        AppointmentScheduleView()
     }
 }
 

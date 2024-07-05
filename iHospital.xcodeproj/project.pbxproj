@@ -37,7 +37,7 @@
 		F554F8AF2C36A6F100253D64 /* MedicalInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8AE2C36A6F100253D64 /* MedicalInformationView.swift */; };
 		F554F8B12C36A80F00253D64 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8B02C36A80F00253D64 /* SearchBar.swift */; };
 		F554F8B32C36B41900253D64 /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8B22C36B41900253D64 /* UserDetailsView.swift */; };
-		F554F8B52C37151000253D64 /* AppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8B42C37151000253D64 /* AppointmentView.swift */; };
+		F554F8B52C37151000253D64 /* AppointmentScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8B42C37151000253D64 /* AppointmentScheduleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,7 +68,7 @@
 		F554F8AE2C36A6F100253D64 /* MedicalInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalInformationView.swift; sourceTree = "<group>"; };
 		F554F8B02C36A80F00253D64 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		F554F8B22C36B41900253D64 /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
-		F554F8B42C37151000253D64 /* AppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentView.swift; sourceTree = "<group>"; };
+		F554F8B42C37151000253D64 /* AppointmentScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentScheduleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,7 +179,7 @@
 				F554F8AC2C36A44E00253D64 /* BedBookingView.swift */,
 				F554F8AE2C36A6F100253D64 /* MedicalInformationView.swift */,
 				F554F8B22C36B41900253D64 /* UserDetailsView.swift */,
-				F554F8B42C37151000253D64 /* AppointmentView.swift */,
+				F554F8B42C37151000253D64 /* AppointmentScheduleView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -271,7 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F554F8B52C37151000253D64 /* AppointmentView.swift in Sources */,
+				F554F8B52C37151000253D64 /* AppointmentScheduleView.swift in Sources */,
 				F554F8AF2C36A6F100253D64 /* MedicalInformationView.swift in Sources */,
 				F554F8A52C367F0F00253D64 /* ImageButton.swift in Sources */,
 				32AF56922C3547E7002E599F /* LoginView.swift in Sources */,
