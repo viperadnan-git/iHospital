@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PatientFormView: View {
+struct UserDetailsView: View {
     @State private var firstName: String = ""
     @State private var lastName: String = ""
     @State private var phoneNumber: String = ""
@@ -61,7 +61,7 @@ struct PatientFormView: View {
 
 struct ContentView: View {
     var body: some View {
-        PatientFormView()
+        UserDetailsView()
     }
 }
 

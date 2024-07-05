@@ -9,6 +9,8 @@ import SwiftUI
 
 struct DashboardView: View {
     @State private var text: String = ""
+    @State private var profiles = ["Vicky", "Shoaib"] // Sample profiles, replace with actual data
+    @State private var showProfileSheet = false
     
     var body: some View {
         NavigationView {
@@ -40,7 +42,6 @@ struct DashboardView: View {
                         }
                     )
                     
-                    
                     Text("Additional features")
                         .font(.title3)
                         .fontWeight(.bold)
@@ -52,7 +53,7 @@ struct DashboardView: View {
                                 FeatureButton(imageName: "bed.double.fill", title: "Bed Booking")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
-                            NavigationLink(destination: AppointmentBookingView()) {
+                            NavigationLink(destination: AllAppointmentsView()) {
                                 FeatureButton(imageName: "calendar.badge.plus", title: "Appointment")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
@@ -76,13 +77,29 @@ struct DashboardView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: ProfileSwitchingView()) {
-                        Image(systemName: "person.circle")
-                            .font(.title)
-                    }
+                    Image(systemName: "person.circle")
+                        .font(.title)
+                        .contextMenu {
+                            ForEach(profiles, id: \.self) { profile in
+                                Button(action: {
+                                    // Switch to this profile
+                                }) {
+                                    Text(profile)
+                                }
+                            }
+                            
+                            Button(action: {
+                                showProfileSheet.toggle()
+                            }) {
+                                Text("Add New Profile")
+                            }
+                        }
                 }
-                
             }
+        }
+        .sheet(isPresented: $showProfileSheet) {
+            // Sheet content for adding a new profile
+            AddProfileView(profiles: $profiles)
         }
         .tabViewStyle(PageTabViewStyle())
         .tabItem {
@@ -92,7 +109,21 @@ struct DashboardView: View {
     }
 }
 
+struct AddProfileView: View {
+    @Binding var profiles: [String]
+    
+    var body: some View {
+        NavigationView {
+            // Directly navigate to UserDetailsView when Add Profile is tapped
+            UserDetailsView()
+                .navigationBarTitle("Add New Profile", displayMode: .inline)
+                .navigationBarItems(trailing: Button("Done") {
+                    // Close the sheet if needed
+                })
+        }
+    }
+}
+
 #Preview {
     DashboardView()
 }
-
