@@ -21,9 +21,10 @@ struct DashboardView: View {
                         .fontWeight(.bold)
                         .padding(.horizontal)
                     
-                    NavigationLink(destination: AppointmentView()) {
-                        Image("Image").resizable().aspectRatio(contentMode: .fit)
-                            .padding()
+                    ImageButton(imageName: "Image") {
+                        Task {
+                            try await User.logOut()
+                        }
                     }
                     
                     Text("Next Appointment")
@@ -51,15 +52,15 @@ struct DashboardView: View {
                     GeometryReader { geometry in
                         HStack(spacing: 20) {
                             NavigationLink(destination: BedBookingView()) {
-                                FeatureButton(imageName: "Image", title: "Bed Booking")
+                                FeatureButton(imageName: "Bed Booking", title: "Bed Booking")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
                             NavigationLink(destination: AllAppointmentsView()) {
-                                FeatureButton(imageName: "calendar.badge.plus", title: "Appointment")
+                                FeatureButton(imageName: "Appointments", title: "Appointment")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
                             NavigationLink(destination: MedicalInformationView()) {
-                                FeatureButton(imageName: "Image", title: "Medical Information")
+                                FeatureButton(imageName: "Medical information", title: "Medical Information")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
                         }
