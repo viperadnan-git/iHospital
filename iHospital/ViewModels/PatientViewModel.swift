@@ -10,6 +10,7 @@ import Combine
 
 class PatientViewModel: ObservableObject {
     @Published var patients: [Patient] = []
+    @Published var currentPatient: Patient?
     @Published var selectedPatient: Patient?
     
     private var cancellables = Set<AnyCancellable>()
@@ -24,6 +25,7 @@ class PatientViewModel: ObservableObject {
                 let fetchedPatients = try await Patient.fetchAll()
                 DispatchQueue.main.async {
                     self.patients = fetchedPatients
+                    self.currentPatient = fetchedPatients.first
                 }
             } catch {
                 print("Failed to fetch patients: \(error.localizedDescription)")
