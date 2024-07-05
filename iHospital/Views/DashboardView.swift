@@ -15,19 +15,14 @@ struct DashboardView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Text("What do you feel ?")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .padding(.horizontal)
-                    
-                    ImageButton(imageName: "Image") {
-                        // Handle image button action
+                    NavigationLink(destination: AppointmentBrowseView()) {
+                        Image("BannerImage").resizable().aspectRatio(contentMode: .fit)
                     }
                     
                     Text("Next Appointment")
                         .font(.title3)
                         .fontWeight(.bold)
-                        .padding(.horizontal)
+                     
                     
                     AppointmentCard(
                         doctorName: "Dr. Alana Rueter",
@@ -40,7 +35,6 @@ struct DashboardView: View {
                     Text("Additional features")
                         .font(.title3)
                         .fontWeight(.bold)
-                        .padding(.horizontal)
                     
                     GeometryReader { geometry in
                         HStack(spacing: 20) {
@@ -48,7 +42,7 @@ struct DashboardView: View {
                                 FeatureButton(imageName: "Bed Booking", title: "Bed Booking")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
-                            NavigationLink(destination: AllAppointmentsView()) {
+                            NavigationLink(destination: Text("All Appointments")) {
                                 FeatureButton(imageName: "Appointments", title: "Appointment")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
@@ -57,11 +51,10 @@ struct DashboardView: View {
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
                         }
-                        .padding(.horizontal)
                     }
                     .frame(height: 150)
                 }
-                .padding(.top)
+                .padding()
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

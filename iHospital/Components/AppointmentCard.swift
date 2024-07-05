@@ -53,7 +53,6 @@ struct AppointmentCard: View {
         }
         .background(Color.accentColor)
         .cornerRadius(10)
-        .padding(.horizontal)
     }
 }
 
