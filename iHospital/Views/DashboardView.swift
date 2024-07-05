@@ -21,10 +21,12 @@ struct DashboardView: View {
                         .fontWeight(.bold)
                         .padding(.horizontal)
                     
+                    SearchBar(text: $text)
+                    
                     ImageButton(imageName: "Image") {
-                        Task {
-                            try await User.logOut()
-                        }
+//                        Task {
+//                            try await User.logOut()
+//                        }
                     }
                     
                     Text("Next Appointment")
@@ -52,11 +54,11 @@ struct DashboardView: View {
                     GeometryReader { geometry in
                         HStack(spacing: 20) {
                             NavigationLink(destination: BedBookingView()) {
-                                FeatureButton(imageName: "Bed Booking", title: "Bed Booking")
+                                FeatureButton(imageName: "Bed Booking", title: "Bed            Bookings")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
                             NavigationLink(destination: AllAppointmentsView()) {
-                                FeatureButton(imageName: "Appointments", title: "Appointment")
+                                FeatureButton(imageName: "Appointments", title: "Appointment Viewing")
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
                             NavigationLink(destination: MedicalInformationView()) {

@@ -93,14 +93,17 @@ struct FeatureButton: View {
                 .padding()
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 5)
+                //.shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 5)
             
             Text(title)
                 .font(.headline)
                 .foregroundColor(Color.blue)
+               // .background(Color.white)
         }
-        .frame(width: 120, height: 150)
+        .frame(width: 130, height: 160)
+        .background(Color.white)
     }
+    
 }
 
 struct FeatureButton_Previews: PreviewProvider {

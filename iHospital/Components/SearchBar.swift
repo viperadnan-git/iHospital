@@ -4,7 +4,6 @@
 //
 //  Created by Shoaib Akhtar on 04/07/24.
 //
-
 import SwiftUI
 
 struct SearchBar: View {
@@ -13,16 +12,15 @@ struct SearchBar: View {
 
     var body: some View {
         HStack {
-            TextField("Search Doctor", text: $text)
+            TextField("Search Doctor and Departments", text: $text)
                 .padding(7)
-                .foregroundColor(.white)
                 .padding(.horizontal, 25)
-                .background(Color.blue.opacity(0.8)) // Change the background color here
+                .background(Color(.systemGray6)) // Background color similar to native iOS search bar
                 .cornerRadius(8)
                 .overlay(
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(.white)
+                            .foregroundColor(.gray) // Icon color similar to native iOS search bar
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 8)
                         
@@ -37,7 +35,7 @@ struct SearchBar: View {
                         }
                     }
                 )
-                .foregroundColor(.black) // Change the text color here
+                .foregroundColor(.primary) // Text color similar to native iOS search bar
                 .padding(.horizontal, 10)
                 .onTapGesture {
                     self.isEditing = true
@@ -50,7 +48,7 @@ struct SearchBar: View {
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 }) {
                     Text("Cancel")
-                        .foregroundColor(.blue) // Change the cancel button color here
+                        .foregroundColor(.blue) // Cancel button color similar to native iOS search bar
                 }
                 .padding(.trailing, 10)
                 .transition(.move(edge: .trailing))
@@ -64,5 +62,8 @@ struct SearchBar_Previews: PreviewProvider {
     @State static var text = ""
     static var previews: some View {
         SearchBar(text: $text)
+            .padding()
+            .background(Color(.systemBackground)) // Background color to simulate a typical iOS view
+            .previewLayout(.sizeThatFits)
     }
 }
