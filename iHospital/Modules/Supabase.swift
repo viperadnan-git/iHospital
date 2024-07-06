@@ -18,4 +18,10 @@ let supabase = SupabaseClient(
 
 enum SupabaseTable: String {
     case users = "users"
+    case patients = "patients"
+    case doctors = "doctors"
+    
+    var id: String {
+        self.rawValue
+    }
 }
