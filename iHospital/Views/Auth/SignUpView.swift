@@ -80,6 +80,7 @@ struct SignUpView: View {
             LoaderButton(isLoading: $isLoading, action: onSignUp) {
                 Text("Create account")
             }.buttonStyle(.borderedProminent)
+                .foregroundColor(.white)
                 .padding(.horizontal, 16)
                 .padding(.bottom, 20)
                 .disabled(!agreeToTerms)
