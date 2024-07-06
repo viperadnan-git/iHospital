@@ -15,4 +15,14 @@ extension Date {
         
         return localDate
     }
+    
+    var startOfDay: Date {
+        return Calendar.current.startOfDay(for: self)
+    }
+    
+    var endOfDay: Date {
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: self)
+        return calendar.date(byAdding: DateComponents(day: 1, second: -1), to: startOfDay)!
+    }
 }

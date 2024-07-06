@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct DoctorSettings: Codable {
     let userId: UUID
     let priorBookingDays: Int
@@ -70,7 +69,6 @@ struct DoctorSettings: Codable {
         self.fee = fee
     }
     
-
     static func get(userId: UUID) async throws -> DoctorSettings {
         let response = try? await supabase.from("doctor_settings")
             .select()
@@ -106,5 +104,49 @@ struct DoctorSettings: Codable {
         }
         
         return try decoder.decode(DoctorSettings.self, from: response.data)
+    }
+
+    func getAvailableTimeSlots(for date: Date) async throws -> [Date] {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE" // Day of the week
+        let dayOfWeek = dateFormatter.string(from: date)
+        
+        guard selectedDays.contains(dayOfWeek) else {
+            return []
+        }
+        
+        let appointments = try await fetchAppointments(for: date)
+        let calendar = Calendar.current
+        var availableSlots: [Date] = []
+        
+        var currentTime = calendar.date(bySettingHour: calendar.component(.hour, from: startTime), minute: calendar.component(.minute, from: startTime), second: 0, of: date)!
+        let endTime = calendar.date(bySettingHour: calendar.component(.hour, from: endTime), minute: calendar.component(.minute, from: endTime), second: 0, of: date)!
+        
+        while currentTime < endTime {
+            let isAvailable = !appointments.contains { appointment in
+                calendar.isDate(appointment.date, equalTo: currentTime, toGranularity: .minute)
+            }
+            if isAvailable {
+                availableSlots.append(currentTime)
+            }
+            currentTime = calendar.date(byAdding: .minute, value: 15, to: currentTime)!
+        }
+        
+        return availableSlots
+    }
+    
+    private func fetchAppointments(for date: Date) async throws -> [Appointment] {
+        let response = try? await supabase.from(SupabaseTable.appointments.id)
+            .select()
+            .eq("doctor_id", value: userId)
+            .gte("date", value: date.startOfDay.ISO8601Format())
+            .lt("date", value: date.endOfDay.ISO8601Format())
+            .execute()
+        
+        guard let response = response else {
+            return []
+        }
+        
+        return try JSONDecoder().decode([Appointment].self, from: response.data)
     }
 }

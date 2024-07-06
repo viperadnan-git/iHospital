@@ -21,6 +21,7 @@ enum SupabaseTable: String {
     case patients = "patients"
     case doctors = "doctors"
     case departments = "departments"
+    case appointments = "appointments"
     
     var id: String {
         self.rawValue

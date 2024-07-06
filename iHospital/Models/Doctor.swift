@@ -33,6 +33,19 @@ struct Doctor: Codable {
         case departmentId = "department_id"
     }
     
+    static var sample: Doctor {
+        Doctor(userId: UUID(),
+               name: "Dr. John Doe",
+               dateOfBirth: Date(),
+               gender: .male,
+               phoneNumber: 1234567890,
+               email: "doctor@ihospital.viperadnan.com",
+               qualification: "MBBS",
+               experienceSince: Date(),
+               dateOfJoining: Date(),
+               departmentId: UUID())
+    }
+    
     static func fetchAll() async throws -> [Doctor] {
         let response: [Doctor] = try await supabase.from(SupabaseTable.doctors.id)
             .select()
@@ -65,6 +78,25 @@ struct Doctor: Codable {
             .execute()
         
         return try decoder.decode([Doctor].self, from: response.data)
+    }
+    
+    func getSettings() async throws -> DoctorSettings {
+        try await DoctorSettings.get(userId: userId)
+    }
+    
+    func fetchAppointments(for date: Date) async throws -> [Appointment] {
+        let response = try? await supabase.from(SupabaseTable.appointments.id)
+            .select()
+            .eq("doctor_id", value: userId)
+            .gte("date", value: date.startOfDay.ISO8601Format())
+            .lt("date", value: date.endOfDay.ISO8601Format())
+            .execute()
+        
+        guard let response = response else {
+            return []
+        }
+        
+        return try JSONDecoder().decode([Appointment].self, from: response.data)
     }
 }
 

@@ -21,6 +21,8 @@ struct Department: Decodable, Hashable, Identifiable {
     
     static var all: [Department]?
     
+    static let defaultDepartment = Department(id: UUID(uuidString: "d7c19d90-d37c-40b5-9437-98491e295f00")!, name: "General Physicians", phoneNumber: nil)
+    
     static func fetchAll() async throws -> [Department] {
         if let all = all {
             return all

@@ -14,9 +14,13 @@ struct AppointmentSearch: View {
     
     @FocusState private var isTextFieldFocused: Bool
     @State private var debounceTimer: Timer?
+    @State private var searched: Bool = false
     
     @Binding var selectedSearchResult: Search?
+    @Binding var selectedDepartment: Department?
     @Binding var showSearch: Bool
+    
+    @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Unable to search")
     
     var body: some View {
         NavigationView {
@@ -40,16 +44,29 @@ struct AppointmentSearch: View {
                         Spacer()
                     }
                 } else {
-                    List(searchResults) { result in
-                        Button(action: {
-                            selectedSearchResult = result
-                            showSearch = false
-                        }) {
-                            HStack {
-                                Image(systemName: result.icon)
-                                    .foregroundColor(result.type == .doctor ? .blue : .green)
-                                Text(result.name)
-                                    .foregroundColor(.primary)
+                    if searched && searchResults.isEmpty {
+                        VStack {
+                            Spacer()
+                            Text("No results found")
+                                .foregroundColor(.secondary)
+                            Spacer()
+                        }
+                    } else {
+                        List(searchResults) { result in
+                            Button(action: {
+                                if case .department(let department) = result.item {
+                                    selectedDepartment = department
+                                } else {
+                                    selectedSearchResult = result
+                                }
+                                showSearch = false
+                            }) {
+                                HStack {
+                                    Image(systemName: result.icon)
+                                        .foregroundColor(result.type == .doctor ? .blue : .green)
+                                    Text(result.name)
+                                        .foregroundColor(.primary)
+                                }
                             }
                         }
                     }
@@ -86,15 +103,15 @@ struct AppointmentSearch: View {
             do {
                 let results = try await Search.doctorsOrDepartments(byName: searchText)
                 searchResults = results
+                searched = true
             } catch {
-                print("Error: \(error)")
+                errorAlertMessage.message = error.localizedDescription
             }
             isLoading = false
         }
     }
 }
 
-
 #Preview {
-    AppointmentSearch(selectedSearchResult: .constant(nil), showSearch: .constant(true))
+    AppointmentSearch(selectedSearchResult: .constant(nil), selectedDepartment: .constant(nil), showSearch: .constant(true))
 }

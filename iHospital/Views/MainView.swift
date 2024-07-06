@@ -19,9 +19,9 @@ struct MainView: View {
                 }
             
             DashboardView()
+                .environmentObject(patientViewModel)
                 .tabItem {
                     Label("Home", systemImage: selection == 1 ? "house.fill" : "house")
-                    
                 }
         }
     }

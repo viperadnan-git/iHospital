@@ -8,73 +8,87 @@
 import SwiftUI
 
 struct AppointmentBrowseView: View {
-    @State private var selectedDate: Date = Date()
+    @StateObject private var booking = BookingViewModel()
     @State private var showSearch = false
     @State private var selectedSearchResult: Search?
     @State private var selectedDepartment: Department? = nil
     
-    @State var departments: [Department] = []
+    @State var departments: [Department] = [Department.defaultDepartment]
     
     @StateObject private var errorAlertMessage = ErrorAlertMessage()
-
+    
     var body: some View {
-        VStack {
-            HorizontalCalenderView(selectedDate: $selectedDate)
-            Divider()
-            
-            HStack {
-                if departments.isEmpty {
-                    ProgressView()
-                } else {
+        ScrollView {
+            VStack {
+                HorizontalCalenderView(selectedDate: $booking.forDate)
+                Divider()
+                
+                HStack {
                     Picker("Departments", selection: $selectedDepartment) {
                         ForEach(departments) { department in
                             Text(department.name).tag(department as Department?)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
-                }
-                
-                
-                Spacer()
-                
-                Button(action: {
-                    showSearch.toggle()
-                }) {
-                    Image(systemName: "magnifyingglass")
-                    Text("Search")
-                }
-            }
-            .padding(.horizontal)
-            .padding(.bottom)
-
-            
-            if let selectedSearchResult = selectedSearchResult {
-                VStack {
-                    Text(selectedSearchResult.name)
-                        .font(.title2)
-                        .padding()
+                    .onChange(of: selectedDepartment) {
+                        selectedSearchResult = nil
+                    }
                     
-                    Text(selectedSearchResult.icon)
-                        .font(.title3)
-                        .padding(.bottom)
+                    Spacer()
+                    
+                    Button(action: {
+                        showSearch.toggle()
+                    }) {
+                        Image(systemName: "magnifyingglass")
+                        Text("Search")
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+                
+                if let selectedSearchResult = selectedSearchResult {
+                    switch selectedSearchResult.type {
+                    case .doctor:
+                        if case .doctor(let doctor) = selectedSearchResult.item {
+                            DoctorRow(doctor: doctor).environmentObject(booking)
+                                .padding(.horizontal)
+                        }
+                    case .department:
+                        if case .department(let department) = selectedSearchResult.item {
+                            DoctorsList(departmentId: department.id).environmentObject(booking)
+                        }
+                    }
+                } else if let selectedDepartment = selectedDepartment {
+                    DoctorsList(departmentId: selectedDepartment.id).environmentObject(booking)
+                } else {
+                    VStack {
+                        Text("Select a department or use search to find doctors")
+                            .foregroundColor(.gray)
+                            .padding()
+                    }
                 }
             }
-            
-            Spacer()
         }
         .navigationTitle("Browse Appointments")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: fetchDepartments)
         .sheet(isPresented: $showSearch) {
-            AppointmentSearch(selectedSearchResult: $selectedSearchResult, showSearch: $showSearch)
+            AppointmentSearch(selectedSearchResult: $selectedSearchResult, selectedDepartment: $selectedDepartment, showSearch: $showSearch)
         }
+        .toolbar {
+            NavigationLink(destination: AppointmentBooking().environmentObject(booking)) {
+                Text("Proceed")
+            }
+            .disabled(booking.selectedSlot == nil)
+        }
+        .errorAlert(errorAlertMessage: errorAlertMessage)
     }
     
     private func fetchDepartments() {
         Task {
             do {
-                let departments = try await Department.fetchAll()
-                self.departments = departments
+                let fetchedDepartments = try await Department.fetchAll()
+                departments = fetchedDepartments
             } catch {
                 errorAlertMessage.title = "Departments unable to load"
                 errorAlertMessage.message = error.localizedDescription

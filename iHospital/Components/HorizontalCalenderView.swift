@@ -57,10 +57,10 @@ struct HorizontalCalenderView: View {
                                         .font(.title2)
                                         .padding(8)
                                         .background(
-                                            selectedDate == date ? Color(.accent) :
-                                                date == calendar.startOfDay(for: today) ? Color(.systemGray5) : Color.clear
+                                            selectedDate == date ? .accent :
+                                                date == today.startOfDay ? .accent.opacity(0.2) : Color.clear
                                         )
-                                        .foregroundColor(selectedDate == date ? .white : disabled ? .gray : .primary)
+                                        .foregroundColor(selectedDate == date ? .white : date == today.startOfDay ? .accentColor : disabled ? .gray : .primary)
                                         .clipShape(Circle())
                                 }
                                 .disabled(disabled)
