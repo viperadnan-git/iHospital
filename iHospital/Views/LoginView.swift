@@ -64,6 +64,7 @@ struct LoginView: View {
                              .buttonStyle(.borderedProminent)
                              .padding(.horizontal, 16)
                              .padding(.bottom, 20)
+                             .foregroundColor(.white)
                 
                 HStack {
                     Text("Don't have an account?")
