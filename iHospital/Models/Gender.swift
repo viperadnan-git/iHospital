@@ -10,4 +10,8 @@ enum Gender:String, Codable {
     case male = "male"
     case female = "female"
     case others = "others"
+    
+    var id: String {
+        self.rawValue
+    }
 }

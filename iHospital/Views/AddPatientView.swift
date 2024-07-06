@@ -11,8 +11,6 @@ struct AddPatientView: View {
     @EnvironmentObject var patientViewModel: PatientViewModel
 
     @Binding var showPatientSheet: Bool
-    @State private var errorMessage: String?
-    @State private var errorTitle: String? = "Unable to add patient"
     
     @State private var fullName: String = ""
     @State private var phoneNumber: String = ""
@@ -21,6 +19,8 @@ struct AddPatientView: View {
     @State private var weight: String = ""
     @State private var dateOfBirth = Date()
     @State private var address: String = ""
+    
+    @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Can't add patient")
 
     let bloodGroups = BloodGroup.allCases
 
@@ -51,18 +51,18 @@ struct AddPatientView: View {
             }
             .navigationBarTitle("Add New Patient", displayMode: .inline)
             .navigationBarItems(trailing: Button("Done", action: onSave))
-        }.errorAlert(title: $errorTitle, message: $errorMessage)
+        }.errorAlert(errorAlertMessage: errorAlertMessage)
     }
     
     
     func onSave() {
         guard !fullName.isEmpty else {
-            errorMessage = "Please enter a name"
+            errorAlertMessage.message = "Please enter a name"
             return
         }
         
         guard let phoneNumber = Int(phoneNumber) else {
-            errorMessage = "Please enter a valid phone number"
+            errorAlertMessage.message = "Please enter a valid phone number"
             return
         }
         
@@ -80,7 +80,7 @@ struct AddPatientView: View {
                 )
                 self.showPatientSheet.toggle()
             } catch {
-                errorMessage = error.localizedDescription
+                errorAlertMessage.message = error.localizedDescription
             }
         }
     }

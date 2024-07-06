@@ -10,8 +10,7 @@ import SwiftUI
 struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var alertTitle: String? = "Invalid Login"
-    @State private var alertMessage: String?
+    @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Error")
     @State private var isLoading: Bool = false
     
     var body: some View {
@@ -46,7 +45,7 @@ struct LoginView: View {
                     HStack {
                         Spacer()
                         Button(action: {
-                            alertMessage = "Forgot password action not implemented yet"
+                            errorAlertMessage.message = "Forgot password action not implemented yet"
                         }) {
                             Text("Forgot password?")
                         }
@@ -76,13 +75,13 @@ struct LoginView: View {
                 }
             }
             .padding(.bottom, 16)
-            .errorAlert(title: $alertTitle, message: $alertMessage)
+            .errorAlert(errorAlertMessage: errorAlertMessage)
         }
     }
     
     func onLogin() {
         guard !email.isEmpty, !password.isEmpty else {
-            alertMessage = "Please enter email and password."
+            errorAlertMessage.message = "Please enter email and password."
             return
         }
         
@@ -100,10 +99,10 @@ struct LoginView: View {
                     print("User logged in: \(user.email)")
                     User.shared = user
                 } else {
-                    alertMessage = "Invalid email or password."
+                    errorAlertMessage.message = "Invalid email or password."
                 }
             } catch {
-                alertMessage = error.localizedDescription
+                errorAlertMessage.message = error.localizedDescription
             }
         }
     }

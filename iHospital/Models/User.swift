@@ -82,7 +82,7 @@ struct User: Codable {
         )
         
         do {
-            let user:User = try await supabase.from(SupabaseTable.users.rawValue).insert(userToSave).select().single().execute().value
+            let user:User = try await supabase.from(SupabaseTable.users.id).insert(userToSave).select().single().execute().value
             return user
         } catch {
             if let error = error as? PostgrestError {
@@ -111,7 +111,7 @@ struct User: Codable {
     
     
     static func fromSupabaseUser(user: Auth.User) async throws -> User? {
-        let user:User = try await supabase.from(SupabaseTable.users.rawValue).select().eq("user_id", value: user.id).single().execute().value
+        let user:User = try await supabase.from(SupabaseTable.users.id).select().eq("user_id", value: user.id).single().execute().value
         return user
     }
 }

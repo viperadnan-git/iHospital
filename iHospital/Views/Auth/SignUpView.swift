@@ -15,11 +15,11 @@ struct SignUpView: View {
     @State private var phoneNumber: String = ""
     
     @State private var agreeToTerms: Bool = false
-    @State private var errorTitle: String? = "Invalid Input"
-    @State private var errorMessage: String?
     @State private var isLoading: Bool = false
     @State private var showVerifyView: Bool = false
     @State private var user: User?
+    
+    @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "SignUp Error")
     
 
     var body: some View {
@@ -98,7 +98,7 @@ struct SignUpView: View {
             }
         }
         .padding(.bottom, 16)
-        .errorAlert(title: $errorTitle, message: $errorMessage)
+        .errorAlert(errorAlertMessage: errorAlertMessage)
         .sheet(isPresented: $showVerifyView) {
            
                 VerifyView(user: $user)
@@ -108,22 +108,22 @@ struct SignUpView: View {
     
     func onSignUp() {
         guard !name.isEmpty, !email.isEmpty, !password.isEmpty, !confirmPassword.isEmpty else {
-            errorMessage = "Please fill all fields."
+            errorAlertMessage.message = "Please fill all fields."
             return
         }
         
         guard phoneNumber.count == 10 else {
-            errorMessage = "Phone number must be exactly 10-digit long"
+            errorAlertMessage.message = "Phone number must be exactly 10-digit long"
             return
         }
         
         guard password == confirmPassword else {
-            errorMessage = "Passwords do not match."
+            errorAlertMessage.message = "Passwords do not match."
             return
         }
         
         guard agreeToTerms else {
-            errorMessage = "You must agree to the terms and conditions."
+            errorAlertMessage.message = "You must agree to the terms and conditions."
             return
         }
         
@@ -141,7 +141,7 @@ struct SignUpView: View {
                 self.user = user
                 self.showVerifyView = true
             } catch {
-                errorMessage = error.localizedDescription
+                errorAlertMessage.message = error.localizedDescription
             }
         }
     }

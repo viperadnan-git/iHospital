@@ -102,7 +102,7 @@ struct Patient: Codable {
             dataToInsert["weight"] = String(weight)
         }
         
-        let response = try await supabase.from(SupabaseTable.patients.rawValue)
+        let response = try await supabase.from(SupabaseTable.patients.id)
             .insert(dataToInsert)
             .select()
             .single()
@@ -113,7 +113,7 @@ struct Patient: Codable {
     }
     
     static func fetchAll() async throws -> [Patient] {
-        let response = try await supabase.from(SupabaseTable.patients.rawValue)
+        let response = try await supabase.from(SupabaseTable.patients.id)
             .select()
             .execute()
         

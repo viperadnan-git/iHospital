@@ -18,4 +18,8 @@ enum BloodGroup: String, Codable, CaseIterable {
     case OPositive = "O+"
     case ONegative = "O-"
     case Unknown = "Unknown"
+    
+    var id: String {
+        self.rawValue
+    }
 }

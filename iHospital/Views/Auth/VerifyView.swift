@@ -13,9 +13,9 @@ struct VerifyView: View {
     @Binding var user: User?
     @State private var otp: String = ""
     @State private var sendingOtp = true
-    @State private var errorTitle: String? = "Oops!"
-    @State private var errorMessage: String?
     @State private var isLoading: Bool = false
+    
+    @State private var errorAlertMessage = ErrorAlertMessage(title: "Unable to Verify")
     
     var body: some View {
         VStack(spacing: 16) {
@@ -44,7 +44,7 @@ struct VerifyView: View {
             .disabled(sendingOtp)
         }
         .padding()
-        .errorAlert(title: $errorTitle, message: $errorMessage)
+        .errorAlert(errorAlertMessage: errorAlertMessage)
         .task {
            enableOtp()
         }
@@ -59,7 +59,7 @@ struct VerifyView: View {
                 try await User.sendOTP(email: user.email)
                 enableOtp()
             } catch {
-                errorMessage = error.localizedDescription
+                errorAlertMessage.message = error.localizedDescription
                 sendingOtp = false
             }
         }
@@ -69,7 +69,7 @@ struct VerifyView: View {
         guard let user = user else {return}
         
         guard otp.count == 6 else {
-            errorMessage = "Please enter a valid 6-digit OTP."
+            errorAlertMessage.message = "Please enter a valid 6-digit OTP."
             return
         }
         
@@ -86,10 +86,10 @@ struct VerifyView: View {
                     print("User verified: \(user.email)")
                     User.shared = user
                 } else {
-                    errorMessage = "Invalid OTP."
+                    errorAlertMessage.message = "Invalid OTP."
                 }
             } catch {
-                errorMessage = error.localizedDescription
+                errorAlertMessage.message = error.localizedDescription
             }
         }
     }

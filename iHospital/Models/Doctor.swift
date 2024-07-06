@@ -34,7 +34,7 @@ struct Doctor: Codable {
     }
     
     static func fetchAll() async throws -> [Doctor] {
-        let response: [Doctor] = try await supabase.from(SupabaseTable.doctors.rawValue)
+        let response: [Doctor] = try await supabase.from(SupabaseTable.doctors.id)
             .select()
             .execute()
             .value
@@ -59,7 +59,7 @@ struct Doctor: Codable {
     }()
     
     static func fetchDepartmentWise(departmentId: UUID) async throws -> [Doctor] {
-        let response = try await supabase.from(SupabaseTable.doctors.rawValue)
+        let response = try await supabase.from(SupabaseTable.doctors.id)
             .select()
             .eq("department_id", value: departmentId)
             .execute()
