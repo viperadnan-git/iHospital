@@ -1,5 +1,5 @@
 //
-//  FSCalenderView.swift
+//  HorizontalCalenderView.swift
 //  iHospital
 //
 //  Created by Adnan Ahmad on 05/07/24.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct FSCalenderView: View {
+struct HorizontalCalenderView: View {
     @Binding var selectedDate: Date
     @State private var weeks: [[Date]] = []
     @State private var currentMonth: String = ""
     
-    private let calendar = Calendar.current
+    private let calendar = Calendar(identifier: .gregorian)
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE"
@@ -31,36 +31,45 @@ struct FSCalenderView: View {
         return formatter
     }()
     
+    private let today = Date()
+    
     var body: some View {
         VStack {
             Text(currentMonth)
-                .font(.title)
-                .padding()
+                .font(.caption)
+                .padding(.top, 8)
             
             TabView {
                 ForEach(weeks.indices, id: \.self) { weekIndex in
                     let week = weeks[weekIndex]
-                    HStack {
+                    HStack(spacing: 4) {
                         ForEach(week, id: \.self) { date in
+                            let disabled = date < calendar.startOfDay(for: today)
                             VStack {
                                 Text(date, formatter: dateFormatter)
                                     .font(.caption)
                                     .foregroundColor(.gray)
-                                Text(date, formatter: dayFormatter)
-                                    .font(.title2)
-                                    .fontWeight(selectedDate == date ? .bold : .regular)
-                                    .padding(8)
-                                    .background(selectedDate == date ? Color.blue : Color.clear)
-                                    .foregroundColor(selectedDate == date ? .white : .black)
-                                    .clipShape(Circle())
-                                    .onTapGesture {
-                                        selectedDate = date
-                                        updateCurrentMonth(for: date)
-                                    }
+                                Button(action: {
+                                    selectedDate = date
+                                    updateCurrentMonth(for: date)
+                                }) {
+                                    Text(date, formatter: dayFormatter)
+                                        .font(.title2)
+                                        .padding(8)
+                                        .background(
+                                            selectedDate == date ? Color(.accent) :
+                                                date == calendar.startOfDay(for: today) ? Color(.systemGray5) : Color.clear
+                                        )
+                                        .foregroundColor(selectedDate == date ? .white : disabled ? .gray : .primary)
+                                        .clipShape(Circle())
+                                }
+                                .disabled(disabled)
                             }
                             .frame(maxWidth: .infinity)
                         }
                     }
+                    .padding(.horizontal, 8)
+                    .frame(maxHeight: 58)  // Adjust height here
                     .onAppear {
                         if weekIndex == weeks.count - 1 {
                             addNextWeek()
@@ -71,48 +80,48 @@ struct FSCalenderView: View {
                     }
                 }
             }
-            .tabViewStyle(PageTabViewStyle())
-            .padding()
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(height: 100) // Adjust the frame height for TabView
         }
         .onAppear(perform: setupInitialWeeks)
+        .fixedSize(horizontal: false, vertical: true)
     }
     
     private func setupInitialWeeks() {
         weeks = []
-        addPreviousWeek()
         addCurrentWeek()
         addNextWeek()
+        addPreviousWeek()
         updateCurrentMonth(for: selectedDate)
     }
     
     private func addPreviousWeek() {
         guard let firstDate = weeks.first?.first else { return }
-        guard let previousWeekStart = calendar.date(byAdding: .weekOfYear, value: -1, to: firstDate) else { return }
-        let previousWeek = (0..<7).compactMap {
-            calendar.date(byAdding: .day, value: $0, to: previousWeekStart)
-        }
+        guard let previousWeekStart = calendar.date(byAdding: .weekOfYear, value: -1, to: firstDate),
+              previousWeekStart >= calendar.startOfDay(for: today) else { return }
+        let previousWeek = generateWeek(for: previousWeekStart)
         weeks.insert(previousWeek, at: 0)
     }
     
     private func addCurrentWeek() {
         guard let weekInterval = calendar.dateInterval(of: .weekOfYear, for: selectedDate) else { return }
-        
-        print(weekInterval)
-
-        let currentWeek = (0..<7).compactMap {
-            calendar.date(byAdding: .day, value: $0, to: weekInterval.start)
-        }
-        print(currentWeek)
+        let startOfWeek = max(weekInterval.start, calendar.startOfDay(for: today))
+        let currentWeek = generateWeek(for: startOfWeek)
         weeks.append(currentWeek)
     }
     
     private func addNextWeek() {
         guard let lastDate = weeks.last?.last else { return }
-        guard let nextWeekStart = calendar.date(byAdding: .weekOfYear, value: 1, to: lastDate) else { return }
-        let nextWeek = (0..<7).compactMap {
-            calendar.date(byAdding: .day, value: $0, to: nextWeekStart)
-        }
+        guard let nextWeekStart = calendar.date(byAdding: .day, value: 1, to: lastDate) else { return }
+        let nextWeek = generateWeek(for: nextWeekStart)
         weeks.append(nextWeek)
+    }
+    
+    private func generateWeek(for startDate: Date) -> [Date] {
+        let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: startDate))!
+        return (0..<7).compactMap {
+            calendar.date(byAdding: .day, value: $0, to: startOfWeek)
+        }
     }
     
     private func updateCurrentMonth(for date: Date) {
@@ -120,9 +129,8 @@ struct FSCalenderView: View {
     }
 }
 
-
-
 #Preview {
-    FSCalenderView(selectedDate: .constant(Date()))
+    HorizontalCalenderView(selectedDate: .constant(Date()))
         .previewLayout(.sizeThatFits)
+        .border(.black)
 }

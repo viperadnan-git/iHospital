@@ -24,7 +24,7 @@
 		328409862C37F5AF00473841 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328409852C37F5AF00473841 /* ProfileView.swift */; };
 		328409892C3800BB00473841 /* Appointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328409882C3800BB00473841 /* Appointment.swift */; };
 		3284098B2C3801CF00473841 /* Doctor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284098A2C3801CF00473841 /* Doctor.swift */; };
-		328409922C3810FD00473841 /* FSCalenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328409912C3810FD00473841 /* FSCalenderView.swift */; };
+		328409922C3810FD00473841 /* HorizontalCalenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328409912C3810FD00473841 /* HorizontalCalenderView.swift */; };
 		328409952C3812A300473841 /* AppointmentBrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328409942C3812A300473841 /* AppointmentBrowseView.swift */; };
 		32AF56832C354541002E599F /* iHospitalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AF56822C354541002E599F /* iHospitalApp.swift */; };
 		32AF56852C354541002E599F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AF56842C354541002E599F /* MainView.swift */; };
@@ -65,7 +65,7 @@
 		328409852C37F5AF00473841 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		328409882C3800BB00473841 /* Appointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appointment.swift; sourceTree = "<group>"; };
 		3284098A2C3801CF00473841 /* Doctor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Doctor.swift; sourceTree = "<group>"; };
-		328409912C3810FD00473841 /* FSCalenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalenderView.swift; sourceTree = "<group>"; };
+		328409912C3810FD00473841 /* HorizontalCalenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCalenderView.swift; sourceTree = "<group>"; };
 		328409942C3812A300473841 /* AppointmentBrowseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentBrowseView.swift; sourceTree = "<group>"; };
 		32AF567F2C354541002E599F /* iHospital.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iHospital.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32AF56822C354541002E599F /* iHospitalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iHospitalApp.swift; sourceTree = "<group>"; };
@@ -142,7 +142,7 @@
 				F554F8A42C367F0F00253D64 /* ImageButton.swift */,
 				F554F8B02C36A80F00253D64 /* SearchBar.swift */,
 				328409802C37E8A500473841 /* AppointmentCard.swift */,
-				328409912C3810FD00473841 /* FSCalenderView.swift */,
+				328409912C3810FD00473841 /* HorizontalCalenderView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -324,7 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F554F8B52C37151000253D64 /* AppointmentScheduleView.swift in Sources */,
-				328409922C3810FD00473841 /* FSCalenderView.swift in Sources */,
+				328409922C3810FD00473841 /* HorizontalCalenderView.swift in Sources */,
 				F554F8AF2C36A6F100253D64 /* MedicalInformationView.swift in Sources */,
 				F554F8A52C367F0F00253D64 /* ImageButton.swift in Sources */,
 				3284097D2C37E31F00473841 /* Patient.swift in Sources */,

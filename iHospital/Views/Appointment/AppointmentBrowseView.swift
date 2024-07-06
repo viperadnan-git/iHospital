@@ -12,8 +12,8 @@ struct AppointmentBrowseView: View {
     
     var body: some View {
         VStack {
-            FSCalenderView(selectedDate: $selectedDate)
-                .border(Color.accentColor, width: 1).frame(height: 100)
+            HorizontalCalenderView(selectedDate: $selectedDate)
+            Divider()
             
             TextField("Search", text: .constant(""))
                 .padding()
@@ -21,7 +21,8 @@ struct AppointmentBrowseView: View {
                 .cornerRadius(10)
                 .padding()
             Spacer()
-        }
+        }.navigationTitle("Browse Appointments")
+            .navigationBarTitleDisplayMode(.inline)
     }
 }
 
