@@ -11,12 +11,21 @@ import Combine
 class PatientViewModel: ObservableObject {
     @Published var patients: [Patient] = []
     @Published var currentPatient: Patient?
-    @Published var selectedPatient: Patient?
     
     private var cancellables = Set<AnyCancellable>()
     
+    
     init() {
         fetchPatients()
+    }
+    
+    func selectDefaultPatient() {
+        if !patients.isEmpty {
+            print("Selecting default patient")
+            DispatchQueue.main.async {
+                self.currentPatient = self.patients.first
+            }
+        }
     }
     
     func fetchPatients() {
@@ -25,7 +34,7 @@ class PatientViewModel: ObservableObject {
                 let fetchedPatients = try await Patient.fetchAll()
                 DispatchQueue.main.async {
                     self.patients = fetchedPatients
-                    self.currentPatient = fetchedPatients.first
+                    self.selectDefaultPatient()
                 }
             } catch {
                 print("Failed to fetch patients: \(error.localizedDescription)")
@@ -34,9 +43,10 @@ class PatientViewModel: ObservableObject {
     }
     
     func addPatient(name: String, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) async throws {
-        guard let user = User.shared else { return }
+        guard let user = SupaUser.shared else { return }
         
         let newPatient = try await Patient.addPatient(forUser: user.id, name: name, phoneNumber: phoneNumber, bloodGroup: bloodGroup, dateOfBirth: dateOfBirth, height: height, weight: weight, address: address)
+        
         DispatchQueue.main.async {
             self.patients.append(newPatient)
         }

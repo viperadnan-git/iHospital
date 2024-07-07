@@ -10,8 +10,10 @@ import SwiftUI
 struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Error")
+    @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Login Error")
     @State private var isLoading: Bool = false
+    
+    @EnvironmentObject private var authViewModel: AuthViewModel
     
     var body: some View {
         NavigationView{
@@ -93,11 +95,10 @@ struct LoginView: View {
             }
             
             do {
-                let user = try await User.login(email: email, password: password)
-                
-                if let user {
+                if let user = try await SupaUser.login(email: email, password: password) {
                     print("User logged in: \(user.email)")
-                    User.shared = user
+                    SupaUser.shared = user
+                    try await authViewModel.updateSupaUser()
                 } else {
                     errorAlertMessage.message = "Invalid email or password."
                 }

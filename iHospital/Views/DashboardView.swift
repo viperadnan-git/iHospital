@@ -9,7 +9,6 @@ import SwiftUI
 
 struct DashboardView: View {
     @EnvironmentObject private var patientViewModel: PatientViewModel
-    @State private var showLogoutAlert = false
 
     var body: some View {
         NavigationView {
@@ -65,22 +64,6 @@ struct DashboardView: View {
                 }
             }
             .navigationTitle("Hello Adnan")
-            .alert(isPresented: $showLogoutAlert) {
-                Alert(
-                    title: Text("Logout"),
-                    message: Text("Are you sure you want to logout?"),
-                    primaryButton: .destructive(Text("Logout")) {
-                        Task {
-                            do {
-                                try await User.logOut()
-                            } catch {
-                                // Handle logout error
-                            }
-                        }
-                    },
-                    secondaryButton: .cancel()
-                )
-            }
         }
     }
 }

@@ -63,7 +63,7 @@ struct DoctorRow: View {
                         .padding()
                 }
                 else if availableSlots.isEmpty {
-                    Text("No slots available for \(booking.forDate.description)")
+                    Text("No slots available for \(booking.forDate.localDate.description)")
                         .foregroundColor(.gray)
                         .padding()
                 } else {
@@ -105,6 +105,8 @@ struct DoctorRow: View {
     
     private func fetchAvailableSlots() {
         booking.doctor = doctor
+        availableSlots = []
+        
         Task {
             isLoading = true
             defer {

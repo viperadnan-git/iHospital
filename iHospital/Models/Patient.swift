@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Patient: Codable {
+struct Patient: Codable, Hashable {
     let patientId: UUID
     let userId: UUID
     let name: String
@@ -30,6 +30,8 @@ struct Patient: Codable {
         case weight
         case address
     }
+    
+    
 
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()

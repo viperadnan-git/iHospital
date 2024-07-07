@@ -13,17 +13,16 @@ struct MainView: View {
     
     var body: some View {
         TabView(selection: $selection) {
-            DashboardView().environmentObject(patientViewModel)
+            DashboardView()
                 .tabItem {
                     Label("Home", systemImage: selection == 0 ? "house.fill" : "house")
                 }
             
             DashboardView()
-                .environmentObject(patientViewModel)
                 .tabItem {
                     Label("Home", systemImage: selection == 1 ? "house.fill" : "house")
                 }
-        }
+        }.environmentObject(patientViewModel)
     }
 }
 

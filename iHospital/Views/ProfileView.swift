@@ -8,20 +8,42 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @EnvironmentObject var patientViewModel: PatientViewModel
     @State private var showPatientSheet = false
+    @State private var showLogoutAlert = false
+    
+    @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var patientViewModel: PatientViewModel
+
+    @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Error")
 
     var body: some View {
         Form {
+            if let user = authViewModel.user {
+                Section(header: Text("Your Profile")) {
+                    HStack {
+                        Image(systemName: "person")
+                        Text(user.name)
+                    }
+                    
+                    HStack {
+                        Image(systemName: "envelope")
+                        Text(user.email)
+                    }
+                    
+                    HStack {
+                        Image(systemName: "phone")
+                        Text(String(user.phoneNumber))
+                    }
+                }
+            }
+          
+            
             Section(header: Text("Your Patients")) {
                 ForEach(patientViewModel.patients, id: \.patientId) { patient in
                     NavigationLink(destination: EditPatientView(patient: patient)) {
                         Text(patient.name)
                     }
                 }
-            }
-            
-            Section {
                 HStack {
                     Image(systemName: "plus")
                     Text("Add new patient").onTapGesture {
@@ -29,11 +51,39 @@ struct ProfileView: View {
                     }
                 }
             }
+
+            
+            Section(header: Text("Settings")) {
+                Button(role: .destructive, action: {
+                    showLogoutAlert.toggle()
+                }) {
+                    Text("Log Out")
+                }.frame(maxWidth: .infinity, alignment: .center)
+            }
         }
         .sheet(isPresented: $showPatientSheet) {
             AddPatientView(showPatientSheet: $showPatientSheet)
                 .environmentObject(patientViewModel)
+        }.alert(isPresented: $showLogoutAlert) {
+            Alert(
+                title: Text("Logout"),
+                message: Text("Are you sure you want to logout?"),
+                primaryButton: .destructive(Text("Logout")) {
+                    logOut()
+                },
+                secondaryButton: .cancel()
+            )
         }
         .navigationBarTitle("Patients", displayMode: .inline)
+    }
+    
+    func logOut() {
+        Task {
+            do {
+                try await SupaUser.logOut()
+            } catch {
+                errorAlertMessage.message = error.localizedDescription
+            }
+        }
     }
 }

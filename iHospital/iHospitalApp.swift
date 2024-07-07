@@ -9,24 +9,17 @@ import SwiftUI
 
 @main
 struct iHospitalApp: App {
-    @State private var isAuthenticated = User.shared != nil
+    @StateObject private var authViewModel = AuthViewModel()
     
     var body: some Scene {
         WindowGroup {
             Group {
-                if isAuthenticated {
+                if authViewModel.user != nil {
                     MainView()
                 } else {
                     LoginView()
                 }
-            }
-            .task {
-                for await state in supabase.auth.authStateChanges {
-                    if [.initialSession, .signedIn, .signedOut].contains(state.event) {
-                        isAuthenticated = state.session != nil
-                    }
-                }
-            }
+            }.environmentObject(authViewModel)
         }
     }
 }

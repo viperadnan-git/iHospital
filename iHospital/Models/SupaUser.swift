@@ -10,7 +10,7 @@ import Auth
 import Supabase
 
 
-struct User: Codable {
+struct SupaUser: Codable {
     let id: UUID
     let name: String
     var email: String {
@@ -30,7 +30,7 @@ struct User: Codable {
         case phoneNumber = "phone_number"
     }
     
-    static var shared: User? = loadUser() {
+    static var shared: SupaUser? = loadUser() {
         didSet {
             if let shared = shared {
                 shared.saveUser()
@@ -49,13 +49,13 @@ struct User: Codable {
         print("User saved to user defaults")
     }
     
-    static let loadUser: () -> User? = {
+    static let loadUser: () -> SupaUser? = {
         guard let data = UserDefaults.standard.data(forKey: USER_INFO_KEY) else {
             return nil
         }
         
         let decoder = JSONDecoder()
-        guard let user = try? decoder.decode(User.self, from: data) else {
+        guard let user = try? decoder.decode(SupaUser.self, from: data) else {
             print("Failed to decode user from user defaults")
             return nil
         }
@@ -72,9 +72,9 @@ struct User: Codable {
         try await supabase.auth.signInWithOTP(email: email)
     }
     
-    static func verify(user: User, otp: String) async throws -> User? {
+    static func verify(user: SupaUser, otp: String) async throws -> SupaUser? {
         let session = try await supabase.auth.verifyOTP(email: user.email, token: otp, type: .email)
-        let userToSave = User(
+        let userToSave = SupaUser(
             id: session.user.id,
             name: user.name,
             email: user.email,
@@ -82,7 +82,7 @@ struct User: Codable {
         )
         
         do {
-            let user:User = try await supabase.from(SupabaseTable.users.id).insert(userToSave).select().single().execute().value
+            let user:SupaUser = try await supabase.from(SupabaseTable.users.id).insert(userToSave).select().single().execute().value
             return user
         } catch {
             if let error = error as? PostgrestError {
@@ -95,10 +95,10 @@ struct User: Codable {
         }
     }
     
-    static func login(email: String, password: String) async throws -> User? {
+    static func login(email: String, password: String) async throws -> SupaUser? {
         let session = try await supabase.auth.signIn(email: email, password: password)
         if session.user.emailConfirmedAt != nil {
-            return try await User.fromSupabaseUser(user: session.user)
+            return try await SupaUser.getSupaUser()
         }
         
         return nil
@@ -110,8 +110,12 @@ struct User: Codable {
     }
     
     
-    static func fromSupabaseUser(user: Auth.User) async throws -> User? {
-        let user:User = try await supabase.from(SupabaseTable.users.id).select().eq("user_id", value: user.id).single().execute().value
-        return user
+    static func getSupaUser() async throws -> SupaUser? {
+        guard let user = supabase.auth.currentUser else {
+            return nil
+        }
+        
+        let supaUser:SupaUser = try await supabase.from(SupabaseTable.users.id).select().eq("user_id", value: user.id).single().execute().value
+        return supaUser
     }
 }

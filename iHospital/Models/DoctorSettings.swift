@@ -116,6 +116,7 @@ struct DoctorSettings: Codable {
         }
         
         let appointments = try await fetchAppointments(for: date)
+        print(appointments)
         let calendar = Calendar.current
         var availableSlots: [Date] = []
         

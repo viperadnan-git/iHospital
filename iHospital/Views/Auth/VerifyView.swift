@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 
 struct VerifyView: View {
-    @Binding var user: User?
+    @Binding var user: SupaUser?
     @State private var otp: String = ""
     @State private var sendingOtp = true
     @State private var isLoading: Bool = false
@@ -56,7 +56,7 @@ struct VerifyView: View {
         sendingOtp = true
         Task {
             do {
-                try await User.sendOTP(email: user.email)
+                try await SupaUser.sendOTP(email: user.email)
                 enableOtp()
             } catch {
                 errorAlertMessage.message = error.localizedDescription
@@ -81,10 +81,10 @@ struct VerifyView: View {
             }
             
             do {
-                let user = try await User.verify(user: user, otp: otp)
+                let user = try await SupaUser.verify(user: user, otp: otp)
                 if let user {
                     print("User verified: \(user.email)")
-                    User.shared = user
+                    SupaUser.shared = user
                 } else {
                     errorAlertMessage.message = "Invalid OTP."
                 }
@@ -103,6 +103,6 @@ struct VerifyView: View {
 
 
 #Preview {
-    @State var user:User? = User(id: UUID(), name: "Adnan", email: "adnan@mail.viperadnan.com", phoneNumber: 999)
+    @State var user:SupaUser? = SupaUser(id: UUID(), name: "Adnan", email: "adnan@mail.viperadnan.com", phoneNumber: 999)
     return VerifyView(user: $user)
 }

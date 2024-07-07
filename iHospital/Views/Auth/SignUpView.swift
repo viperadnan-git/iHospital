@@ -17,7 +17,7 @@ struct SignUpView: View {
     @State private var agreeToTerms: Bool = false
     @State private var isLoading: Bool = false
     @State private var showVerifyView: Bool = false
-    @State private var user: User?
+    @State private var user: SupaUser?
     
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "SignUp Error")
     
@@ -135,9 +135,9 @@ struct SignUpView: View {
             }
             
             do {
-                try await User.signUp(email: email, password: password)
+                try await SupaUser.signUp(email: email, password: password)
                 
-                let user = User(id: UUID(), name: name, email: email, phoneNumber: 999)
+                let user = SupaUser(id: UUID(), name: name, email: email, phoneNumber: 999)
                 self.user = user
                 self.showVerifyView = true
             } catch {
