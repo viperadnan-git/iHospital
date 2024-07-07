@@ -23,7 +23,7 @@ struct VerifyView: View {
                 .font(.caption)
             + Text("\(user?.email ?? "Unknown")")
                 .font(.caption)
-                .foregroundStyle(Color.blue)
+                .foregroundColor(.blue)
             TextField("Enter OTP", text: $otp)
                 .keyboardType(.numberPad)
                 .textContentType(.oneTimeCode)

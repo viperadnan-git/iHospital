@@ -31,8 +31,6 @@ struct Patient: Codable, Hashable {
         case address
     }
     
-    
-
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -41,7 +39,7 @@ struct Patient: Codable, Hashable {
     
     static let decoder = JSONDecoder()
     static let encoder = JSONEncoder()
-
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         patientId = try container.decode(UUID.self, forKey: .patientId)
@@ -85,7 +83,18 @@ struct Patient: Codable, Hashable {
         try container.encodeIfPresent(weight, forKey: .weight)
         try container.encode(address, forKey: .address)
     }
-
+    
+    static let sample = Patient(patientId: UUID(),
+                userId: UUID(),
+                name: "John Doe",
+                phoneNumber: 1234567890,
+                bloodGroup: .APositive,
+                dateOfBirth: Date(),
+                height: 5.8,
+                weight: 70,
+                address: "123, Main Street, City, Country")
+    
+    
     static func addPatient(forUser userId: UUID, name: String, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) async throws -> Patient {
         var dataToInsert: [String: String] = [
             "user_id": userId.uuidString,

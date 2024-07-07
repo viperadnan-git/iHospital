@@ -18,9 +18,10 @@ struct MainView: View {
                     Label("Home", systemImage: selection == 0 ? "house.fill" : "house")
                 }
             
-            DashboardView()
+            
+            AppointmentView()
                 .tabItem {
-                    Label("Home", systemImage: selection == 1 ? "house.fill" : "house")
+                    Label("Appointment", systemImage: selection == 1 ? "calendar.circle.fill" : "calendar.circle")
                 }
         }.environmentObject(patientViewModel)
     }

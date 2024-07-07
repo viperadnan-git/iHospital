@@ -15,7 +15,7 @@ struct AppointmentBooking: View {
     @State private var bookedAppointment: Appointment?
     
     var body: some View {
-        NavigationStack {
+        
             VStack {
                 if let doctor = booking.doctor, let bookingDate = booking.selectedSlot {
                     Text("Booking with \(doctor.name)")
@@ -49,7 +49,7 @@ struct AppointmentBooking: View {
             .navigationDestination(for: Appointment.self) { appointment in
                 AppointmentDetailView(appointment: appointment)
             }
-        }
+        
     }
     
     func confirmBooking() {

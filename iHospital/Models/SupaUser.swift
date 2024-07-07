@@ -10,7 +10,7 @@ import Auth
 import Supabase
 
 
-struct SupaUser: Codable {
+struct SupaUser: Codable, Hashable {
     let id: UUID
     let name: String
     var email: String {
@@ -19,15 +19,16 @@ struct SupaUser: Codable {
         }
     }
     let phoneNumber: Int
-    var firstName: Substring {
-        name.split(separator: " ").first!
-    }
     
     enum CodingKeys: String, CodingKey {
         case id = "user_id"
         case name
         case email
         case phoneNumber = "phone_number"
+    }
+    
+    var firstName: Substring {
+        name.split(separator: " ").first!
     }
     
     static var shared: SupaUser? = loadUser() {
@@ -37,6 +38,8 @@ struct SupaUser: Codable {
             }
         }
     }
+    
+    static let sample: SupaUser = SupaUser(id: UUID(), name: "John Doe", email: "mail@viperadnan.com", phoneNumber: 1234567890)
     
     func saveUser() {
         let encoder = JSONEncoder()

@@ -16,11 +16,11 @@ struct AppointmentDetailView: View {
                 .font(.largeTitle)
                 .padding()
             
-            Text("Doctor: \(appointment.doctorId)")
+            Text("Doctor: \(appointment.doctor.name)")
                 .font(.title2)
                 .padding()
             
-            Text("Patient: \(appointment.patientId)")
+            Text("Patient: \(appointment.patient.name)")
                 .font(.title2)
                 .padding()
             

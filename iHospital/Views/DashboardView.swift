@@ -11,7 +11,7 @@ struct DashboardView: View {
     @EnvironmentObject private var patientViewModel: PatientViewModel
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     NavigationLink(destination: AppointmentBrowseView()) {

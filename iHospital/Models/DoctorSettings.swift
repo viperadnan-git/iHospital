@@ -8,7 +8,7 @@
 import Foundation
 
 struct DoctorSettings: Codable {
-    let userId: UUID
+    let doctorId: UUID
     let priorBookingDays: Int
     let startTime: Date
     let endTime: Date
@@ -16,7 +16,7 @@ struct DoctorSettings: Codable {
     let fee: Int
     
     enum CodingKeys: String, CodingKey {
-        case userId = "user_id"
+        case doctorId = "doctor_id"
         case priorBookingDays = "prior_booking_days"
         case startTime = "start_time"
         case endTime = "end_time"
@@ -33,7 +33,7 @@ struct DoctorSettings: Codable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(userId, forKey: .userId)
+        try container.encode(doctorId, forKey: .doctorId)
         try container.encode(priorBookingDays, forKey: .priorBookingDays)
         try container.encode(DoctorSettings.timeFormatter.string(from: startTime), forKey: .startTime)
         try container.encode(DoctorSettings.timeFormatter.string(from: endTime), forKey: .endTime)
@@ -43,7 +43,7 @@ struct DoctorSettings: Codable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        userId = try container.decode(UUID.self, forKey: .userId)
+        doctorId = try container.decode(UUID.self, forKey: .doctorId)
         priorBookingDays = try container.decode(Int.self, forKey: .priorBookingDays)
         
         let startTimeString = try container.decode(String.self, forKey: .startTime)
@@ -60,13 +60,28 @@ struct DoctorSettings: Codable {
         fee = try container.decode(Int.self, forKey: .fee)
     }
     
-    init(userId: UUID, priorBookingDays: Int, startTime: Date, endTime: Date, selectedDays: [String], fee: Int) {
-        self.userId = userId
+    init(doctorId: UUID, priorBookingDays: Int, startTime: Date, endTime: Date, selectedDays: [String], fee: Int) {
+        self.doctorId = doctorId
         self.priorBookingDays = priorBookingDays
         self.startTime = startTime
         self.endTime = endTime
         self.selectedDays = selectedDays
         self.fee = fee
+    }
+    
+    static func getDefaultSettings(userId: UUID) -> DoctorSettings {
+        let startTime = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
+        let endTime = Calendar.current.date(bySettingHour: 17, minute: 0, second: 0, of: Date())!
+        let selectedDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+        
+        return DoctorSettings(
+            doctorId: userId,
+            priorBookingDays: 7,
+            startTime: startTime,
+            endTime: endTime,
+            selectedDays: selectedDays,
+            fee: 499
+        )
     }
     
     static func get(userId: UUID) async throws -> DoctorSettings {
@@ -77,21 +92,9 @@ struct DoctorSettings: Codable {
             .execute()
         
         guard let response = response else {
-            let startTime = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
-            let endTime = Calendar.current.date(bySettingHour: 17, minute: 0, second: 0, of: Date())!
-            let selectedDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-            
-            return DoctorSettings(
-                userId: userId,
-                priorBookingDays: 7,
-                startTime: startTime,
-                endTime: endTime,
-                selectedDays: selectedDays,
-                fee: 499
-            )
+            return getDefaultSettings(userId: userId)
         }
         
-        print(String(data: response.data, encoding: .utf8) ?? "No data")
         
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .custom { decoder in
@@ -104,50 +107,5 @@ struct DoctorSettings: Codable {
         }
         
         return try decoder.decode(DoctorSettings.self, from: response.data)
-    }
-
-    func getAvailableTimeSlots(for date: Date) async throws -> [Date] {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE" // Day of the week
-        let dayOfWeek = dateFormatter.string(from: date)
-        
-        guard selectedDays.contains(dayOfWeek) else {
-            return []
-        }
-        
-        let appointments = try await fetchAppointments(for: date)
-        print(appointments)
-        let calendar = Calendar.current
-        var availableSlots: [Date] = []
-        
-        var currentTime = calendar.date(bySettingHour: calendar.component(.hour, from: startTime), minute: calendar.component(.minute, from: startTime), second: 0, of: date)!
-        let endTime = calendar.date(bySettingHour: calendar.component(.hour, from: endTime), minute: calendar.component(.minute, from: endTime), second: 0, of: date)!
-        
-        while currentTime < endTime {
-            let isAvailable = !appointments.contains { appointment in
-                calendar.isDate(appointment.date, equalTo: currentTime, toGranularity: .minute)
-            }
-            if isAvailable {
-                availableSlots.append(currentTime)
-            }
-            currentTime = calendar.date(byAdding: .minute, value: 15, to: currentTime)!
-        }
-        
-        return availableSlots
-    }
-    
-    private func fetchAppointments(for date: Date) async throws -> [Appointment] {
-        let response = try? await supabase.from(SupabaseTable.appointments.id)
-            .select()
-            .eq("doctor_id", value: userId)
-            .gte("date", value: date.startOfDay.ISO8601Format())
-            .lt("date", value: date.endOfDay.ISO8601Format())
-            .execute()
-        
-        guard let response = response else {
-            return []
-        }
-        
-        return try JSONDecoder().decode([Appointment].self, from: response.data)
     }
 }

@@ -96,7 +96,7 @@ struct DoctorRow: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .errorAlert(errorAlertMessage: errorAlertMessage)
-        .onChange(of: booking.forDate) {
+        .onChange(of: booking.forDate) { _ in
             if isExpanded {
                 fetchAvailableSlots()
             }
@@ -114,8 +114,7 @@ struct DoctorRow: View {
             }
             
             do {
-                let settings = try await doctor.getSettings()
-                let slots = try await settings.getAvailableTimeSlots(for: booking.forDate)
+                let slots = try await doctor.getAvailableTimeSlots(for: booking.forDate)
                 availableSlots = slots
             } catch {
                 errorAlertMessage.title = "Error fetching slots"

@@ -30,7 +30,7 @@ struct AppointmentBrowseView: View {
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .onChange(of: selectedDepartment) {
+                    .onChange(of: selectedDepartment) { _ in
                         selectedSearchResult = nil
                     }
                     

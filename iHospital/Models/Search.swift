@@ -33,28 +33,30 @@ struct Search: Identifiable {
     }
     
     static func doctorsOrDepartments(byName name: String) async throws -> [Search] {
-            let searchWords = name.split(separator: " ").map { String($0 + ":*") }
-            let searchQuery = searchWords.joined(separator: " | ")
-            
-            async let doctorsResponse = supabase.from(SupabaseTable.doctors.id)
-                .select("*, doctor_settings(user_id)")
-                .textSearch("name", query: searchQuery)
-                .execute()
-            
-            async let departmentsResponse = supabase.from(SupabaseTable.departments.id)
-                .select()
-                .textSearch("name", query: searchQuery)
-                .execute()
-            
-            let (doctorsData, departmentsData) = try await (doctorsResponse, departmentsResponse)
+        let searchWords = name.split(separator: " ").map { String($0 + ":*") }
+        let searchQuery = searchWords.joined(separator: " | ")
         
-            
-            let doctors = try Doctor.decoder.decode([Doctor].self, from: doctorsData.data)
-            let departments = try JSONDecoder().decode([Department].self, from: departmentsData.data)
-            
-            let doctorsSearch = doctors.map { Search(name: $0.name, type: .doctor, id: $0.userId, item: .doctor($0)) }
-            let departmentsSearch = departments.map { Search(name: $0.name, type: .department, id: $0.id, item: .department($0)) }
+        async let doctorsResponse = supabase.from(SupabaseTable.doctors.id)
+            .select("*, doctor_settings(*)")
+            .textSearch("name", query: searchQuery)
+            .execute()
         
-            return departmentsSearch + doctorsSearch
+        async let departmentsResponse = supabase.from(SupabaseTable.departments.id)
+            .select()
+            .textSearch("name", query: searchQuery)
+            .execute()
+        
+        let (doctorsData, departmentsData) = try await (doctorsResponse, departmentsResponse)
+        
+        // print doctor's data as string
+        print(String(data: doctorsData.data, encoding: .utf8)!)
+        
+        let doctors = try JSONDecoder().decode([Doctor].self, from: doctorsData.data)
+        let departments = try JSONDecoder().decode([Department].self, from: departmentsData.data)
+        
+        let doctorsSearch = doctors.map { Search(name: $0.name, type: .doctor, id: $0.userId, item: .doctor($0)) }
+        let departmentsSearch = departments.map { Search(name: $0.name, type: .department, id: $0.id, item: .department($0)) }
+        
+        return departmentsSearch + doctorsSearch
     }
 }

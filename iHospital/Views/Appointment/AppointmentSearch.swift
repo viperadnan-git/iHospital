@@ -31,7 +31,7 @@ struct AppointmentSearch: View {
                         .paddedTextFieldStyle()
                         .padding(.horizontal)
                         .focused($isTextFieldFocused)
-                        .onChange(of: searchText) {
+                        .onChange(of: searchText) { _ in
                             debounceSearch()
                         }
                 }
@@ -81,7 +81,7 @@ struct AppointmentSearch: View {
                 Button("Cancel", action: {
                     showSearch = false
                 })
-            }
+            }.errorAlert(errorAlertMessage: errorAlertMessage)
         }
     }
     

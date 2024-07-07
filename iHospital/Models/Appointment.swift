@@ -10,96 +10,106 @@ import Supabase
 
 struct Appointment: Codable, Hashable {
     let id: Int
-    let patientId: UUID
-    let doctorId: UUID
+    let patient: Patient
+    let doctor: Doctor
+    let user: SupaUser
     let date: Date
     let paymentStatus: PaymentStatus
     let appointmentStatus: AppointmentStatus
-    let userId: UUID
     let createdAt: Date
 
     enum CodingKeys: String, CodingKey {
         case id
-        case patientId = "patient_id"
-        case doctorId = "doctor_id"
+        case patient
+        case doctor
+        case user
         case date
         case paymentStatus = "payment_status"
         case appointmentStatus = "appointment_status"
-        case userId = "user_id"
         case createdAt = "created_at"
     }
     
+    static func == (lhs: Appointment, rhs: Appointment) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     static let iso8601Formatter = ISO8601DateFormatter()
+    static let supabaseSelectQuery = "*, doctor:doctor_id(*), patient:patient_id(*), user:user_id(*)"
     
     static let sample: Appointment = Appointment(
         id: 1,
-        patientId: UUID(),
-        doctorId: UUID(),
+        patient: Patient.sample,
+        doctor: Doctor.sample,
         date: Date(),
         paymentStatus: .pending,
         appointmentStatus: .pending,
-        userId: UUID()
+        user: SupaUser.sample,
+        createdAt: Date()
     )
 
-    init(id: Int = 0, patientId: UUID, doctorId: UUID, date: Date, paymentStatus: PaymentStatus, appointmentStatus: AppointmentStatus, userId: UUID, createdAt: Date = Date()) {
+    init(id: Int = 0, patient: Patient, doctor: Doctor, date: Date, paymentStatus: PaymentStatus, appointmentStatus: AppointmentStatus, user: SupaUser, createdAt: Date = Date()) {
         self.id = id
-        self.patientId = patientId
-        self.doctorId = doctorId
+        self.patient = patient
+        self.doctor = doctor
         self.date = date
         self.paymentStatus = paymentStatus
         self.appointmentStatus = appointmentStatus
-        self.userId = userId
+        self.user = user
         self.createdAt = createdAt
     }
     
-    init(from decoder: any Decoder) throws {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(Int.self, forKey: .id)
-        patientId = try container.decode(UUID.self, forKey: .patientId)
-        doctorId = try container.decode(UUID.self, forKey: .doctorId)
+        patient = try container.decode(Patient.self, forKey: .patient)
+        doctor = try container.decode(Doctor.self, forKey: .doctor)
+        user = try container.decode(SupaUser.self, forKey: .user)
         
         let dateString = try container.decode(String.self, forKey: .date)
         let createdAtString = try container.decode(String.self, forKey: .createdAt)
         
         guard let date = Appointment.iso8601Formatter.date(from: dateString),
-                let createdAt = Appointment.iso8601Formatter.date(from: createdAtString) else {
-            throw DecodingError.dataCorruptedError(forKey: .date, in: container, debugDescription: "Invalid time format")
+              let createdAt = Appointment.iso8601Formatter.date(from: createdAtString) else {
+            throw DecodingError.dataCorruptedError(forKey: .date, in: container, debugDescription: "Invalid date format")
         }
         
         self.date = date
         self.createdAt = createdAt
-        
         paymentStatus = try container.decode(PaymentStatus.self, forKey: .paymentStatus)
         appointmentStatus = try container.decode(AppointmentStatus.self, forKey: .appointmentStatus)
-        userId = try container.decode(UUID.self, forKey: .userId)
     }
 
     static func bookAppointment(patientId: UUID, doctorId: UUID, date: Date, userId: UUID) async throws -> Appointment {
-        let newAppointment = Appointment(
-            patientId: patientId,
-            doctorId: doctorId,
-            date: date,
-            paymentStatus: .pending,
-            appointmentStatus: .pending,
-            userId: userId
-        )
-
-        let response: Appointment = try await supabase
-            .from("appointments")
+        let response:Appointment = try await supabase
+            .from(SupabaseTable.appointments.id)
             .insert([
                 "patient_id": patientId.uuidString,
                 "doctor_id": doctorId.uuidString,
                 "date": date.ISO8601Format(),
-                "payment_status": newAppointment.paymentStatus.rawValue,
-                "appointment_status": newAppointment.appointmentStatus.rawValue,
+                "payment_status": PaymentStatus.pending.rawValue,
+                "appointment_status": AppointmentStatus.pending.rawValue,
                 "user_id": userId.uuidString,
-                "created_at": newAppointment.createdAt.ISO8601Format()
+                "created_at": Date().ISO8601Format()
             ])
-            .select("*")
+            .select(supabaseSelectQuery)
             .single()
             .execute()
             .value
 
+        return response
+    }
+    
+    static func fetchAllAppointments() async throws -> [Appointment] {
+        let response:[Appointment] = try await supabase
+            .from(SupabaseTable.appointments.id)
+            .select(supabaseSelectQuery)
+            .execute()
+            .value
+        
         return response
     }
 }
