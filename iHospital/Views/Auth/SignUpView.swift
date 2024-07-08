@@ -85,17 +85,6 @@ struct SignUpView: View {
                 .padding(.bottom, 20)
                 .disabled(!agreeToTerms)
             
-            HStack {
-                Text("Already have an account?")
-                    .foregroundColor(.gray)
-                
-                Button(action: {
-                    // Handle sign in navigation
-                }) {
-                    Text("Sign In")
-                        .foregroundColor(.blue)
-                }
-            }
         }
         .padding(.bottom, 16)
         .errorAlert(errorAlertMessage: errorAlertMessage)
@@ -112,13 +101,18 @@ struct SignUpView: View {
             return
         }
         
-        guard phoneNumber.count == 10 else {
-            errorAlertMessage.message = "Phone number must be exactly 10-digit long"
+        guard name.isAlphabetsAndSpace else {
+            errorAlertMessage.message = "Name must contain only alphabets and spaces."
             return
         }
         
-        guard password == confirmPassword else {
-            errorAlertMessage.message = "Passwords do not match."
+        guard email.isEmail else {
+            errorAlertMessage.message = "Please enter a valid email address."
+            return
+        }
+        
+        guard phoneNumber.isPhoneNumber else {
+            errorAlertMessage.message = "Phone number must be exactly 10-digit long"
             return
         }
         

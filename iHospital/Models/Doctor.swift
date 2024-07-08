@@ -103,6 +103,8 @@ struct Doctor: Codable, Hashable {
         self.settings = settings
     }
     
+    static let supabaseSelectQuery = "*, doctor_settings(*)"
+    
     static func fetchAll() async throws -> [Doctor] {
         let response: [Doctor] = try await supabase.from(SupabaseTable.doctors.id)
             .select()
@@ -114,7 +116,7 @@ struct Doctor: Codable, Hashable {
     
     static func fetchDepartmentWise(departmentId: UUID) async throws -> [Doctor] {
         let response:[Doctor] = try await supabase.from(SupabaseTable.doctors.id)
-            .select()
+            .select(supabaseSelectQuery)
             .eq("department_id", value: departmentId)
             .execute()
             .value
@@ -134,11 +136,11 @@ struct Doctor: Codable, Hashable {
             .lt("date", value: date.endOfDay.ISO8601Format())
             .execute()
             .value
-
+        
         guard let response = response else {
             return []
         }
-
+        
         return response
     }
     
@@ -156,8 +158,12 @@ struct Doctor: Codable, Hashable {
         let appointments = try await fetchAppointments(for: date)
         let calendar = Calendar.current
         var availableSlots: [Date] = []
+        let today = Date()
         
-        var currentTime = calendar.date(bySettingHour: calendar.component(.hour, from: settings.startTime), minute: calendar.component(.minute, from: settings.startTime), second: 0, of: date)!
+        
+        let startTime = date.startOfDay == today.startOfDay ? calendar.date(byAdding: .hour, value: 1, to: today)!.nextQuarter : settings.startTime
+        
+        var currentTime = calendar.date(bySettingHour: calendar.component(.hour, from: startTime), minute: calendar.component(.minute, from: startTime), second: 0, of: date)!
         let endTime = calendar.date(bySettingHour: calendar.component(.hour, from: settings.endTime), minute: calendar.component(.minute, from: settings.endTime), second: 0, of: date)!
         
         while currentTime < endTime {

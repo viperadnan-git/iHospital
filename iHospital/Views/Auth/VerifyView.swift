@@ -15,6 +15,8 @@ struct VerifyView: View {
     @State private var sendingOtp = true
     @State private var isLoading: Bool = false
     
+    @EnvironmentObject private var authViewModel: AuthViewModel
+    
     @State private var errorAlertMessage = ErrorAlertMessage(title: "Unable to Verify")
     
     var body: some View {
@@ -22,7 +24,6 @@ struct VerifyView: View {
             Text("Email sent to ")
                 .font(.caption)
             + Text("\(user?.email ?? "Unknown")")
-                .font(.caption)
                 .foregroundColor(.blue)
             TextField("Enter OTP", text: $otp)
                 .keyboardType(.numberPad)
@@ -85,6 +86,7 @@ struct VerifyView: View {
                 if let user {
                     print("User verified: \(user.email)")
                     SupaUser.shared = user
+                    try await authViewModel.updateSupaUser()
                 } else {
                     errorAlertMessage.message = "Invalid OTP."
                 }

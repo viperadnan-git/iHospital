@@ -38,7 +38,7 @@ struct AddPatientView: View {
                         }
                     }
                     
-                    DatePicker("Date of Birth", selection: $dateOfBirth, displayedComponents: .date)
+                    DatePicker("Date of Birth", selection: $dateOfBirth, in: ...Date(), displayedComponents: .date)
                     TextField("Height (cm)", text: $height)
                         .keyboardType(.decimalPad)
                     TextField("Weight (kg)", text: $weight)
@@ -51,6 +51,13 @@ struct AddPatientView: View {
             }
             .navigationBarTitle("Add New Patient", displayMode: .inline)
             .navigationBarItems(trailing: Button("Done", action: onSave))
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        showPatientSheet.toggle()
+                    }
+                }
+            }
         }.errorAlert(errorAlertMessage: errorAlertMessage)
     }
     
@@ -58,6 +65,11 @@ struct AddPatientView: View {
     func onSave() {
         guard !fullName.isEmpty else {
             errorAlertMessage.message = "Please enter a name"
+            return
+        }
+        
+        guard phoneNumber.count == 10 else {
+            errorAlertMessage.message = "Please enter a valid 10-digit phone number"
             return
         }
         

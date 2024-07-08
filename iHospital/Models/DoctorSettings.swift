@@ -71,7 +71,7 @@ struct DoctorSettings: Codable {
     
     static func getDefaultSettings(userId: UUID) -> DoctorSettings {
         let startTime = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
-        let endTime = Calendar.current.date(bySettingHour: 17, minute: 0, second: 0, of: Date())!
+        let endTime = Calendar.current.date(bySettingHour: 19, minute: 0, second: 0, of: Date())!
         let selectedDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
         
         return DoctorSettings(

@@ -84,6 +84,7 @@ struct LoginView: View {
     func onLogin() {
         guard !email.isEmpty, !password.isEmpty else {
             errorAlertMessage.message = "Please enter email and password."
+            password = ""
             return
         }
         
@@ -101,9 +102,11 @@ struct LoginView: View {
                     try await authViewModel.updateSupaUser()
                 } else {
                     errorAlertMessage.message = "Invalid email or password."
+                    password = ""
                 }
             } catch {
                 errorAlertMessage.message = error.localizedDescription
+                password = ""
             }
         }
     }

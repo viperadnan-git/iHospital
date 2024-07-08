@@ -47,8 +47,6 @@ struct EditPatientView: View {
                 }
             }
         }.onAppear {
-          
-            
             name = patient.name
             phoneNumber = "\(patient.phoneNumber)"
             bloodGroup = patient.bloodGroup

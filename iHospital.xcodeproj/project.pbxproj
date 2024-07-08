@@ -11,6 +11,7 @@
 		3213A8682C3AAF8F00509BCB /* AppointmentDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213A8672C3AAF8E00509BCB /* AppointmentDetail.swift */; };
 		3213A86A2C3AD2ED00509BCB /* AppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213A8692C3AD2ED00509BCB /* AppointmentView.swift */; };
 		3213A86C2C3AD3FC00509BCB /* AppointmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213A86B2C3AD3FC00509BCB /* AppointmentViewModel.swift */; };
+		3213A8742C3BF0FF00509BCB /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213A8732C3BF0FF00509BCB /* String.swift */; };
 		3246E5EE2C397DA6000B5A23 /* Departments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3246E5ED2C397DA6000B5A23 /* Departments.swift */; };
 		3246E5F02C397F9D000B5A23 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3246E5EF2C397F9D000B5A23 /* Search.swift */; };
 		3246E5F22C398059000B5A23 /* AppointmentSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3246E5F12C398059000B5A23 /* AppointmentSearch.swift */; };
@@ -67,6 +68,7 @@
 		3213A8672C3AAF8E00509BCB /* AppointmentDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentDetail.swift; sourceTree = "<group>"; };
 		3213A8692C3AD2ED00509BCB /* AppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentView.swift; sourceTree = "<group>"; };
 		3213A86B2C3AD3FC00509BCB /* AppointmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentViewModel.swift; sourceTree = "<group>"; };
+		3213A8732C3BF0FF00509BCB /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		3246E5ED2C397DA6000B5A23 /* Departments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Departments.swift; sourceTree = "<group>"; };
 		3246E5EF2C397F9D000B5A23 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		3246E5F12C398059000B5A23 /* AppointmentSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentSearch.swift; sourceTree = "<group>"; };
@@ -150,10 +152,10 @@
 			isa = PBXGroup;
 			children = (
 				324C9CA32C354D9600712E84 /* Gender.swift */,
+				328409882C3800BB00473841 /* Appointment.swift */,
 				324C9CA52C354DA800712E84 /* SupaUser.swift */,
 				3284097C2C37E31F00473841 /* Patient.swift */,
 				3284097E2C37E36C00473841 /* BloodGroup.swift */,
-				328409882C3800BB00473841 /* Appointment.swift */,
 				3284098A2C3801CF00473841 /* Doctor.swift */,
 				3246E5ED2C397DA6000B5A23 /* Departments.swift */,
 				3246E5EF2C397F9D000B5A23 /* Search.swift */,
@@ -169,6 +171,7 @@
 				3246E5F32C398439000B5A23 /* TextField.swift */,
 				324C9CAC2C3553CB00712E84 /* ViewModifiers.swift */,
 				324C9CE72C35A69700712E84 /* CheckBox.swift */,
+				3213A8732C3BF0FF00509BCB /* String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				32AF56962C354839002E599F /* VerifyView.swift in Sources */,
 				F554F8A32C3675BC00253D64 /* FeatureButton.swift in Sources */,
 				32AF56942C354803002E599F /* SignUpView.swift in Sources */,
+				3213A8742C3BF0FF00509BCB /* String.swift in Sources */,
 				324C9CA42C354D9600712E84 /* Gender.swift in Sources */,
 				324C9CE62C35625D00712E84 /* AuthView.swift in Sources */,
 				328409812C37E8A500473841 /* AppointmentCard.swift in Sources */,

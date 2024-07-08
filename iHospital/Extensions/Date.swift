@@ -25,4 +25,11 @@ extension Date {
         let startOfDay = calendar.startOfDay(for: self)
         return calendar.date(byAdding: DateComponents(day: 1, second: -1), to: startOfDay)!
     }
+    
+    var nextQuarter: Date {
+        // select next 15, 30, 45, 60 minutes
+        let minutes = Calendar.current.component(.minute, from: self)
+        let nextQuarter = (minutes / 15 + 1) * 15
+        return Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: self), minute: nextQuarter, second: 0, of: self)!
+    }
 }
