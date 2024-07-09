@@ -12,7 +12,9 @@ struct AddPatientView: View {
 
     @Binding var showPatientSheet: Bool
     
-    @State private var fullName: String = ""
+    @State private var firstName: String = ""
+    @State private var lastName: String = ""
+    @State private var gender: Gender = .male
     @State private var phoneNumber: String = ""
     @State private var bloodGroup: BloodGroup = .Unknown
     @State private var height: String = ""
@@ -23,14 +25,23 @@ struct AddPatientView: View {
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Can't add patient")
 
     let bloodGroups = BloodGroup.allCases
+    let genders = Gender.allCases
 
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Personal Information")) {
-                    TextField("Full Name", text: $fullName)
-                    TextField("Phone Number", text: $phoneNumber)
-                        .keyboardType(.phonePad)
+                    HStack {
+                        TextField("First Name", text: $firstName)
+                        Divider()
+                        TextField("Last Name", text: $lastName)
+                    }
+                    
+                    Picker("Gender", selection: $gender) {
+                        ForEach(genders, id: \.self) { group in
+                            Text(group.id.capitalized)
+                        }
+                    }
                     
                     Picker("Blood Group", selection: $bloodGroup) {
                         ForEach(bloodGroups, id: \.self) { group in
@@ -39,6 +50,10 @@ struct AddPatientView: View {
                     }
                     
                     DatePicker("Date of Birth", selection: $dateOfBirth, in: ...Date(), displayedComponents: .date)
+                    
+                    TextField("Phone Number", text: $phoneNumber)
+                        .keyboardType(.phonePad)
+                    
                     TextField("Height (cm)", text: $height)
                         .keyboardType(.decimalPad)
                     TextField("Weight (kg)", text: $weight)
@@ -63,8 +78,18 @@ struct AddPatientView: View {
     
     
     func onSave() {
-        guard !fullName.isEmpty else {
-            errorAlertMessage.message = "Please enter a name"
+        guard !firstName.isEmpty, !lastName.isEmpty, !phoneNumber.isEmpty  else {
+            errorAlertMessage.message = "Please enter a valid name and phone number"
+            return
+        }
+        
+        guard firstName.isAlphabets else {
+            errorAlertMessage.message = "First name should contain only alphabets"
+            return
+        }
+        
+        guard lastName.isAlphabetsAndSpaces else {
+            errorAlertMessage.message = "Last name should contain only alphabets and spaces"
             return
         }
         
@@ -82,7 +107,9 @@ struct AddPatientView: View {
         Task {
             do {
                 try await patientViewModel.addPatient(
-                    name: fullName,
+                    firstName: firstName,
+                    lastName: lastName,
+                    gender: gender,
                     phoneNumber: phoneNumber,
                     bloodGroup: bloodGroup,
                     dateOfBirth: dateOfBirth,

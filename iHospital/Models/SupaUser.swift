@@ -12,7 +12,8 @@ import Supabase
 
 struct SupaUser: Codable, Hashable {
     let id: UUID
-    let name: String
+    let firstName: String
+    let lastName: String
     var email: String {
         didSet {
             email = email.lowercased()
@@ -22,13 +23,14 @@ struct SupaUser: Codable, Hashable {
     
     enum CodingKeys: String, CodingKey {
         case id = "user_id"
-        case name
+        case firstName = "first_name"
+        case lastName = "last_name"
         case email
         case phoneNumber = "phone_number"
     }
     
-    var firstName: Substring {
-        name.split(separator: " ").first!
+    var name: String {
+        "\(firstName) \(lastName)"
     }
     
     static var shared: SupaUser? = loadUser() {
@@ -39,7 +41,7 @@ struct SupaUser: Codable, Hashable {
         }
     }
     
-    static let sample: SupaUser = SupaUser(id: UUID(), name: "John Doe", email: "mail@viperadnan.com", phoneNumber: 1234567890)
+    static let sample: SupaUser = SupaUser(id: UUID(), firstName: "John", lastName: "Doe", email: "mail@viperadnan.com", phoneNumber: 1234567890)
     
     func saveUser() {
         let encoder = JSONEncoder()
@@ -79,7 +81,8 @@ struct SupaUser: Codable, Hashable {
         let session = try await supabase.auth.verifyOTP(email: user.email, token: otp, type: .email)
         let userToSave = SupaUser(
             id: session.user.id,
-            name: user.name,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
             phoneNumber: user.phoneNumber
         )
@@ -120,5 +123,9 @@ struct SupaUser: Codable, Hashable {
         
         let supaUser:SupaUser = try await supabase.from(SupabaseTable.users.id).select().eq("user_id", value: user.id).single().execute().value
         return supaUser
+    }
+    
+    static func updatePassword(password: String) async throws {
+        try await supabase.auth.update(user: UserAttributes(password: password))
     }
 }

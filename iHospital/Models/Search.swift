@@ -38,7 +38,7 @@ struct Search: Identifiable {
         
         async let doctorsResponse = supabase.from(SupabaseTable.doctors.id)
             .select("*, doctor_settings(*)")
-            .textSearch("name", query: searchQuery)
+            .textSearch("search_doctor_names", query: searchQuery)
             .execute()
         
         async let departmentsResponse = supabase.from(SupabaseTable.departments.id)
@@ -47,9 +47,6 @@ struct Search: Identifiable {
             .execute()
         
         let (doctorsData, departmentsData) = try await (doctorsResponse, departmentsResponse)
-        
-        // print doctor's data as string
-        print(String(data: doctorsData.data, encoding: .utf8)!)
         
         let doctors = try JSONDecoder().decode([Doctor].self, from: doctorsData.data)
         let departments = try JSONDecoder().decode([Department].self, from: departmentsData.data)

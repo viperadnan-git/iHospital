@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DashboardView: View {
     @EnvironmentObject private var patientViewModel: PatientViewModel
+    @EnvironmentObject private var authViewModel: AuthViewModel
 
     var body: some View {
         NavigationStack {
@@ -63,7 +64,7 @@ struct DashboardView: View {
                     }
                 }
             }
-            .navigationTitle("Hello Adnan")
+            .navigationTitle("Hello \(authViewModel.user?.firstName ?? "Unknown")")
         }
     }
 }

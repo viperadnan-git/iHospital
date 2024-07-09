@@ -35,11 +35,11 @@ struct DoctorRow: View {
                         .font(.headline)
                     Text("Email: \(doctor.email)")
                         .font(.subheadline)
-                    Text("Phone: \(doctor.phoneNumber)")
+                    Text("Phone: \(String(doctor.phoneNumber))")
                         .font(.subheadline)
                     Text("Qualification: \(doctor.qualification)")
                         .font(.subheadline)
-                    Text("Experience: \(calculateExperienceYears(from: doctor.experienceSince)) years")
+                    Text("Experience: \(doctor.experienceSince.yearsSince) years")
                         .font(.subheadline)
                 }
                 Spacer()
@@ -63,7 +63,7 @@ struct DoctorRow: View {
                         .padding()
                 }
                 else if availableSlots.isEmpty {
-                    Text("No slots available for \(booking.forDate.localDate.description)")
+                    Text("No slots available for \(booking.forDate.startOfDay.localDate.dateString)")
                         .foregroundColor(.gray)
                         .padding()
                 } else {
@@ -121,12 +121,6 @@ struct DoctorRow: View {
                 errorAlertMessage.message = error.localizedDescription
             }
         }
-    }
-    
-    private func calculateExperienceYears(from date: Date) -> Int {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year], from: date, to: Date())
-        return components.year ?? 0
     }
 }
 

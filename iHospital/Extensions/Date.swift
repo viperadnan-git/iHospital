@@ -27,9 +27,37 @@ extension Date {
     }
     
     var nextQuarter: Date {
-        // select next 15, 30, 45, 60 minutes
-        let minutes = Calendar.current.component(.minute, from: self)
-        let nextQuarter = (minutes / 15 + 1) * 15
-        return Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: self), minute: nextQuarter, second: 0, of: self)!
+        let calendar = Calendar.current
+        let currentMinutes = calendar.component(.minute, from: self)
+        let remainder = currentMinutes % 15
+        let minutesToAdd = 15 - remainder
+        guard let nextQuarterDate = calendar.date(byAdding: .minute, value: minutesToAdd, to: self) else {
+            return self
+        }
+        let nextQuarterMinutes = calendar.component(.minute, from: nextQuarterDate)
+        
+        let adjustedHour = calendar.component(.hour, from: self) + (nextQuarterMinutes / 60)
+        let adjustedMinutes = nextQuarterMinutes % 60
+        
+        return calendar.date(bySettingHour: adjustedHour, minute: adjustedMinutes, second: 0, of: self) ?? self
     }
+    
+    var yearsSince: Int {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year], from: self, to: Date())
+        return components.year ?? 0
+    }
+    
+    var dateString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        return dateFormatter.string(from: self)
+    }
+    
+    static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
 }

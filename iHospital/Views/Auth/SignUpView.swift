@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @State private var name: String = ""
+    @State private var firstName: String = ""
+    @State private var lastName: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
@@ -21,88 +22,96 @@ struct SignUpView: View {
     
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "SignUp Error")
     
-
+    
     var body: some View {
-        VStack(spacing: 16) {
-            Spacer()
-            
-            Text("Create account")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            
-            Text("New here? let's start with creating a new account")
-                .font(.subheadline)
-                .multilineTextAlignment(.center)
-                .foregroundColor(.gray)
-                .padding(.top, 1)
-                .padding(.bottom, 20)
-            
+       
             VStack(spacing: 16) {
-                TextField("Name", text: $name)
-                    .paddedTextFieldStyle()
+                Spacer()
                 
-                TextField("Email", text: $email)
-                    .paddedTextFieldStyle()
-                    .autocapitalization(.none)
-                    .keyboardType(.emailAddress)
-                    .textContentType(.emailAddress)
-                
-                TextField("Phone Number", text: $phoneNumber)
-                    .paddedTextFieldStyle()
-                    .autocapitalization(.none)
-                    .keyboardType(.phonePad)
-                    .textContentType(.telephoneNumber)
-                
-                SecureField("Password", text: $password)
-                    .paddedTextFieldStyle()
-                
-                SecureField("Confirm Password", text: $confirmPassword)
-                    .paddedTextFieldStyle()
-                
-                HStack {
-                    Toggle(isOn: $agreeToTerms) {
-                        Text("I agree with our ")
-                            .font(.subheadline)
-                        + Text("Terms and Conditions")
-                            .font(.subheadline)
-                            .foregroundColor(.blue)
-                            .underline()
-                    }
-                    .toggleStyle(CheckboxToggleStyle())
-                }
-                .padding(.horizontal, 16)
-            }
-            .padding()
-           
-           
-            Spacer()
-            
-            LoaderButton(isLoading: $isLoading, action: onSignUp) {
                 Text("Create account")
-            }.buttonStyle(.borderedProminent)
-                .foregroundColor(.white)
-                .padding(.horizontal, 16)
-                .padding(.bottom, 20)
-                .disabled(!agreeToTerms)
-            
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                
+                Text("New here? let's start with creating a new account")
+                    .font(.subheadline)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.gray)
+                    .padding(.top, 1)
+                    .padding(.bottom, 20)
+                
+                VStack(spacing: 16) {
+                    HStack {
+                        TextField("First Name", text: $firstName)
+                            .paddedTextFieldStyle()
+                        TextField("Last Name", text: $lastName)
+                            .paddedTextFieldStyle()
+                    }
+                    
+                    TextField("Email", text: $email)
+                        .paddedTextFieldStyle()
+                        .autocapitalization(.none)
+                        .keyboardType(.emailAddress)
+                        .textContentType(.emailAddress)
+                    
+                    TextField("Phone Number", text: $phoneNumber)
+                        .paddedTextFieldStyle()
+                        .autocapitalization(.none)
+                        .keyboardType(.phonePad)
+                        .textContentType(.telephoneNumber)
+                    
+                    SecureField("Password", text: $password)
+                        .paddedTextFieldStyle()
+                    
+                    SecureField("Confirm Password", text: $confirmPassword)
+                        .paddedTextFieldStyle()
+                    
+                    HStack {
+                        Toggle(isOn: $agreeToTerms) {
+                            Text("I agree with our ")
+                                .font(.subheadline)
+                            + Text("Terms and Conditions")
+                                .font(.subheadline)
+                                .foregroundColor(.blue)
+                                .underline()
+                        }
+                        .toggleStyle(CheckboxToggleStyle())
+                    }
+                    .padding(.horizontal, 16)
+                }
+                .padding()
+                
+                
+                Spacer()
+                
+                LoaderButton(isLoading: $isLoading, action: onSignUp) {
+                    Text("Create account")
+                }.buttonStyle(.borderedProminent)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 20)
+                    .disabled(!agreeToTerms)
         }
         .padding(.bottom, 16)
+        // back button text 
         .errorAlert(errorAlertMessage: errorAlertMessage)
         .sheet(isPresented: $showVerifyView) {
-           
-                VerifyView(user: $user)
-            
+            VerifyView(user: $user)
         }
     }
     
     func onSignUp() {
-        guard !name.isEmpty, !email.isEmpty, !password.isEmpty, !confirmPassword.isEmpty else {
+        guard !firstName.isEmpty, !lastName.isEmpty, !email.isEmpty, !password.isEmpty, !confirmPassword.isEmpty else {
             errorAlertMessage.message = "Please fill all fields."
             return
         }
         
-        guard name.isAlphabetsAndSpace else {
-            errorAlertMessage.message = "Name must contain only alphabets and spaces."
+        guard firstName.isAlphabets else {
+            errorAlertMessage.message = "First name must contain only alphabets."
+            return
+        }
+        
+        guard lastName.isAlphabetsAndSpaces else {
+            errorAlertMessage.message = "Last name must contain only alphabets and spaces."
             return
         }
         
@@ -121,6 +130,11 @@ struct SignUpView: View {
             return
         }
         
+        guard let phoneNumber = Int(phoneNumber) else {
+            errorAlertMessage.message = "Please enter a valid phone number."
+            return
+        }
+        
         
         Task {
             isLoading = true
@@ -129,9 +143,9 @@ struct SignUpView: View {
             }
             
             do {
-                try await SupaUser.signUp(email: email, password: password)
+                try await SupaUser.signUp(email: email.trimmed, password: password)
                 
-                let user = SupaUser(id: UUID(), name: name, email: email, phoneNumber: 999)
+                let user = SupaUser(id: UUID(), firstName: firstName.trimmed.capitalized, lastName: lastName.trimmed.capitalized, email: email.trimmed, phoneNumber: phoneNumber)
                 self.user = user
                 self.showVerifyView = true
             } catch {

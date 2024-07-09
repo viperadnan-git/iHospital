@@ -76,6 +76,8 @@ struct LoginView: View {
                     }
                 }
             }
+            .navigationTitle("Login")
+            .toolbar(.hidden)
             .padding(.bottom, 16)
             .errorAlert(errorAlertMessage: errorAlertMessage)
         }
@@ -96,7 +98,7 @@ struct LoginView: View {
             }
             
             do {
-                if let user = try await SupaUser.login(email: email, password: password) {
+                if let user = try await SupaUser.login(email: email.trimmed, password: password) {
                     print("User logged in: \(user.email)")
                     SupaUser.shared = user
                     try await authViewModel.updateSupaUser()

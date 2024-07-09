@@ -9,8 +9,12 @@ import Foundation
 
 
 extension String {
-    var isAlphabetsAndSpace: Bool {
+    var isAlphabetsAndSpaces: Bool {
         return !isEmpty && range(of: "[^a-zA-Z ]", options: .regularExpression) == nil
+    }
+    
+    var isAlphabets: Bool {
+        return !isEmpty && range(of: "[^a-zA-Z]", options: .regularExpression) == nil
     }
     
     var isEmail: Bool {
@@ -23,5 +27,9 @@ extension String {
     
     var isPhoneNumber: Bool {
         return !isEmpty && range(of: "^[0-9]{10}$", options: .regularExpression) != nil
+    }
+    
+    var trimmed: String {
+        return trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

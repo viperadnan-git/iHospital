@@ -10,7 +10,8 @@ import Supabase
 
 struct Doctor: Codable, Hashable {
     let userId: UUID
-    let name: String
+    let firstName: String
+    let lastName: String
     let dateOfBirth: Date
     let gender: Gender
     let phoneNumber: Int
@@ -23,7 +24,8 @@ struct Doctor: Codable, Hashable {
     
     enum CodingKeys: String, CodingKey {
         case userId = "user_id"
-        case name
+        case firstName = "first_name"
+        case lastName = "last_name"
         case dateOfBirth = "date_of_birth"
         case gender
         case phoneNumber = "phone_number"
@@ -43,9 +45,14 @@ struct Doctor: Codable, Hashable {
         hasher.combine(userId)
     }
     
+    var name: String {
+        "\(firstName) \(lastName)"
+    }
+    
     static var sample: Doctor {
         Doctor(userId: UUID(),
-               name: "Dr. John Doe",
+               firstName: "John",
+               lastName: "Doe",
                dateOfBirth: Date(),
                gender: .male,
                phoneNumber: 1234567890,
@@ -66,7 +73,8 @@ struct Doctor: Codable, Hashable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         userId = try container.decode(UUID.self, forKey: .userId)
-        name = try container.decode(String.self, forKey: .name)
+        firstName = try container.decode(String.self, forKey: .firstName)
+        lastName = try container.decode(String.self, forKey: .lastName)
         
         let dateOfBirthString = try container.decode(String.self, forKey: .dateOfBirth)
         let dateOfJoiningString = try container.decode(String.self, forKey: .dateOfJoining)
@@ -89,9 +97,10 @@ struct Doctor: Codable, Hashable {
         settings = try container.decodeIfPresent(DoctorSettings.self, forKey: .settings)
     }
     
-    init(userId: UUID, name: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, settings: DoctorSettings?) {
+    init(userId: UUID, firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, settings: DoctorSettings?) {
         self.userId = userId
-        self.name = name
+        self.firstName = firstName
+        self.lastName = lastName
         self.dateOfBirth = dateOfBirth
         self.gender = gender
         self.phoneNumber = phoneNumber

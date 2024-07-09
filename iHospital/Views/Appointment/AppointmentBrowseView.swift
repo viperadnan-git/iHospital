@@ -25,13 +25,14 @@ struct AppointmentBrowseView: View {
                 
                 HStack {
                     Picker("Departments", selection: $selectedDepartment) {
-                        ForEach(departments) { department in
+                        ForEach(departments, id: \.id) { department in
                             Text(department.name).tag(department as Department?)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .onChange(of: selectedDepartment) { _ in
+                    .onChange(of: selectedDepartment) { department in
                         selectedSearchResult = nil
+                        selectedDepartment = department
                     }
                     
                     Spacer()

@@ -18,7 +18,7 @@ class BookingViewModel: ObservableObject {
             throw AppointmentError.invalidBookingDetails
         }
 
-        let appointment = try await Appointment.bookAppointment(patientId: patient.patientId, doctorId: doctor.userId, date: selectedSlot, userId: patient.userId)
+        let appointment = try await Appointment.bookAppointment(patientId: patient.id, doctorId: doctor.userId, date: selectedSlot, userId: patient.userId)
         print("Appointment booked successfully: \(appointment)")
         return appointment
     }

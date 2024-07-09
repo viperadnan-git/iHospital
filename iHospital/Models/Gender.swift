@@ -6,7 +6,7 @@
 //
 
 
-enum Gender:String, Codable {
+enum Gender:String, Codable, CaseIterable {
     case male = "male"
     case female = "female"
     case others = "others"

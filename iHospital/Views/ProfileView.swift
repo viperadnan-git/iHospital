@@ -38,15 +38,15 @@ struct ProfileView: View {
             }
           
             
-            Section(header: Text("Your Patients")) {
-                ForEach(patientViewModel.patients, id: \.patientId) { patient in
+            Section(header: Text("Your Family/Friends")) {
+                ForEach(patientViewModel.patients, id: \.id) { patient in
                     NavigationLink(destination: EditPatientView(patient: patient)) {
                         Text(patient.name)
                     }
                 }
                 HStack {
                     Image(systemName: "plus")
-                    Text("Add new patient").onTapGesture {
+                    Text("Add new person").onTapGesture {
                         showPatientSheet.toggle()
                     }
                 }

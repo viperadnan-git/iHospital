@@ -22,7 +22,6 @@ struct VerifyView: View {
     var body: some View {
         VStack(spacing: 16) {
             Text("Email sent to ")
-                .font(.caption)
             + Text("\(user?.email ?? "Unknown")")
                 .foregroundColor(.blue)
             TextField("Enter OTP", text: $otp)
@@ -69,7 +68,7 @@ struct VerifyView: View {
     func onVerifyOtp() {
         guard let user = user else {return}
         
-        guard otp.count == 6 else {
+        guard otp.trimmed.count == 6 else {
             errorAlertMessage.message = "Please enter a valid 6-digit OTP."
             return
         }
@@ -82,13 +81,13 @@ struct VerifyView: View {
             }
             
             do {
-                let user = try await SupaUser.verify(user: user, otp: otp)
+                let user = try await SupaUser.verify(user: user, otp: otp.trimmed)
                 if let user {
                     print("User verified: \(user.email)")
                     SupaUser.shared = user
                     try await authViewModel.updateSupaUser()
                 } else {
-                    errorAlertMessage.message = "Invalid OTP."
+                    errorAlertMessage.message = "Invalid OTP"
                 }
             } catch {
                 errorAlertMessage.message = error.localizedDescription
@@ -105,6 +104,5 @@ struct VerifyView: View {
 
 
 #Preview {
-    @State var user:SupaUser? = SupaUser(id: UUID(), name: "Adnan", email: "adnan@mail.viperadnan.com", phoneNumber: 999)
-    return VerifyView(user: $user)
+    return VerifyView(user: .constant(SupaUser.sample))
 }

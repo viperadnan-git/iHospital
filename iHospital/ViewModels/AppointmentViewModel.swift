@@ -10,9 +10,13 @@ import Combine
 import Supabase
 
 class AppointmentViewModel: ObservableObject {
+    @Published var allAppointments: [Appointment] = []
     @Published var appointments: [Appointment] = []
     @Published var upcomingAppointments: [Appointment] = []
     @Published var pastAppointments: [Appointment] = []
+    
+    @Published var isLoading: Bool = false
+    
     @Published var selectedSegment: Segment = .upcoming
     @Published var filterText: String = ""
     @Published var sortOption: SortOption = .date
@@ -45,19 +49,22 @@ class AppointmentViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    @MainActor
     func fetchAppointments() async {
+        isLoading = true
+        defer { isLoading = false }
+        
         do {
             let fetchedAppointments = try await Appointment.fetchAllAppointments()
-            DispatchQueue.main.async {
+                self.allAppointments = fetchedAppointments
                 self.appointments = fetchedAppointments
-            }
         } catch {
             print("Error fetching appointments: \(error.localizedDescription)")
         }
     }
     
     private func applyFiltersAndSort(filterText: String, sortOption: SortOption) -> [Appointment] {
-        var filteredAppointments = appointments
+        var filteredAppointments = allAppointments
         
         if !filterText.isEmpty {
             filteredAppointments = appointments.filter { appointment in
@@ -71,9 +78,9 @@ class AppointmentViewModel: ObservableObject {
         case .date:
             filteredAppointments.sort { $0.date < $1.date }
         case .doctor:
-            filteredAppointments.sort { $0.doctor.userId.uuidString < $1.doctor.userId.uuidString }
+            filteredAppointments.sort { $0.doctor.name < $1.doctor.name }
         case .patient:
-            filteredAppointments.sort { $0.patient.userId.uuidString < $1.patient.userId.uuidString }
+            filteredAppointments.sort { $0.patient.name < $1.patient.name }
         case .status:
             filteredAppointments.sort { $0.appointmentStatus.rawValue < $1.appointmentStatus.rawValue }
         }

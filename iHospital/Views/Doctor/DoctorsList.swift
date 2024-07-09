@@ -2,7 +2,7 @@ import SwiftUI
 
 struct DoctorsList: View {
     var departmentId: UUID
-
+    
     @State private var doctors: [Doctor] = []
     @State private var isLoading = true
     @StateObject private var errorAlertMessage = ErrorAlertMessage()
@@ -21,11 +21,10 @@ struct DoctorsList: View {
                     DoctorRow(doctor: doctor)
                 }
             }
-        }.padding(.horizontal)
-            .onAppear {
-                fetchDoctors()
-            }
-            .errorAlert(errorAlertMessage: errorAlertMessage)
+        }
+        .padding(.horizontal)
+        .onAppear(perform: fetchDoctors)
+        .errorAlert(errorAlertMessage: errorAlertMessage)
     }
     
     private func fetchDoctors() {
@@ -35,9 +34,12 @@ struct DoctorsList: View {
             }
             
             do {
+                print("fetching doctors for depratment \(departmentId)")
                 let fetchedDoctors = try await Doctor.fetchDepartmentWise(departmentId: departmentId)
+                print(fetchedDoctors)
                 doctors = fetchedDoctors
             } catch {
+                print(error)
                 errorAlertMessage.title = "Error fetching doctors"
                 errorAlertMessage.message = error.localizedDescription
             }

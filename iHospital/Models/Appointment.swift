@@ -104,9 +104,12 @@ struct Appointment: Codable, Hashable {
     }
     
     static func fetchAllAppointments() async throws -> [Appointment] {
+        guard let user = SupaUser.shared else { return [] }
+        
         let response:[Appointment] = try await supabase
             .from(SupabaseTable.appointments.id)
             .select(supabaseSelectQuery)
+            .eq("user_id", value: user.id.uuidString)
             .execute()
             .value
         

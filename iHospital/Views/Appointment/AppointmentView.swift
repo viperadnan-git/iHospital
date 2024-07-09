@@ -22,7 +22,7 @@ struct AppointmentView: View {
                 .padding()
                 
                 HStack {
-                    TextField("Filter", text: $viewModel.filterText)
+                    TextField("Search by doctor, patient, status", text: $viewModel.filterText)
                         .withIcon("maginfyingglass")
                         .paddedTextFieldStyle()
                         .padding(.leading)
@@ -36,17 +36,25 @@ struct AppointmentView: View {
                     .padding(.horizontal)
                 }
                 
-                List {
-                    ForEach(viewModel.selectedSegment == .upcoming ? viewModel.upcomingAppointments : viewModel.pastAppointments, id: \.self) { appointment in
-                        VStack(alignment: .leading) {
-                            Text("Doctor: \(appointment.doctor.name)")
-                            Text("Patient: \(appointment.patient.name)")
-                            Text("Date: \(appointment.date, style: .date) at \(appointment.date, style: .time)")
-                            Text("Status: \(appointment.appointmentStatus.rawValue.capitalized)")
+                if viewModel.isLoading {
+                    ProgressView()
+                } else if viewModel.appointments.isEmpty {
+                    Text("No appointments found")
+                } else {
+                    List {
+                        ForEach(viewModel.selectedSegment == .upcoming ? viewModel.upcomingAppointments : viewModel.pastAppointments, id: \.self) { appointment in
+                            VStack(alignment: .leading) {
+                                Text("Doctor: \(appointment.doctor.name)")
+                                Text("Patient: \(appointment.patient.name)")
+                                Text("Date: \(appointment.date, style: .date) at \(appointment.date, style: .time)")
+                                Text("Status: \(appointment.appointmentStatus.rawValue.capitalized)")
+                            }
+                            .padding()
                         }
-                        .padding()
-                    }
-                }.listStyle(.plain)
+                    }.listStyle(.plain)
+                }
+                
+                Spacer()
             }
             .navigationTitle("Appointments")
             .onAppear {
