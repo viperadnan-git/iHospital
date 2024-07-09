@@ -26,6 +26,16 @@ struct EditPatientView: View {
     
     @State private var isSaving = false
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Can't update patient")
+    @FocusState private var focusedField: Field?
+    
+    enum Field {
+        case firstName
+        case lastName
+        case phoneNumber
+        case height
+        case weight
+        case address
+    }
     
     var body: some View {
         
@@ -34,8 +44,18 @@ struct EditPatientView: View {
                 Section(header: Text("Personal Information")) {
                     HStack {
                         TextField("First Name", text: $firstName)
+                            .focused($focusedField, equals: .firstName)
+                            .submitLabel(.next)
+                            .onSubmit {
+                                focusedField = .lastName
+                            }
                         Divider()
                         TextField("Last Name", text: $lastName)
+                            .focused($focusedField, equals: .lastName)
+                            .submitLabel(.next)
+                            .onSubmit {
+                                focusedField = .phoneNumber
+                            }
                     }
                     
                     Picker("Gender", selection: $gender) {
@@ -54,29 +74,58 @@ struct EditPatientView: View {
                     
                     TextField("Phone Number", text: $phoneNumber)
                         .keyboardType(.phonePad)
+                        .focused($focusedField, equals: .phoneNumber)
+                        .submitLabel(.next)
+                        .onSubmit {
+                            focusedField = .height
+                        }
                     
                     TextField("Height (cm)", text: $height)
                         .keyboardType(.decimalPad)
+                        .focused($focusedField, equals: .height)
+                        .submitLabel(.next)
+                        .onSubmit {
+                            focusedField = .weight
+                        }
+                    
                     TextField("Weight (kg)", text: $weight)
                         .keyboardType(.decimalPad)
+                        .focused($focusedField, equals: .weight)
+                        .submitLabel(.next)
+                        .onSubmit {
+                            focusedField = .address
+                        }
                 }
 
                 Section(header: Text("Address")) {
                     TextField("Address", text: $address)
+                        .focused($focusedField, equals: .address)
+                        .submitLabel(.done)
+                        .onSubmit {
+                            savePatient()
+                        }
                 }
             }
-        }.onAppear {
+        }
+        .onAppear {
             firstName = patient.firstName
             lastName = patient.lastName
             gender = patient.gender
             phoneNumber = "\(patient.phoneNumber)"
             bloodGroup = patient.bloodGroup
-            height = String(patient.height ?? 0)
-            weight = String(patient.weight ?? 0)
+            dateOfBirth = patient.dateOfBirth
             address = patient.address
+            
+            if let height = patient.height {
+                self.height = "\(height)"
+            }
+            
+            if let weight = patient.weight {
+                self.weight = "\(weight)"
+            }
         }
         .navigationTitle("Edit Details")
-        .navigationBarItems(trailing:  Button(action: {
+        .navigationBarItems(trailing: Button(action: {
             isSaving = true
             savePatient()
         }) {
@@ -86,6 +135,12 @@ struct EditPatientView: View {
                 Text("Save")
             }
         })
+        .errorAlert(errorAlertMessage: errorAlertMessage)
+        .onChange(of: isSaving) { newValue in
+            if newValue {
+                hideKeyboard()
+            }
+        }
     }
                             
     private func savePatient() {
@@ -94,13 +149,13 @@ struct EditPatientView: View {
             return
         }
         
-        guard firstName.isAlphabets else {
-            errorAlertMessage.message = "First name should contain only alphabets"
+        guard firstName.isAlphabets, firstName.count < 25 else {
+            errorAlertMessage.message = "First name must contain only alphabets and max 25 characters."
             return
         }
         
-        guard lastName.isAlphabetsAndSpaces else {
-            errorAlertMessage.message = "Last name should contain only alphabets and spaces"
+        guard lastName.isAlphabetsAndSpaces, lastName.count < 25 else {
+            errorAlertMessage.message = "Last name must contain only alphabets, spaces and max 25 characters."
             return
         }
         
@@ -114,12 +169,19 @@ struct EditPatientView: View {
             return
         }
         
-        patient.firstName = firstName
-        patient.lastName = lastName
+        if !address.trimmed.isEmpty {
+            guard 10 < address.count,  address.count < 100 else {
+                errorAlertMessage.message = "Address must be between 10 to 100 characters"
+                return
+            }
+        }
+        
+        patient.firstName = firstName.trimmed.capitalized
+        patient.lastName = lastName.trimmed.capitalized
         patient.phoneNumber = phoneNumber
         patient.bloodGroup = bloodGroup
         patient.dateOfBirth = dateOfBirth
-        patient.address = address
+        patient.address = address.trimmed
         
         Task {
             isSaving = true
@@ -134,4 +196,13 @@ struct EditPatientView: View {
             }
         }
     }
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
+
+#Preview {
+    EditPatientView(patient: Patient.sample)
+}
+

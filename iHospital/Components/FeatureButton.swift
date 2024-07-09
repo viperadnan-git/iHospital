@@ -101,7 +101,6 @@ struct FeatureButton: View {
                // .background(Color.white)
         }
         .frame(width: 130, height: 160)
-        .background(Color.white)
     }
     
 }

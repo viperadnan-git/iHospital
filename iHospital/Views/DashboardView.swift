@@ -25,11 +25,7 @@ struct DashboardView: View {
                      
                     
                     AppointmentCard(
-                        doctorName: "Dr. Alana Rueter",
-                        consultationType: "Dentist Consultation",
-                        appointmentDate: "Monday, 26 July",
-                        appointmentTime: "09:00 - 10:00",
-                        doctorImage: "doctor_image"
+                        appointment: Appointment.sample
                     )
                     
                     Text("Additional features")
@@ -37,7 +33,7 @@ struct DashboardView: View {
                         .fontWeight(.bold)
                     
                     GeometryReader { geometry in
-                        HStack(spacing: 20) {
+                        HStack(alignment: .top,spacing: 20) {
                             NavigationLink(destination: BedBookingView()) {
                                 FeatureButton(imageName: "Bed Booking", title: "Bed Booking")
                                     .frame(width: (geometry.size.width / 3) - 20)
@@ -51,6 +47,7 @@ struct DashboardView: View {
                                     .frame(width: (geometry.size.width / 3) - 20)
                             }
                         }
+                        .foregroundColor(Color(.label))
                     }
                     .frame(height: 150)
                 }
@@ -59,7 +56,7 @@ struct DashboardView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: ProfileView().environmentObject(patientViewModel)) {
-                        Image(systemName: "person.circle")
+                        Image(systemName: "person.crop.circle.fill")
                             .font(.title)
                     }
                 }

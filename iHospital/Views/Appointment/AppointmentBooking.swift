@@ -22,37 +22,38 @@ struct AppointmentBooking: View {
             if let doctor = booking.doctor, let bookingDate = booking.selectedSlot {
                 Form {
                     Section {
-                        Image(systemName: "person.circle.fill")
+                        Image(systemName: "person.crop.circle.fill")
                             .resizable()
+                            .scaledToFit()
                             .frame(width: 100, height: 100)
                             .clipShape(Circle())
                             .padding()
-                            .foregroundColor(.accent)
+                            .foregroundColor(Color(.systemGray))
                             .accessibility(label: Text("Doctor Profile Picture"))
                     }.frame(maxWidth: .infinity, alignment: .center)
                     
-                    Section(header: Text("Booking Information")) {
+                    Section(header: Text("Appointment Information")) {
                         HStack {
-                            Text("Doctor Name")
+                            Text("Doctor's Name")
                             Spacer()
                             Text(doctor.name)
                         }
                         
                         HStack {
-                            Text("Appointment Date")
+                            Text("Date")
                             Spacer()
                             Text("\(bookingDate, style: .date)")
                         }
                         
                         HStack {
-                            Text("Appointment Time")
+                            Text("Time")
                             Spacer()
                             Text("\(bookingDate, style: .time)")
                         }
                         
                         if let settings = doctor.settings {
                             HStack {
-                                Text("Appointment Fee")
+                                Text("Doctor's Fee")
                                 Spacer()
                                 Text(settings.fee.formatted(.currency(code: "INR")))
                             }

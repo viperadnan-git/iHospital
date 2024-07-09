@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddPatientView: View {
     @EnvironmentObject var patientViewModel: PatientViewModel
-
+    
     @Binding var showPatientSheet: Bool
     
     @State private var firstName: String = ""
@@ -23,18 +23,52 @@ struct AddPatientView: View {
     @State private var address: String = ""
     
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Can't add patient")
-
+    @FocusState private var focusedField: Field?
+    
+    @State private var firstNameError: String?
+    @State private var lastNameError: String?
+    @State private var phoneNumberError: String?
+    @State private var heightError: String?
+    @State private var weightError: String?
+    @State private var addressError: String?
+    
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    
+    enum Field {
+        case firstName
+        case lastName
+        case phoneNumber
+        case height
+        case weight
+        case address
+    }
+    
     let bloodGroups = BloodGroup.allCases
     let genders = Gender.allCases
-
+    
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Personal Information")) {
                     HStack {
-                        TextField("First Name", text: $firstName)
+                        VStack(alignment: .leading) {
+                            TextField("First Name", text: $firstName)
+                                .focused($focusedField, equals: .firstName)
+                                .submitLabel(.next)
+                                .onSubmit { focusedField = .lastName }
+                                .onChange(of: firstName) { _ in validateFirstName() }
+                                .overlay(validationIcon(for: firstNameError), alignment: .trailing)
+                        }
                         Divider()
-                        TextField("Last Name", text: $lastName)
+                        VStack(alignment: .leading) {
+                            TextField("Last Name", text: $lastName)
+                                .focused($focusedField, equals: .lastName)
+                                .submitLabel(.next)
+                                .onSubmit { focusedField = .phoneNumber }
+                                .onChange(of: lastName) { _ in validateLastName() }
+                                .overlay(validationIcon(for: lastNameError), alignment: .trailing)
+                        }
                     }
                     
                     Picker("Gender", selection: $gender) {
@@ -51,17 +85,45 @@ struct AddPatientView: View {
                     
                     DatePicker("Date of Birth", selection: $dateOfBirth, in: ...Date(), displayedComponents: .date)
                     
-                    TextField("Phone Number", text: $phoneNumber)
-                        .keyboardType(.phonePad)
-                    
-                    TextField("Height (cm)", text: $height)
-                        .keyboardType(.decimalPad)
-                    TextField("Weight (kg)", text: $weight)
-                        .keyboardType(.decimalPad)
+                    VStack(alignment: .leading) {
+                        TextField("Phone Number", text: $phoneNumber)
+                            .keyboardType(.phonePad)
+                            .focused($focusedField, equals: .phoneNumber)
+                            .submitLabel(.next)
+                            .onSubmit { focusedField = .height }
+                            .onChange(of: phoneNumber) { _ in validatePhoneNumber() }
+                            .overlay(validationIcon(for: phoneNumberError), alignment: .trailing)
+                    }
                 }
-
-                Section(header: Text("Address")) {
-                    TextField("Address", text: $address)
+                
+                Section(header: Text("Optional Information")) {
+                    VStack(alignment: .leading) {
+                        TextField("Height (cm)", text: $height)
+                            .keyboardType(.decimalPad)
+                            .focused($focusedField, equals: .height)
+                            .submitLabel(.next)
+                            .onSubmit { focusedField = .weight }
+                            .onChange(of: height) { _ in validateHeight() }
+                            .overlay(validationIcon(for: heightError), alignment: .trailing)
+                    }
+                    
+                    VStack(alignment: .leading) {
+                        TextField("Weight (kg)", text: $weight)
+                            .keyboardType(.decimalPad)
+                            .focused($focusedField, equals: .weight)
+                            .submitLabel(.next)
+                            .onSubmit { focusedField = .address }
+                            .onChange(of: weight) { _ in validateWeight() }
+                            .overlay(validationIcon(for: weightError), alignment: .trailing)
+                    }
+                    VStack(alignment: .leading) {
+                        TextField("Address", text: $address)
+                            .focused($focusedField, equals: .address)
+                            .submitLabel(.done)
+                            .onSubmit { onSave() }
+                            .onChange(of: address) { _ in validateAddress() }
+                            .overlay(validationIcon(for: addressError), alignment: .trailing)
+                    }
                 }
             }
             .navigationBarTitle("Add New Patient", displayMode: .inline)
@@ -73,49 +135,142 @@ struct AddPatientView: View {
                     }
                 }
             }
-        }.errorAlert(errorAlertMessage: errorAlertMessage)
+        }
+        .errorAlert(errorAlertMessage: errorAlertMessage)
+        .onChange(of: showPatientSheet) { newValue in
+            if !newValue {
+                hideKeyboard()
+            }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Validation Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")) {
+                showNextError()
+            })
+        }
     }
     
+    func validationIcon(for error: String?) -> some View {
+        Group {
+            if let error = error {
+                Button(action: {
+                    alertMessage = error
+                    showAlert.toggle()
+                }) {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .foregroundColor(.red)
+                }
+            }
+        }
+    }
+    
+    func validateFirstName() {
+        if firstName.isEmpty {
+            firstNameError = "First name is required."
+        } else if !firstName.isAlphabets {
+            firstNameError = "First name must contain only alphabets."
+        } else if firstName.count >= 25 {
+            firstNameError = "First name must be less than 25 characters."
+        } else {
+            firstNameError = nil
+        }
+    }
+    
+    func validateLastName() {
+        if lastName.isEmpty {
+            lastNameError = "Last name is required."
+        } else if !lastName.isAlphabetsAndSpaces {
+            lastNameError = "Last name must contain only alphabets and spaces."
+        } else if lastName.count >= 25 {
+            lastNameError = "Last name must be less than 25 characters."
+        } else {
+            lastNameError = nil
+        }
+    }
+    
+    func validatePhoneNumber() {
+        if phoneNumber.isEmpty {
+            phoneNumberError = "Phone number is required."
+        } else if !phoneNumber.isPhoneNumber {
+            phoneNumberError = "Phone number must be exactly 10 digits."
+        } else {
+            phoneNumberError = nil
+        }
+    }
+    
+    func validateHeight() {
+        if let heightValue = Double(height), heightValue > 0 {
+            heightError = nil
+        } else if height.isEmpty {
+            heightError = nil
+        } else {
+            heightError = "Height must be a positive number."
+        }
+    }
+    
+    func validateWeight() {
+        if let weightValue = Double(weight), weightValue > 0 {
+            weightError = nil
+        } else if weight.isEmpty {
+        } else {
+            weightError = "Weight must be a positive number."
+        }
+    }
+    
+    func validateAddress() {
+        if address.trimmed.isEmpty {
+            addressError = nil
+        } else if address.count < 10 || address.count > 100 {
+            addressError = "Address must be between 10 and 100 characters."
+        } else {
+            addressError = nil
+        }
+    }
+    
+    func showNextError() {
+        if let error = firstNameError ?? lastNameError ?? phoneNumberError ?? heightError ?? weightError ?? addressError {
+            alertMessage = error
+            showAlert.toggle()
+        }
+    }
     
     func onSave() {
-        guard !firstName.isEmpty, !lastName.isEmpty, !phoneNumber.isEmpty  else {
-            errorAlertMessage.message = "Please enter a valid name and phone number"
-            return
-        }
+        validateFirstName()
+        validateLastName()
+        validatePhoneNumber()
+        validateHeight()
+        validateWeight()
+        validateAddress()
         
-        guard firstName.isAlphabets else {
-            errorAlertMessage.message = "First name should contain only alphabets"
-            return
-        }
-        
-        guard lastName.isAlphabetsAndSpaces else {
-            errorAlertMessage.message = "Last name should contain only alphabets and spaces"
-            return
-        }
-        
-        guard phoneNumber.count == 10 else {
-            errorAlertMessage.message = "Please enter a valid 10-digit phone number"
+        guard firstNameError == nil,
+              lastNameError == nil,
+              phoneNumberError == nil,
+              heightError == nil,
+              weightError == nil,
+              addressError == nil,
+              !firstName.isEmpty,
+              !lastName.isEmpty,
+              !phoneNumber.isEmpty else {
+            showNextError()
             return
         }
         
         guard let phoneNumber = Int(phoneNumber) else {
-            errorAlertMessage.message = "Please enter a valid phone number"
+            errorAlertMessage.message = "Please enter a valid phone number."
             return
         }
-        
         
         Task {
             do {
                 try await patientViewModel.addPatient(
-                    firstName: firstName,
-                    lastName: lastName,
+                    firstName: firstName.trimmed.capitalized,
+                    lastName: lastName.trimmed.capitalized,
                     gender: gender,
                     phoneNumber: phoneNumber,
                     bloodGroup: bloodGroup,
                     dateOfBirth: dateOfBirth,
                     height: Double(height),
                     weight: Double(weight),
-                    address: address
+                    address: address.trimmed
                 )
                 self.showPatientSheet.toggle()
             } catch {
@@ -123,4 +278,12 @@ struct AddPatientView: View {
             }
         }
     }
+    
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
+#Preview {
+    AddPatientView(showPatientSheet: .constant(true))
 }

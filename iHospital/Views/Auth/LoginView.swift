@@ -12,11 +12,21 @@ struct LoginView: View {
     @State private var password: String = ""
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Login Error")
     @State private var isLoading: Bool = false
-    
+
     @EnvironmentObject private var authViewModel: AuthViewModel
-    
+
+    @FocusState private var focusedField: Field?
+
+    @State private var emailError: String?
+    @State private var passwordError: String?
+
+    enum Field {
+        case email
+        case password
+    }
+
     var body: some View {
-        NavigationView{
+        NavigationView {
             VStack {
                 Spacer()
                 
@@ -33,21 +43,61 @@ struct LoginView: View {
                 
                 Spacer()
                 
-                VStack(spacing: 16) {
-                    TextField("Email", text: $email)
-                        .autocapitalization(.none)
-                        .keyboardType(.emailAddress)
-                        .textContentType(.emailAddress)
-                        .paddedTextFieldStyle()
+                VStack(spacing: 4) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        TextField("Email", text: $email)
+                            .autocapitalization(.none)
+                            .keyboardType(.emailAddress)
+                            .textContentType(.emailAddress)
+                            .focused($focusedField, equals: .email)
+                            .submitLabel(.next)
+                            .onSubmit {
+                                validateEmail()
+                                focusedField = .password
+                            }
+                            .onChange(of: email) { _ in
+                                validateEmail()
+                            }
+                            .paddedTextFieldStyle()
+                        
+                        if let emailError = emailError {
+                            Text(emailError)
+                                .foregroundColor(.red)
+                                .font(.caption)
+                                .padding(.leading, 2)
+                        } else {
+                            Spacer().frame(height: 17)
+                        }
+                    }
                     
-                    
-                    SecureField("Password", text: $password)
-                        .paddedTextFieldStyle()
-                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        SecureField("Password", text: $password)
+                            .focused($focusedField, equals: .password)
+                            .submitLabel(.go)
+                            .onSubmit {
+                                validatePassword()
+                                onLogin()
+                            }
+                            .onChange(of: password) { _ in
+                                validatePassword()
+                            }
+                            .paddedTextFieldStyle()
+                        
+                        if let passwordError = passwordError {
+                            Text(passwordError)
+                                .foregroundColor(.red)
+                                .font(.caption)
+                                .padding(.leading, 2)
+                        } else {
+                            Spacer().frame(height: 17)
+                        }
+                    }
+
                     HStack {
                         Spacer()
                         Button(action: {
                             errorAlertMessage.message = "Forgot password action not implemented yet"
+                            focusedField = nil
                         }) {
                             Text("Forgot password?")
                         }
@@ -62,10 +112,10 @@ struct LoginView: View {
                              action: onLogin) {
                     Text("Sign In")
                 }
-                             .buttonStyle(.borderedProminent)
-                             .padding(.horizontal, 16)
-                             .padding(.bottom, 20)
-                             .foregroundColor(.white)
+                .buttonStyle(.borderedProminent)
+                .padding(.horizontal, 16)
+                .padding(.bottom, 20)
+                .foregroundColor(.white)
                 
                 HStack {
                     Text("Don't have an account?")
@@ -82,23 +132,42 @@ struct LoginView: View {
             .errorAlert(errorAlertMessage: errorAlertMessage)
         }
     }
-    
+
+    func validateEmail() {
+        if email.isEmpty {
+            emailError = "Email is required."
+        } else if !email.isEmail {
+            emailError = "Please enter a valid email address."
+        } else {
+            emailError = nil
+        }
+    }
+
+    func validatePassword() {
+        if password.isEmpty {
+            passwordError = "Password is required."
+        } else {
+            passwordError = nil
+        }
+    }
+
     func onLogin() {
-        guard !email.isEmpty, !password.isEmpty else {
-            errorAlertMessage.message = "Please enter email and password."
-            password = ""
+        validateEmail()
+        validatePassword()
+
+        guard emailError == nil, passwordError == nil else {
             return
         }
-        
-        
+
         Task {
+            focusedField = nil
             isLoading = true
             defer {
                 isLoading = false
             }
-            
+
             do {
-                if let user = try await SupaUser.login(email: email.trimmed, password: password) {
+                if let user = try await SupaUser.login(email: email.trimmed.lowercased(), password: password) {
                     print("User logged in: \(user.email)")
                     SupaUser.shared = user
                     try await authViewModel.updateSupaUser()

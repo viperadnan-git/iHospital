@@ -38,7 +38,7 @@ struct ProfileView: View {
             }
           
             
-            Section(header: Text("Your Family/Friends")) {
+            Section(header: Text("Your Family & Friends")) {
                 ForEach(patientViewModel.patients, id: \.id) { patient in
                     NavigationLink(destination: EditPatientView(patient: patient)) {
                         Text(patient.name)

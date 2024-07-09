@@ -5,8 +5,6 @@
 //  Created by Adnan Ahmad on 03/07/24.
 //
 
-import UIKit
-
 import SwiftUI
 
 struct VerifyView: View {
@@ -18,40 +16,49 @@ struct VerifyView: View {
     @EnvironmentObject private var authViewModel: AuthViewModel
     
     @State private var errorAlertMessage = ErrorAlertMessage(title: "Unable to Verify")
+    @FocusState private var focusedField: Field?
+    
+    enum Field {
+        case otp
+    }
     
     var body: some View {
         VStack(spacing: 16) {
             Text("Email sent to ")
             + Text("\(user?.email ?? "Unknown")")
                 .foregroundColor(.blue)
+            
             TextField("Enter OTP", text: $otp)
                 .keyboardType(.numberPad)
                 .textContentType(.oneTimeCode)
                 .paddedTextFieldStyle()
                 .multilineTextAlignment(.center)
+                .focused($focusedField, equals: .otp)
+                .submitLabel(.done)
+                .onSubmit {
+                    onVerifyOtp()
+                }
             
             LoaderButton(isLoading: $isLoading, action: onVerifyOtp) {
                 Text("Verify")
             }
             .buttonStyle(.borderedProminent)
         
-            
-            
             Button(action: onSendOtp, label: {
                 Text("Resend OTP")
-            }
-            )
+            })
             .disabled(sendingOtp)
         }
         .padding()
         .errorAlert(errorAlertMessage: errorAlertMessage)
         .task {
-           enableOtp()
+            enableOtp()
+            focusedField = .otp
         }
     }
     
     func onSendOtp() {
-        guard let user = user else {return}
+        guard let user = user else { return }
         
         sendingOtp = true
         Task {
@@ -66,13 +73,12 @@ struct VerifyView: View {
     }
     
     func onVerifyOtp() {
-        guard let user = user else {return}
+        guard let user = user else { return }
         
         guard otp.trimmed.count == 6 else {
             errorAlertMessage.message = "Please enter a valid 6-digit OTP."
             return
         }
-        
         
         Task {
             isLoading = true
@@ -81,10 +87,10 @@ struct VerifyView: View {
             }
             
             do {
-                let user = try await SupaUser.verify(user: user, otp: otp.trimmed)
-                if let user {
-                    print("User verified: \(user.email)")
-                    SupaUser.shared = user
+                let verifiedUser = try await SupaUser.verify(user: user, otp: otp.trimmed)
+                if let verifiedUser {
+                    print("User verified: \(verifiedUser.email)")
+                    SupaUser.shared = verifiedUser
                     try await authViewModel.updateSupaUser()
                 } else {
                     errorAlertMessage.message = "Invalid OTP"
@@ -101,7 +107,6 @@ struct VerifyView: View {
         }
     }
 }
-
 
 #Preview {
     return VerifyView(user: .constant(SupaUser.sample))

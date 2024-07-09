@@ -8,60 +8,54 @@
 import SwiftUI
 
 struct AppointmentCard: View {
-    var doctorName: String
-    var consultationType: String
-    var appointmentDate: String
-    var appointmentTime: String
-    var doctorImage: String
-
+    var appointment: Appointment
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Image(doctorImage)
+                Image("DoctorImage")
                     .resizable()
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                    .padding(.trailing, 10)
+                    .scaledToFit()
+                    .frame(height: 48)
+                    .padding(.trailing, 4)
                 
                 VStack(alignment: .leading) {
-                    Text(doctorName)
-                        .font(.title2)
-                        .bold()
-                        .foregroundColor(.white)
-                    Text(consultationType)
+                    Text(appointment.doctor.name)
+                        .font(.title3)
+                    Text(String(appointment.doctor.experienceSince.yearsSince) + " years of experience")
                         .font(.subheadline)
-                        .foregroundColor(.white)
+                        .foregroundColor(.gray)
                 }
                 Spacer()
+                Text((appointment.doctor.settings?.fee ?? 799).formatted(.currency(code: "INR"))).font(.title3)
             }
-            .padding()
-            
+           
+
+            HStack {
+                Image(systemName: "person")
+                    .foregroundColor(.accentColor)
+                Text(appointment.patient.name)
+            }
             HStack {
                 Image(systemName: "calendar")
-                    .foregroundColor(.white)
-                Text(appointmentDate)
-                    .foregroundColor(.white)
-                Spacer()
-                Image(systemName: "clock")
-                    .foregroundColor(.white)
-                Text(appointmentTime)
-                    .foregroundColor(.white)
-            }.bold()
-            .padding([.horizontal, .bottom])
-            .background(Color.accentColor)
-            .cornerRadius(10)
+                    .foregroundColor(.accentColor)
+                Text("\(appointment.date, style: .date) at \(appointment.date, style: .time)")
+            }
+            HStack {
+                Image(systemName: "info.square.fill")
+                    .foregroundColor(.accentColor)
+                Text(appointment.appointmentStatus.rawValue.capitalized)
+            }
         }
-        .background(Color.accentColor)
-        .cornerRadius(10)
+        .padding()
+        .background(Color(.secondarySystemBackground))
+        .cornerRadius(8)
+        .frame(maxWidth: .infinity)
     }
 }
 
 #Preview {
     AppointmentCard(
-        doctorName: "Dr. Alana Rueter",
-        consultationType: "Dentist Consultation",
-        appointmentDate: "Monday, 26 July",
-        appointmentTime: "09:00 - 10:00",
-        doctorImage: "doctor_image"
+        appointment: Appointment.sample
     )
 }
