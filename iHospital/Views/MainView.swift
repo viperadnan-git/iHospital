@@ -23,6 +23,11 @@ struct MainView: View {
                 .tabItem {
                     Label("Appointment", systemImage: selection == 1 ? "calendar.circle.fill" : "calendar.circle")
                 }
+            LabTestView()
+                .tabItem {
+                    Label("Lab Test", systemImage: selection == 1 ? "flask.fill" : "flask")
+                }
+            
         }.environmentObject(patientViewModel)
     }
 }
