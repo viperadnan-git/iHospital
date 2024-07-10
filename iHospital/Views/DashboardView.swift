@@ -15,9 +15,39 @@ struct DashboardView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    NavigationLink(destination: AppointmentBrowseView()) {
-                        Image("BannerImage").resizable().aspectRatio(contentMode: .fit)
-                    }
+                        HStack{
+                            VStack{
+                                Text("Need an Appointment")
+                                    .multilineTextAlignment(.leading)
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color(uiColor: .label))
+                                
+                                Spacer()
+                                NavigationLink(destination: AppointmentBrowseView()){
+                                    
+                                        Text("Book Now")
+                                            .font(.headline)
+                                            .foregroundColor(Color(uiColor: .label))
+                                            .padding()
+                                    
+                                    .background(Color.accentColor)
+                                    .cornerRadius(8)
+                                }
+                              
+                                Spacer()
+                            }
+                            .frame(alignment: .leading)
+                            .padding()
+                            
+                            Image("Online doctor").resizable().aspectRatio(contentMode: .fit)
+                                .scaledToFit()
+                        }
+                        .background(Color(uiColor: .systemGray6))
+                        .cornerRadius(8)
+                        
+                        
+                    
                     
                     Text("Next Appointment")
                         .font(.title3)
@@ -35,17 +65,42 @@ struct DashboardView: View {
                     GeometryReader { geometry in
                         HStack(alignment: .top,spacing: 20) {
                             NavigationLink(destination: BedBookingView()) {
-                                FeatureButton(imageName: "Bed Booking", title: "Bed Booking")
-                                    .frame(width: (geometry.size.width / 3) - 20)
-                            }
-                            NavigationLink(destination: Text("All Appointments")) {
-                                FeatureButton(imageName: "Appointments", title: "Appointment")
-                                    .frame(width: (geometry.size.width / 3) - 20)
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color(uiColor: .systemGray6))
+                                    VStack {
+                                        Image(systemName: "bed.double.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .foregroundColor(.blue)
+                                        Spacer()
+                                        
+                                        Text("Bed Booking")
+                                            .font(.headline)
+                                    }
+                                    .padding()
+                                }
+                                .frame(width: 170, height: 100)
                             }
                             NavigationLink(destination: MedicalInformationView()) {
-                                FeatureButton(imageName: "Medical information", title: "Medical Information")
-                                    .frame(width: (geometry.size.width / 3) - 20)
-                            }
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .fill(Color(uiColor: .systemGray6))
+                                    VStack {
+                                        Image(systemName: "bed.double.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .foregroundColor(.blue)
+                                        Spacer()
+                                        
+                                        Text("Bed Booking")
+                                            .font(.headline)
+                                    }
+                                    .padding()
+                                }
+                                .frame(width: 170, height: 100)
+                             }
+                            
                         }
                         .foregroundColor(Color(.label))
                     }
