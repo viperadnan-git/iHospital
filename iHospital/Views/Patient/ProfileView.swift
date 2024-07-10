@@ -39,8 +39,9 @@ struct ProfileView: View {
           
             
             Section(header: Text("Your Family & Friends")) {
+                // TODO: remove this
                 ForEach(patientViewModel.patients, id: \.id) { patient in
-                    NavigationLink(destination: EditPatientView(patient: patient)) {
+                    NavigationLink(destination: PatientInfoView(patientId: patient.id)) {
                         Text(patient.name)
                     }
                 }

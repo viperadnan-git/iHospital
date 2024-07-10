@@ -13,7 +13,7 @@ class Patient: Codable, Hashable {
     let userId: UUID
     var firstName: String
     var lastName: String
-    let gender: Gender
+    var gender: Gender
     var phoneNumber: Int
     var bloodGroup: BloodGroup
     var dateOfBirth: Date
@@ -159,6 +159,7 @@ class Patient: Codable, Hashable {
         var dataToUpdate: [String: String] = [
             "first_name": firstName,
             "last_name": lastName,
+            "gender": gender.id,
             "phone_number": String(phoneNumber),
             "blood_group": bloodGroup.rawValue,
             "date_of_birth": Date.dateFormatter.string(from: dateOfBirth),

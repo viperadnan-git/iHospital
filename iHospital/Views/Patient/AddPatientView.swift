@@ -10,6 +10,7 @@ import SwiftUI
 struct AddPatientView: View {
     @EnvironmentObject var patientViewModel: PatientViewModel
     
+    var patient: Patient? = nil
     @Binding var showPatientSheet: Bool
     
     @State private var firstName: String = ""
@@ -125,27 +126,26 @@ struct AddPatientView: View {
                             .overlay(validationIcon(for: addressError), alignment: .trailing)
                     }
                 }
-            }
-            .navigationBarTitle("Add New Patient", displayMode: .inline)
-            .navigationBarItems(trailing: Button("Done", action: onSave))
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        showPatientSheet.toggle()
+            }.navigationBarTitle("\(patient == nil ? "Add New":"Edit") Patient", displayMode: .inline)
+                .navigationBarItems(trailing: Button((patient != nil) ? "Save" : "Done", action: onSave))
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") {
+                            showPatientSheet.toggle()
+                        }
                     }
                 }
-            }
-        }
-        .errorAlert(errorAlertMessage: errorAlertMessage)
-        .onChange(of: showPatientSheet) { newValue in
-            if !newValue {
-                hideKeyboard()
-            }
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text("Validation Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")) {
-                showNextError()
-            })
+                .errorAlert(errorAlertMessage: errorAlertMessage)
+                .onChange(of: showPatientSheet) { newValue in
+                    if !newValue {
+                        hideKeyboard()
+                    }
+                }
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Validation Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")) {
+                        showNextError()
+                    })
+                }.onAppear(perform: onAppear)
         }
     }
     
@@ -233,6 +233,20 @@ struct AddPatientView: View {
         }
     }
     
+    func onAppear() {
+        if let patient = patient {
+            firstName = patient.firstName
+            lastName = patient.lastName
+            gender = patient.gender
+            bloodGroup = patient.bloodGroup
+            dateOfBirth = patient.dateOfBirth
+            phoneNumber = patient.phoneNumber.string
+            height = patient.height?.string ?? ""
+            weight = patient.weight?.string ?? ""
+            address = patient.address
+        }
+    }
+    
     func onSave() {
         validateFirstName()
         validateLastName()
@@ -261,17 +275,30 @@ struct AddPatientView: View {
         
         Task {
             do {
-                try await patientViewModel.addPatient(
-                    firstName: firstName.trimmed.capitalized,
-                    lastName: lastName.trimmed.capitalized,
-                    gender: gender,
-                    phoneNumber: phoneNumber,
-                    bloodGroup: bloodGroup,
-                    dateOfBirth: dateOfBirth,
-                    height: Double(height),
-                    weight: Double(weight),
-                    address: address.trimmed
-                )
+                if let patient = patient {
+                    patient.firstName = firstName.trimmed.capitalized
+                    patient.lastName = lastName.trimmed.capitalized
+                    patient.gender = gender
+                    patient.phoneNumber = phoneNumber
+                    patient.bloodGroup = bloodGroup
+                    patient.dateOfBirth = dateOfBirth
+                    patient.address = address.trimmed
+                    
+                    try await patientViewModel.save(patient: patient)
+                } else {
+                    try await patientViewModel.addPatient(
+                        firstName: firstName.trimmed.capitalized,
+                        lastName: lastName.trimmed.capitalized,
+                        gender: gender,
+                        phoneNumber: phoneNumber,
+                        bloodGroup: bloodGroup,
+                        dateOfBirth: dateOfBirth,
+                        height: Double(height),
+                        weight: Double(weight),
+                        address: address.trimmed
+                    )
+                }
+                
                 self.showPatientSheet.toggle()
             } catch {
                 errorAlertMessage.message = error.localizedDescription
