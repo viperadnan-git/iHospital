@@ -10,36 +10,43 @@ import SwiftUI
 struct AppointmentDetailView: View {
     let appointment: Appointment
     
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     var body: some View {
         VStack {
-            Text("Appointment Details")
-                .font(.largeTitle)
+            Spacer()
+            
+            Image(systemName: "checkmark.seal.fill")
+                .foregroundStyle(.green)
+                .font(.system(size: 100))
+
+            Text("Appointment Confirmed")
+                .font(.title)
+                .fontWeight(.bold)
                 .padding()
             
-            Text("Doctor: \(appointment.doctor.name)")
-                .font(.title2)
+            Text("\(appointment.patient.firstName)'s appointment with \(appointment.doctor.name) has been confirmed for \(appointment.date, style: .date) at \(appointment.date, style: .time).")
+                .multilineTextAlignment(.center)
                 .padding()
-            
-            Text("Patient: \(appointment.patient.name)")
-                .font(.title2)
-                .padding()
-            
-            Text("Date: \(appointment.date, style: .date) at \(appointment.date, style: .time)")
-                .font(.title2)
-                .padding()
-            
-            Text("Payment Status: \(appointment.paymentStatus.rawValue.capitalized)")
-                .font(.title2)
-                .padding()
-            
-            Text("Appointment Status: \(appointment.appointmentStatus.rawValue)")
-                .font(.title2)
-                .padding()
+
             
             Spacer()
+            
+            Button(action: {
+                // Dismiss the view to go back to home
+                self.presentationMode.wrappedValue.dismiss()
+            }) {
+                Text("Done")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.accentColor)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }.padding()
         }
         .navigationTitle("Appointment Details")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
     }
 }
 

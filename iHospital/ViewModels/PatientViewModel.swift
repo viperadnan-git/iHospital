@@ -37,6 +37,9 @@ class PatientViewModel: ObservableObject {
                 }
             } catch {
                 print("Failed to fetch patients: \(error.localizedDescription)")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.fetchPatients()
+                }
             }
         }
     }

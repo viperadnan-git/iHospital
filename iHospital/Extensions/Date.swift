@@ -42,10 +42,15 @@ extension Date {
         return calendar.date(bySettingHour: adjustedHour, minute: adjustedMinutes, second: 0, of: self) ?? self
     }
     
-    var yearsSince: Int {
+    var yearsSinceString: String {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year], from: self, to: Date())
-        return components.year ?? 0
+    
+        guard let years = components.year, years > 0 else {
+            return "Recently joined"
+        }
+        
+        return "\(years) year\(years > 1 ? "s" : "")"
     }
     
     var dateString: String {

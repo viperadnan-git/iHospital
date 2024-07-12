@@ -8,7 +8,7 @@ struct DoctorsList: View {
     @StateObject private var errorAlertMessage = ErrorAlertMessage()
     
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             if isLoading {
                 ProgressView()
                     .padding()
@@ -22,7 +22,6 @@ struct DoctorsList: View {
                 }
             }
         }
-        .padding(.horizontal)
         .onAppear(perform: fetchDoctors)
         .errorAlert(errorAlertMessage: errorAlertMessage)
     }
@@ -36,7 +35,6 @@ struct DoctorsList: View {
             do {
                 print("fetching doctors for depratment \(departmentId)")
                 let fetchedDoctors = try await Doctor.fetchDepartmentWise(departmentId: departmentId)
-                print(fetchedDoctors)
                 doctors = fetchedDoctors
             } catch {
                 print(error)

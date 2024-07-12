@@ -22,7 +22,7 @@ struct AppointmentCard: View {
                 VStack(alignment: .leading) {
                     Text(appointment.doctor.name)
                         .font(.title3)
-                    Text(String(appointment.doctor.experienceSince.yearsSince) + " years of experience")
+                    Text(appointment.doctor.experienceSince.yearsSinceString)
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }

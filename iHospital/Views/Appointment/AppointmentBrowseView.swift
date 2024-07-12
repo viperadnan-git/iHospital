@@ -24,17 +24,18 @@ struct AppointmentBrowseView: View {
                 Divider()
                 
                 HStack {
-                    Picker("Departments", selection: $selectedDepartment) {
+                    Menu {
                         ForEach(departments, id: \.id) { department in
-                            Text(department.name).tag(department as Department?)
+                            Button(action: {
+                                selectedSearchResult = nil
+                                selectedDepartment = department
+                            }) {
+                                Text(department.name)
+                            }
                         }
+                    } label: {
+                        Label(selectedDepartment?.name ?? "Department", systemImage: "building.2.crop.circle.fill")
                     }
-                    .pickerStyle(MenuPickerStyle())
-                    .onChange(of: selectedDepartment) { department in
-                        selectedSearchResult = nil
-                        selectedDepartment = department
-                    }
-                    
                     Spacer()
                     
                     Button(action: {
@@ -51,8 +52,7 @@ struct AppointmentBrowseView: View {
                     switch selectedSearchResult.type {
                     case .doctor:
                         if case .doctor(let doctor) = selectedSearchResult.item {
-                            DoctorRow(doctor: doctor).environmentObject(booking)
-                                .padding(.horizontal)
+                            DoctorRow(doctor: doctor, expanded: true).environmentObject(booking)
                         }
                     case .department:
                         if case .department(let department) = selectedSearchResult.item {
@@ -61,6 +61,7 @@ struct AppointmentBrowseView: View {
                     }
                 } else if let selectedDepartment = selectedDepartment {
                     DoctorsList(departmentId: selectedDepartment.id).environmentObject(booking)
+                        .id(selectedDepartment.id)
                 } else {
                     VStack {
                         Text("Select a department or use search to find doctors")

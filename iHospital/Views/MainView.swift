@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
-    @StateObject var patientViewModel = PatientViewModel()
+    @StateObject private var patientViewModel = PatientViewModel()
+    @StateObject private var authViewModel = AuthViewModel()
     @State private var selection = 0
     
     var body: some View {
@@ -17,18 +18,20 @@ struct MainView: View {
                 .tabItem {
                     Label("Home", systemImage: selection == 0 ? "house.fill" : "house")
                 }
-            
-            
+                .tag(0)
             AppointmentView()
                 .tabItem {
                     Label("Appointment", systemImage: selection == 1 ? "calendar.circle.fill" : "calendar.circle")
                 }
+                .tag(1)
             LabTestView()
                 .tabItem {
-                    Label("Lab Test", systemImage: selection == 1 ? "flask.fill" : "flask")
+                    Label("Lab Test", systemImage: selection == 2 ? "flask.fill" : "flask")
                 }
-            
-        }.environmentObject(patientViewModel)
+                .tag(2)
+        }
+        .environmentObject(authViewModel)
+        .environmentObject(patientViewModel)
     }
 }
 
