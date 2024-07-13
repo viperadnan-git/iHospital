@@ -56,6 +56,7 @@
 		32AF569B2C354A4D002E599F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AF569A2C354A4D002E599F /* Constants.swift */; };
 		32AF569E2C354A9E002E599F /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 32AF569D2C354A9E002E599F /* Auth */; };
 		32AF56A02C354A9E002E599F /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 32AF569F2C354A9E002E599F /* Storage */; };
+		EF86A6C92C428EEB0016ED22 /* RescheduleAppointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86A6C82C428EEB0016ED22 /* RescheduleAppointment.swift */; };
 		F54B32562C3E5602000EE679 /* LabTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54B32552C3E5602000EE679 /* LabTestView.swift */; };
 		F54B32582C3E69CF000EE679 /* LabStatusCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54B32572C3E69CF000EE679 /* LabStatusCard.swift */; };
 		F54B325A2C3E74CD000EE679 /* LabResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54B32592C3E74CD000EE679 /* LabResultView.swift */; };
@@ -113,6 +114,7 @@
 		32AF56952C354839002E599F /* VerifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyView.swift; sourceTree = "<group>"; };
 		32AF56982C354973002E599F /* Supabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supabase.swift; sourceTree = "<group>"; };
 		32AF569A2C354A4D002E599F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		EF86A6C82C428EEB0016ED22 /* RescheduleAppointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RescheduleAppointment.swift; sourceTree = "<group>"; };
 		F54B32552C3E5602000EE679 /* LabTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestView.swift; sourceTree = "<group>"; };
 		F54B32572C3E69CF000EE679 /* LabStatusCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabStatusCard.swift; sourceTree = "<group>"; };
 		F54B32592C3E74CD000EE679 /* LabResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabResultView.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 				F554F8AE2C36A6F100253D64 /* MedicalInformationView.swift */,
 				F554F8B42C37151000253D64 /* AppointmentScheduleView.swift */,
 				F54B32592C3E74CD000EE679 /* LabResultView.swift */,
+				EF86A6C82C428EEB0016ED22 /* RescheduleAppointment.swift */,
 				F54B32552C3E5602000EE679 /* LabTestView.swift */,
 			);
 			path = Views;
@@ -423,6 +426,7 @@
 				3213A8742C3BF0FF00509BCB /* String.swift in Sources */,
 				324C9CA42C354D9600712E84 /* Gender.swift in Sources */,
 				324C9CE62C35625D00712E84 /* AuthView.swift in Sources */,
+				EF86A6C92C428EEB0016ED22 /* RescheduleAppointment.swift in Sources */,
 				328409812C37E8A500473841 /* AppointmentCard.swift in Sources */,
 				324C9CA62C354DA800712E84 /* SupaUser.swift in Sources */,
 				325D0B9C2C39EA5800728445 /* AppointmentBooking.swift in Sources */,
