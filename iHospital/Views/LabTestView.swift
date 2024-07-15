@@ -22,18 +22,19 @@ struct LabTestView: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    // Displaying LabStatusCard four times
+                   
                     ForEach(0..<4) { index in
                         LabStatusCard(pdfName: "sample") {
                             selectedPDFName = "sample"
                             isShowingLabResult = true
                         }
-                        .padding(.bottom, 10)
+                        .padding(.bottom, 2)
                     }
                 }
                 .padding()
             }
             .navigationTitle("Lab Records")
+            .padding(.top,1)
             .navigationDestination(isPresented: $isShowingLabResult) {
                 if let pdfName = selectedPDFName {
                     LabResultView(pdfName: pdfName)

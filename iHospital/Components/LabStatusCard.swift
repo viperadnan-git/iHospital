@@ -1,10 +1,3 @@
-//
-//  LabStatusCard.swift
-//  iHospital
-//
-//  Created by Shoaib Akhtar on 10/07/24.
-//
-
 import SwiftUI
 
 struct LabStatusCard: View {
@@ -12,12 +5,33 @@ struct LabStatusCard: View {
     let onTap: () -> Void
     
     var body: some View {
-        ZStack {
+        ZStack(alignment : .leading) {
             Rectangle()
                 .frame(width: 370, height: 150)
                 .cornerRadius(15)
-                .foregroundColor(Color.gray)
-            Text("Lab Result Card")
+                .foregroundColor(Color(.secondarySystemBackground))
+            VStack(alignment: .leading, spacing: 5) {
+                HStack{
+                    Image(systemName: "testtube.2").foregroundColor(.accentColor)
+                    Text("Blood Test").font(.system(size: 20)).bold()
+                }
+                HStack{
+                    Image(systemName: "person")
+                    .foregroundColor(.accentColor)
+                    Text("John Doe")
+                }
+                HStack{
+                    Image(systemName: "calendar")
+                        .foregroundColor(.accentColor)
+                    Text("15th July,2024")
+                }
+                HStack{
+                    Image(systemName: "clock.arrow.circlepath").foregroundColor(.accentColor)
+                    Text("Pending")
+                }
+            }
+            .padding()
+            .foregroundColor(.black)
         }
         .onTapGesture {
             onTap()
@@ -28,43 +42,3 @@ struct LabStatusCard: View {
 #Preview {
     LabStatusCard(pdfName: "sample") {}
 }
-
-
-//VStack(alignment: .leading) {
-//    HStack {
-//        Image("DoctorImage")
-//            .resizable()
-//            .scaledToFit()
-//            .frame(height: 48)
-//            .padding(.trailing, 4)
-//
-//        VStack(alignment: .leading) {
-//            Text("Doctor Name")
-//                .font(.title3)
-//            Text("2 years of experience")
-//                .font(.subheadline)
-//                .foregroundColor(.gray)
-//        }
-//    }
-//
-//    HStack {
-//        Image(systemName: "person")
-//            .foregroundColor(.accentColor)
-//        Text("Patient Name")
-//    }
-//    HStack {
-//        Image(systemName: "calendar")
-//            .foregroundColor(.accentColor)
-//        Text("10 July 2024 at 12:34 PM")
-//    }
-//    HStack {
-//        Image(systemName: "flask")
-//            .foregroundColor(.accentColor)
-//        Text("Result Status")
-//    }
-//}
-//.padding()
-//.background(Color(.secondarySystemBackground))
-//.cornerRadius(8)
-//.frame(maxWidth: .infinity)
-//.padding(.horizontal)
