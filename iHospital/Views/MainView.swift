@@ -21,7 +21,7 @@ struct MainView: View {
                 .tag(0)
             AppointmentView()
                 .tabItem {
-                    Label("Appointment", systemImage: selection == 1 ? "calendar.circle.fill" : "calendar.circle")
+                    Label("Appointment", systemImage: selection == 1 ? "calendar" : "calendar")
                 }
                 .tag(1)
             LabTestView()
