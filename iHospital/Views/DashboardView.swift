@@ -10,38 +10,42 @@ import SwiftUI
 struct DashboardView: View {
     @EnvironmentObject private var patientViewModel: PatientViewModel
     @EnvironmentObject private var authViewModel: AuthViewModel
-
+    
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("Need an Appointment")
-                                .multilineTextAlignment(.leading)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            
-                            Spacer()
-                            NavigationLink(destination: AppointmentBrowseView()) {
-                                Text("Book Now")
-                                    .padding(12)
-                                    .foregroundColor(.white)
-                                    .background(Color.accentColor)
-                                    .cornerRadius(8)
-                            }
-                        }
-                        .frame(alignment: .leading)
-                        .padding()
-                        
-                        Image("Online doctor")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .scaledToFit()
-                    }
-                    .background(Color(uiColor: .systemGray6))
-                    .cornerRadius(8)
                     
+                    NavigationLink(destination: AppointmentBrowseView()) {
+                        HStack {
+                            
+                            VStack(alignment: .leading) {
+                                Text("Need an Appointment")
+                                    .multilineTextAlignment(.leading)
+                                    .font(.title2)
+                                    .foregroundColor(.black)
+                                    .fontWeight(.bold)
+                                
+                                Spacer()
+                                NavigationLink(destination: AppointmentBrowseView()) {
+                                    Text("Book Now")
+                                        .padding(12)
+                                        .foregroundColor(.white)
+                                        .background(Color.accentColor)
+                                        .cornerRadius(8)
+                                }
+                            }
+                            .frame(alignment: .leading)
+                            .padding()
+                            
+                            Image("Online doctor")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .scaledToFit()
+                        }
+                        .background(Color(uiColor: .systemGray6))
+                        .cornerRadius(8)
+                    }
                     Text("Next Appointment")
                         .font(.title3)
                         .fontWeight(.bold)

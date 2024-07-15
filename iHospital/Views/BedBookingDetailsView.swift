@@ -15,7 +15,7 @@ struct BedBookingDetailsView: View {
     @State private var selectedRoom: Room?
     @State private var showAlert = false
     @Environment(\.presentationMode) var presentationMode
-
+    
     let wards = ["General Medical Ward", "Intensive Care Unit (ICU)", "Neonatal Intensive Care Unit (NICU)", "Emergency Ward", "Pediatric Ward", "Maternity Ward"]
     let bedTypes = ["Neonatal Bed/Incubator", "Standard Hospital Bed", "Vip Bed"]
     // Modify the rooms array to use the Room struct
@@ -26,8 +26,9 @@ struct BedBookingDetailsView: View {
         Room(number: 102, bed: 14), Room(number: 103, bed: 2),
         Room(number: 103, bed: 3), Room(number: 103, bed: 8)
     ]
-
+    
     var body: some View {
+        ScrollView {
             VStack(spacing: 16) {
                 HorizontalCalenderView(selectedDate: $selectedDate)
                     .padding(.top, 16)
@@ -53,7 +54,7 @@ struct BedBookingDetailsView: View {
                             }
                         }
                     }
-
+                    
                     HStack {
                         Text("Select bed type")
                         Spacer()
@@ -76,7 +77,7 @@ struct BedBookingDetailsView: View {
                     }
                 }
                 .padding()
-
+                
                 Text("Available Beds")
                     .font(.headline)
                     .padding(.trailing, 250)
@@ -95,7 +96,7 @@ struct BedBookingDetailsView: View {
                     }
                 }
                 .padding([.leading, .trailing])
-
+                
                 Spacer()
                 
                 Text("Proceed")
@@ -124,10 +125,11 @@ struct BedBookingDetailsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 setInitialDateToJuly2024()
-            
+                
+            }
         }
     }
-
+    
     private func setInitialDateToJuly2024() {
         var dateComponents = DateComponents()
         dateComponents.year = 2024

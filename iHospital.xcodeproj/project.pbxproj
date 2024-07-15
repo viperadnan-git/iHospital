@@ -60,6 +60,7 @@
 		EF86A6CB2C4443550016ED22 /* BookedBedsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86A6CA2C4443550016ED22 /* BookedBedsCard.swift */; };
 		EF86A6CD2C4443690016ED22 /* BedBillingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86A6CC2C4443690016ED22 /* BedBillingPage.swift */; };
 		EF86A6CF2C44469B0016ED22 /* BedBookingDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86A6CE2C44469B0016ED22 /* BedBookingDetailsView.swift */; };
+		F538067F2C44DBE3006C6F0F /* sample.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F538067E2C44DBE3006C6F0F /* sample.pdf */; };
 		F54B32562C3E5602000EE679 /* LabTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54B32552C3E5602000EE679 /* LabTestView.swift */; };
 		F54B32582C3E69CF000EE679 /* LabStatusCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54B32572C3E69CF000EE679 /* LabStatusCard.swift */; };
 		F54B325A2C3E74CD000EE679 /* LabResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54B32592C3E74CD000EE679 /* LabResultView.swift */; };
@@ -121,6 +122,7 @@
 		EF86A6CA2C4443550016ED22 /* BookedBedsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedBedsCard.swift; sourceTree = "<group>"; };
 		EF86A6CC2C4443690016ED22 /* BedBillingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedBillingPage.swift; sourceTree = "<group>"; };
 		EF86A6CE2C44469B0016ED22 /* BedBookingDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedBookingDetailsView.swift; sourceTree = "<group>"; };
+		F538067E2C44DBE3006C6F0F /* sample.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = sample.pdf; sourceTree = "<group>"; };
 		F54B32552C3E5602000EE679 /* LabTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestView.swift; sourceTree = "<group>"; };
 		F54B32572C3E69CF000EE679 /* LabStatusCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabStatusCard.swift; sourceTree = "<group>"; };
 		F54B32592C3E74CD000EE679 /* LabResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabResultView.swift; sourceTree = "<group>"; };
@@ -303,12 +305,13 @@
 				328409872C37FE1300473841 /* Auth */,
 				32AF56842C354541002E599F /* MainView.swift */,
 				324C9CE92C35AEAD00712E84 /* DashboardView.swift */,
-				F554F8AC2C36A44E00253D64 /* BedBookingView.swift */,
 				F554F8AE2C36A6F100253D64 /* MedicalInformationView.swift */,
 				F554F8B42C37151000253D64 /* AppointmentScheduleView.swift */,
 				F54B32592C3E74CD000EE679 /* LabResultView.swift */,
 				EF86A6C82C428EEB0016ED22 /* RescheduleAppointment.swift */,
+				F554F8AC2C36A44E00253D64 /* BedBookingView.swift */,
 				EF86A6CE2C44469B0016ED22 /* BedBookingDetailsView.swift */,
+				F538067E2C44DBE3006C6F0F /* sample.pdf */,
 				F54B32552C3E5602000EE679 /* LabTestView.swift */,
 			);
 			path = Views;
@@ -392,6 +395,7 @@
 			files = (
 				32AF568A2C354543002E599F /* Preview Assets.xcassets in Resources */,
 				32AF56872C354543002E599F /* Assets.xcassets in Resources */,
+				F538067F2C44DBE3006C6F0F /* sample.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
