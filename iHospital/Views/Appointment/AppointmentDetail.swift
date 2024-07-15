@@ -10,7 +10,7 @@ import SwiftUI
 struct AppointmentDetailView: View {
     let appointment: Appointment
     
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.navigation) private var navigation
     
     var body: some View {
         VStack {
@@ -34,7 +34,7 @@ struct AppointmentDetailView: View {
             
             Button(action: {
                 // Dismiss the view to go back to home
-                self.presentationMode.wrappedValue.dismiss()
+                navigation.path = NavigationPath()
             }) {
                 Text("Done")
                     .padding()

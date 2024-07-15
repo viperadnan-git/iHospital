@@ -11,7 +11,7 @@ struct AppointmentBooking: View {
     @EnvironmentObject var booking: BookingViewModel
     @EnvironmentObject var patientViewModel: PatientViewModel
     
-    @State private var bookedAppointment: Appointment?
+    @Environment(\.navigation) private var navigation
     @State private var showPatientSheet = false
     @State private var isLoading = false
     @StateObject var errorAlertMessage = ErrorAlertMessage(title: "Unable to book appointment")
@@ -82,19 +82,12 @@ struct AppointmentBooking: View {
                         }
                     }
                 }
-                
-                NavigationLink(
-                    destination: AppointmentDetailView(appointment: bookedAppointment ?? Appointment.sample),
-                    isActive: Binding<Bool>(
-                        get: { bookedAppointment != nil },
-                        set: { if !$0 { bookedAppointment = nil } }
-                    )
-                ) {
-                    EmptyView()
-                }
             }
             .navigationTitle("Confirm Booking")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(for: Appointment.self) {
+                AppointmentDetailView(appointment: $0)
+            }
             .errorAlert(errorAlertMessage: errorAlertMessage)
             .sheet(isPresented: $showPatientSheet) {
                 AddPatientView(showPatientSheet: $showPatientSheet)
@@ -118,8 +111,8 @@ struct AppointmentBooking: View {
             
             do {
                 let appointment = try await booking.bookAppointment(patient: patient)
-                bookedAppointment = appointment
                 booking.selectedSlot = nil // Clear the selected slot after booking
+                navigation.path.append(appointment)
             } catch {
                 errorAlertMessage.message = error.localizedDescription
             }

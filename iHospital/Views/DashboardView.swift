@@ -10,9 +10,11 @@ import SwiftUI
 struct DashboardView: View {
     @EnvironmentObject private var patientViewModel: PatientViewModel
     @EnvironmentObject private var authViewModel: AuthViewModel
+
+    @StateObject private var navigation = Navigation()
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path:$navigation.path) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     
@@ -111,7 +113,7 @@ struct DashboardView: View {
                 }
             }
             .navigationTitle("Hello \(authViewModel.user?.firstName ?? "Unknown")")
-        }
+        }.environment(\.navigation, navigation)
     }
 }
 
