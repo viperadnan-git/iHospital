@@ -18,7 +18,7 @@ struct AppointmentDetailwithReports: View {
                            Text(appointment.doctor.name)
                                .font(.title)
                                .fontWeight(.bold)
-                           Text(appointment.doctor.experienceSince.yearsSinceString)
+                           Text(appointment.doctor.experienceSince.ago)
                                .font(.subheadline)
                                .foregroundColor(.gray)
                        }
@@ -44,7 +44,7 @@ struct AppointmentDetailwithReports: View {
                                .foregroundColor(.accentColor)
                            Text(appointment.appointmentStatus.rawValue.capitalized)
                            Spacer()
-                           Text((appointment.doctor.settings?.fee ?? 799).formatted(.currency(code: "INR")))
+                           Text((appointment.doctor.fee).formatted(.currency(code: "INR")))
                                .font(.title3)
                        }
                    }

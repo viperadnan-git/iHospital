@@ -17,18 +17,19 @@ struct MainView: View {
             DashboardView()
                 .tabItem {
                     Label("Home", systemImage: selection == 0 ? "house.fill" : "house")
-                }
-                .tag(0)
+                }.tag(0)
             AppointmentView()
                 .tabItem {
                     Label("Appointment", systemImage: selection == 1 ? "calendar" : "calendar")
-                }
-                .tag(1)
+                }.tag(1)
+            MedicalRecordView()
+                .tabItem {
+                    Label("Medical Record", systemImage: selection == 2 ? "doc.text.fill" : "doc.text")
+                }.tag(2)
             LabTestView()
                 .tabItem {
                     Label("Lab Test", systemImage: selection == 2 ? "flask.fill" : "flask")
-                }
-                .tag(2)
+                }.tag(3)
         }
         .environmentObject(authViewModel)
         .environmentObject(patientViewModel)

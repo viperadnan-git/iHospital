@@ -11,7 +11,7 @@ struct DoctorRow: View {
     var doctor: Doctor
     var expanded: Bool = false
     @State private var isExpanded: Bool = false
-    @State private var availableSlots: [Date] = []
+    @State private var availableSlots: [(Date, Bool)] = []
     @State private var isLoading = false
     @State private var navigateToBooking = false
     
@@ -43,7 +43,7 @@ struct DoctorRow: View {
                         .foregroundStyle(Color(.systemGray))
                     HStack {
                         Image(systemName: "briefcase.fill")
-                        Text(doctor.experienceSince.yearsSinceString)
+                        Text(doctor.experienceSince.ago)
                     }.font(.subheadline)
                         .foregroundStyle(Color(.systemGray))
                 }
@@ -80,20 +80,23 @@ struct DoctorRow: View {
                             .padding(.horizontal)
                         ScrollView(.horizontal) {
                             LazyHGrid(rows: Array(repeating: GridItem(.fixed(50), spacing: 10), count: 4), spacing: 10) {
-                                ForEach(availableSlots, id: \.self) { slot in
+                                ForEach(availableSlots, id: \.0) { slot, isBooked in
                                     Button(action: {
-                                        if booking.selectedSlot == slot {
-                                            booking.selectedSlot = nil
-                                        } else {
-                                            booking.selectedSlot = slot
+                                        if !isBooked {
+                                            if booking.selectedSlot == slot {
+                                                booking.selectedSlot = nil
+                                            } else {
+                                                booking.selectedSlot = slot
+                                            }
                                         }
                                     }) {
                                         Text(slot, style: .time)
                                             .padding(8)
-                                            .background(booking.selectedSlot == slot ? Color.accentColor : Color.accentColor.opacity(0.2))
-                                            .foregroundColor(booking.selectedSlot == slot ? Color.white : Color.primary)
+                                            .background(booking.selectedSlot == slot ? Color.accentColor : isBooked ? Color.gray.opacity(0.5) : Color.accentColor.opacity(0.2))
+                                            .foregroundColor(booking.selectedSlot == slot ? Color.white : isBooked ? Color.gray : Color.primary)
                                             .clipShape(RoundedRectangle(cornerRadius: 10))
                                     }
+                                    .disabled(isBooked)
                                 }
                             }.padding(.bottom, 8)
                             .padding(.horizontal)

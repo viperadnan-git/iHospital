@@ -23,7 +23,7 @@ struct AppointmentView: View {
                 
                 HStack {
                     TextField("Search by doctor, patient, status", text: $viewModel.filterText)
-                        .withIcon("maginfyingglass")
+                        .withIcon("magnifyingglass")
                         .paddedTextFieldStyle()
                         .padding(.leading)
                     

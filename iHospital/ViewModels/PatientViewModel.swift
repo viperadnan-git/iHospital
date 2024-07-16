@@ -11,9 +11,11 @@ import Combine
 class PatientViewModel: ObservableObject {
     @Published var patients: [Patient] = []
     @Published var currentPatient: Patient?
+    @Published var isLoading: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     
+    @MainActor
     init() {
         fetchPatients()
     }
@@ -27,8 +29,14 @@ class PatientViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func fetchPatients() {
         Task {
+            isLoading = true
+            defer {
+                isLoading = false
+            }
+            
             do {
                 let fetchedPatients = try await Patient.fetchAll()
                 DispatchQueue.main.async {

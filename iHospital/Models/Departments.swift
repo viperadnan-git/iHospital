@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct Department: Decodable, Hashable, Identifiable {
     let id: UUID
     let name: String
@@ -29,7 +28,16 @@ struct Department: Decodable, Hashable, Identifiable {
         }
         
         let departments: [Department] = try await supabase.from(SupabaseTable.departments.id).select().execute().value
-        all = departments
-        return departments
+        all = departments.sorted { lhs, rhs in
+            if lhs.name == "General Physicians" {
+                return true
+            } else if rhs.name == "General Physicians" {
+                return false
+            } else {
+                return lhs.name < rhs.name
+            }
+        }
+        
+        return all!
     }
 }

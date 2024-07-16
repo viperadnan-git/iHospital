@@ -18,7 +18,6 @@
 		3246E5F22C398059000B5A23 /* AppointmentSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3246E5F12C398059000B5A23 /* AppointmentSearch.swift */; };
 		3246E5F42C398439000B5A23 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3246E5F32C398439000B5A23 /* TextField.swift */; };
 		3246E5F82C39B9F6000B5A23 /* DoctorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3246E5F72C39B9F6000B5A23 /* DoctorSettings.swift */; };
-		324C9C9C2C354B6E00712E84 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 324C9C9B2C354B6E00712E84 /* PostgREST */; };
 		324C9CA12C354D5900712E84 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 324C9CA02C354D5900712E84 /* Supabase */; };
 		324C9CA42C354D9600712E84 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CA32C354D9600712E84 /* Gender.swift */; };
 		324C9CA62C354DA800712E84 /* SupaUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CA52C354DA800712E84 /* SupaUser.swift */; };
@@ -28,6 +27,20 @@
 		324C9CE62C35625D00712E84 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CE52C35625C00712E84 /* AuthView.swift */; };
 		324C9CE82C35A69700712E84 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CE72C35A69700712E84 /* CheckBox.swift */; };
 		324C9CEA2C35AEAD00712E84 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CE92C35AEAD00712E84 /* DashboardView.swift */; };
+		325112762C466533007D89F1 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112752C466533007D89F1 /* DateFormatter.swift */; };
+		325112782C466E6B007D89F1 /* LabTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112772C466E6B007D89F1 /* LabTest.swift */; };
+		3251127A2C466E8C007D89F1 /* LabTestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112792C466E8C007D89F1 /* LabTestType.swift */; };
+		3251127C2C466ED9007D89F1 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251127B2C466ED9007D89F1 /* FileManager.swift */; };
+		3251127E2C466F54007D89F1 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251127D2C466F54007D89F1 /* Invoice.swift */; };
+		325112802C466FE0007D89F1 /* BedBooking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251127F2C466FE0007D89F1 /* BedBooking.swift */; };
+		325112822C467E64007D89F1 /* PDFKitRepresentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112812C467E64007D89F1 /* PDFKitRepresentedView.swift */; };
+		325112842C468285007D89F1 /* LabTestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112832C468285007D89F1 /* LabTestsViewModel.swift */; };
+		325112872C469273007D89F1 /* LabTestDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112862C469273007D89F1 /* LabTestDetailView.swift */; };
+		325112892C4692A3007D89F1 /* MedicalRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112882C4692A3007D89F1 /* MedicalRecordView.swift */; };
+		3251128B2C46934D007D89F1 /* MedicalRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251128A2C46934D007D89F1 /* MedicalRecord.swift */; };
+		3251128D2C469686007D89F1 /* MedicalRecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251128C2C469686007D89F1 /* MedicalRecordViewModel.swift */; };
+		3251128F2C469C50007D89F1 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251128E2C469C50007D89F1 /* Image.swift */; };
+		325112922C46A193007D89F1 /* MedicalRecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112912C46A192007D89F1 /* MedicalRecordDetailView.swift */; };
 		325D0B972C39D31600728445 /* DoctorsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325D0B962C39D31600728445 /* DoctorsList.swift */; };
 		325D0B992C39D78100728445 /* DoctorRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325D0B982C39D78100728445 /* DoctorRow.swift */; };
 		325D0B9C2C39EA5800728445 /* AppointmentBooking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325D0B9B2C39EA5800728445 /* AppointmentBooking.swift */; };
@@ -65,12 +78,10 @@
 		F538067F2C44DBE3006C6F0F /* sample.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F538067E2C44DBE3006C6F0F /* sample.pdf */; };
 		F54B32562C3E5602000EE679 /* LabTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54B32552C3E5602000EE679 /* LabTestView.swift */; };
 		F54B32582C3E69CF000EE679 /* LabStatusCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54B32572C3E69CF000EE679 /* LabStatusCard.swift */; };
-		F54B325A2C3E74CD000EE679 /* LabResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54B32592C3E74CD000EE679 /* LabResultView.swift */; };
 		F554F8AD2C36A44E00253D64 /* BedBookingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8AC2C36A44E00253D64 /* BedBookingView.swift */; };
 		F554F8AF2C36A6F100253D64 /* MedicalInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8AE2C36A6F100253D64 /* MedicalInformationView.swift */; };
 		F554F8B12C36A80F00253D64 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8B02C36A80F00253D64 /* SearchBar.swift */; };
 		F554F8B32C36B41900253D64 /* AddPatientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8B22C36B41900253D64 /* AddPatientView.swift */; };
-		F554F8B52C37151000253D64 /* AppointmentScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554F8B42C37151000253D64 /* AppointmentScheduleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +104,21 @@
 		324C9CE52C35625C00712E84 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		324C9CE72C35A69700712E84 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		324C9CE92C35AEAD00712E84 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		325112742C465FD8007D89F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		325112752C466533007D89F1 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		325112772C466E6B007D89F1 /* LabTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTest.swift; sourceTree = "<group>"; };
+		325112792C466E8C007D89F1 /* LabTestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestType.swift; sourceTree = "<group>"; };
+		3251127B2C466ED9007D89F1 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		3251127D2C466F54007D89F1 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
+		3251127F2C466FE0007D89F1 /* BedBooking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedBooking.swift; sourceTree = "<group>"; };
+		325112812C467E64007D89F1 /* PDFKitRepresentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFKitRepresentedView.swift; sourceTree = "<group>"; };
+		325112832C468285007D89F1 /* LabTestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestsViewModel.swift; sourceTree = "<group>"; };
+		325112862C469273007D89F1 /* LabTestDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestDetailView.swift; sourceTree = "<group>"; };
+		325112882C4692A3007D89F1 /* MedicalRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalRecordView.swift; sourceTree = "<group>"; };
+		3251128A2C46934D007D89F1 /* MedicalRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalRecord.swift; sourceTree = "<group>"; };
+		3251128C2C469686007D89F1 /* MedicalRecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalRecordViewModel.swift; sourceTree = "<group>"; };
+		3251128E2C469C50007D89F1 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		325112912C46A192007D89F1 /* MedicalRecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalRecordDetailView.swift; sourceTree = "<group>"; };
 		325D0B962C39D31600728445 /* DoctorsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsList.swift; sourceTree = "<group>"; };
 		325D0B982C39D78100728445 /* DoctorRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorRow.swift; sourceTree = "<group>"; };
 		325D0B9B2C39EA5800728445 /* AppointmentBooking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentBooking.swift; sourceTree = "<group>"; };
@@ -129,12 +155,10 @@
 		F538067E2C44DBE3006C6F0F /* sample.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = sample.pdf; sourceTree = "<group>"; };
 		F54B32552C3E5602000EE679 /* LabTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestView.swift; sourceTree = "<group>"; };
 		F54B32572C3E69CF000EE679 /* LabStatusCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabStatusCard.swift; sourceTree = "<group>"; };
-		F54B32592C3E74CD000EE679 /* LabResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabResultView.swift; sourceTree = "<group>"; };
 		F554F8AC2C36A44E00253D64 /* BedBookingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedBookingView.swift; sourceTree = "<group>"; };
 		F554F8AE2C36A6F100253D64 /* MedicalInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalInformationView.swift; sourceTree = "<group>"; };
 		F554F8B02C36A80F00253D64 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		F554F8B22C36B41900253D64 /* AddPatientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPatientView.swift; sourceTree = "<group>"; };
-		F554F8B42C37151000253D64 /* AppointmentScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentScheduleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,7 +167,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				324C9CA12C354D5900712E84 /* Supabase in Frameworks */,
-				324C9C9C2C354B6E00712E84 /* PostgREST in Frameworks */,
 				32AF56A02C354A9E002E599F /* Storage in Frameworks */,
 				32AF569E2C354A9E002E599F /* Auth in Frameworks */,
 			);
@@ -182,6 +205,11 @@
 				3246E5ED2C397DA6000B5A23 /* Departments.swift */,
 				3246E5EF2C397F9D000B5A23 /* Search.swift */,
 				3246E5F72C39B9F6000B5A23 /* DoctorSettings.swift */,
+				325112772C466E6B007D89F1 /* LabTest.swift */,
+				325112792C466E8C007D89F1 /* LabTestType.swift */,
+				3251127D2C466F54007D89F1 /* Invoice.swift */,
+				3251127F2C466FE0007D89F1 /* BedBooking.swift */,
+				3251128A2C46934D007D89F1 /* MedicalRecord.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -196,6 +224,9 @@
 				3213A8732C3BF0FF00509BCB /* String.swift */,
 				3265EFAD2C3EB516005E9603 /* Int.swift */,
 				3265EFAF2C3EB595005E9603 /* Double.swift */,
+				325112752C466533007D89F1 /* DateFormatter.swift */,
+				3251127B2C466ED9007D89F1 /* FileManager.swift */,
+				3251128E2C469C50007D89F1 /* Image.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -210,8 +241,27 @@
 				328409912C3810FD00473841 /* HorizontalCalenderView.swift */,
 				EF86A6CC2C4443690016ED22 /* BedBillingPage.swift */,
 				F54B32572C3E69CF000EE679 /* LabStatusCard.swift */,
+				325112812C467E64007D89F1 /* PDFKitRepresentedView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		325112852C469257007D89F1 /* LabTest */ = {
+			isa = PBXGroup;
+			children = (
+				F54B32552C3E5602000EE679 /* LabTestView.swift */,
+				325112862C469273007D89F1 /* LabTestDetailView.swift */,
+			);
+			path = LabTest;
+			sourceTree = "<group>";
+		};
+		325112902C46A174007D89F1 /* MedicalRecord */ = {
+			isa = PBXGroup;
+			children = (
+				325112882C4692A3007D89F1 /* MedicalRecordView.swift */,
+				325112912C46A192007D89F1 /* MedicalRecordDetailView.swift */,
+			);
+			path = MedicalRecord;
 			sourceTree = "<group>";
 		};
 		325D0B9A2C39D79100728445 /* Doctor */ = {
@@ -232,6 +282,8 @@
 				3213A8642C3A99FE00509BCB /* AuthViewModel.swift */,
 				3213A86B2C3AD3FC00509BCB /* AppointmentViewModel.swift */,
 				328FECAE2C41EACD00EFA273 /* Router.swift */,
+				325112832C468285007D89F1 /* LabTestsViewModel.swift */,
+				3251128C2C469686007D89F1 /* MedicalRecordViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -280,6 +332,7 @@
 		32AF56812C354541002E599F /* iHospital */ = {
 			isa = PBXGroup;
 			children = (
+				325112742C465FD8007D89F1 /* Info.plist */,
 				328409822C37EF6E00473841 /* ViewModels */,
 				324C9CAE2C35587000712E84 /* Components */,
 				324C9CA72C354F2A00712E84 /* Extensions */,
@@ -305,6 +358,8 @@
 		32AF56902C3547D8002E599F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				325112902C46A174007D89F1 /* MedicalRecord */,
+				325112852C469257007D89F1 /* LabTest */,
 				3213A8662C3A9DA300509BCB /* Patient */,
 				325D0B9A2C39D79100728445 /* Doctor */,
 				328409932C38128A00473841 /* Appointment */,
@@ -312,13 +367,10 @@
 				32AF56842C354541002E599F /* MainView.swift */,
 				324C9CE92C35AEAD00712E84 /* DashboardView.swift */,
 				F554F8AE2C36A6F100253D64 /* MedicalInformationView.swift */,
-				F554F8B42C37151000253D64 /* AppointmentScheduleView.swift */,
-				F54B32592C3E74CD000EE679 /* LabResultView.swift */,
 				EF86A6C82C428EEB0016ED22 /* RescheduleAppointment.swift */,
 				F554F8AC2C36A44E00253D64 /* BedBookingView.swift */,
 				EF86A6CE2C44469B0016ED22 /* BedBookingDetailsView.swift */,
 				F538067E2C44DBE3006C6F0F /* sample.pdf */,
-				F54B32552C3E5602000EE679 /* LabTestView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -350,7 +402,6 @@
 			packageProductDependencies = (
 				32AF569D2C354A9E002E599F /* Auth */,
 				32AF569F2C354A9E002E599F /* Storage */,
-				324C9C9B2C354B6E00712E84 /* PostgREST */,
 				324C9CA02C354D5900712E84 /* Supabase */,
 			);
 			productName = iHospital;
@@ -412,14 +463,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F554F8B52C37151000253D64 /* AppointmentScheduleView.swift in Sources */,
 				328409922C3810FD00473841 /* HorizontalCalenderView.swift in Sources */,
+				3251127E2C466F54007D89F1 /* Invoice.swift in Sources */,
+				325112782C466E6B007D89F1 /* LabTest.swift in Sources */,
 				3246E5F42C398439000B5A23 /* TextField.swift in Sources */,
 				3213A8682C3AAF8F00509BCB /* AppointmentDetail.swift in Sources */,
 				F554F8AF2C36A6F100253D64 /* MedicalInformationView.swift in Sources */,
 				3284097D2C37E31F00473841 /* Patient.swift in Sources */,
-				F54B325A2C3E74CD000EE679 /* LabResultView.swift in Sources */,
 				32AF56922C3547E7002E599F /* LoginView.swift in Sources */,
+				325112922C46A193007D89F1 /* MedicalRecordDetailView.swift in Sources */,
 				3213A86C2C3AD3FC00509BCB /* AppointmentViewModel.swift in Sources */,
 				3246E5F22C398059000B5A23 /* AppointmentSearch.swift in Sources */,
 				324C9CA92C354F3A00712E84 /* Date.swift in Sources */,
@@ -427,6 +479,11 @@
 				328FECAF2C41EACD00EFA273 /* Router.swift in Sources */,
 				325D0B9E2C39F19D00728445 /* BookingViewModel.swift in Sources */,
 				D513F6252C4644D1003F8B50 /* AppointmentDetailwithReports.swift in Sources */,
+				325112872C469273007D89F1 /* LabTestDetailView.swift in Sources */,
+				325112822C467E64007D89F1 /* PDFKitRepresentedView.swift in Sources */,
+				3251127C2C466ED9007D89F1 /* FileManager.swift in Sources */,
+				325112892C4692A3007D89F1 /* MedicalRecordView.swift in Sources */,
+				3251128D2C469686007D89F1 /* MedicalRecordViewModel.swift in Sources */,
 				32AF56992C354973002E599F /* Supabase.swift in Sources */,
 				3246E5F02C397F9D000B5A23 /* Search.swift in Sources */,
 				3284097F2C37E36C00473841 /* BloodGroup.swift in Sources */,
@@ -437,9 +494,11 @@
 				3246E5F82C39B9F6000B5A23 /* DoctorSettings.swift in Sources */,
 				328409842C37EF8300473841 /* PatientViewModel.swift in Sources */,
 				3213A86A2C3AD2ED00509BCB /* AppointmentView.swift in Sources */,
+				325112762C466533007D89F1 /* DateFormatter.swift in Sources */,
 				EF86A6CF2C44469B0016ED22 /* BedBookingDetailsView.swift in Sources */,
 				328409862C37F5AF00473841 /* ProfileView.swift in Sources */,
 				3284098B2C3801CF00473841 /* Doctor.swift in Sources */,
+				325112842C468285007D89F1 /* LabTestsViewModel.swift in Sources */,
 				F54B32582C3E69CF000EE679 /* LabStatusCard.swift in Sources */,
 				324C9CB02C35587C00712E84 /* LoaderButton.swift in Sources */,
 				3265EFB22C3EB6C8005E9603 /* PatientInfoView.swift in Sources */,
@@ -450,6 +509,7 @@
 				324C9CE62C35625D00712E84 /* AuthView.swift in Sources */,
 				EF86A6C92C428EEB0016ED22 /* RescheduleAppointment.swift in Sources */,
 				EF86A6CB2C4443550016ED22 /* BookedBedsCard.swift in Sources */,
+				3251128F2C469C50007D89F1 /* Image.swift in Sources */,
 				328409812C37E8A500473841 /* AppointmentCard.swift in Sources */,
 				324C9CA62C354DA800712E84 /* SupaUser.swift in Sources */,
 				325D0B9C2C39EA5800728445 /* AppointmentBooking.swift in Sources */,
@@ -457,13 +517,16 @@
 				32AF569B2C354A4D002E599F /* Constants.swift in Sources */,
 				328409952C3812A300473841 /* AppointmentBrowseView.swift in Sources */,
 				F554F8B32C36B41900253D64 /* AddPatientView.swift in Sources */,
+				3251127A2C466E8C007D89F1 /* LabTestType.swift in Sources */,
 				EF86A6CD2C4443690016ED22 /* BedBillingPage.swift in Sources */,
 				F54B32562C3E5602000EE679 /* LabTestView.swift in Sources */,
+				325112802C466FE0007D89F1 /* BedBooking.swift in Sources */,
 				3265EFB42C3ECB62005E9603 /* EditPatientView.swift in Sources */,
 				3246E5EE2C397DA6000B5A23 /* Departments.swift in Sources */,
 				F554F8B12C36A80F00253D64 /* SearchBar.swift in Sources */,
 				324C9CE82C35A69700712E84 /* CheckBox.swift in Sources */,
 				324C9CAD2C3553CB00712E84 /* ViewModifiers.swift in Sources */,
+				3251128B2C46934D007D89F1 /* MedicalRecord.swift in Sources */,
 				325D0B992C39D78100728445 /* DoctorRow.swift in Sources */,
 				3213A8652C3A99FE00509BCB /* AuthViewModel.swift in Sources */,
 				F554F8AD2C36A44E00253D64 /* BedBookingView.swift in Sources */,
@@ -602,12 +665,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iHospital/Preview Content\"";
-				DEVELOPMENT_TEAM = SB6P4M5FAK;
+				DEVELOPMENT_TEAM = JZN7WN2NCM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iHospital/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -632,12 +695,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iHospital/Preview Content\"";
-				DEVELOPMENT_TEAM = SB6P4M5FAK;
+				DEVELOPMENT_TEAM = JZN7WN2NCM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iHospital/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -697,11 +760,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		324C9C9B2C354B6E00712E84 /* PostgREST */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 32AF569C2C354A9E002E599F /* XCRemoteSwiftPackageReference "supabase-swift" */;
-			productName = PostgREST;
-		};
 		324C9CA02C354D5900712E84 /* Supabase */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 32AF569C2C354A9E002E599F /* XCRemoteSwiftPackageReference "supabase-swift" */;

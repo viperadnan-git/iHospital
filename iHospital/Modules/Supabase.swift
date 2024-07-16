@@ -17,13 +17,39 @@ let supabase = SupabaseClient(
 )
 
 enum SupabaseTable: String {
-    case users = "users"
-    case patients = "patients"
-    case doctors = "doctors"
-    case departments = "departments"
-    case appointments = "appointments"
+    case users
+    case doctors
+    case departments
+    case patients
+    case appointments
+    case medicalRecords = "medical_records"
+    case labTests = "lab_tests"
+    case labTestTypes = "lab_test_types"
+    case invoices
+    case bedBookings = "bed_bookings"
     
     var id: String {
         self.rawValue
     }
+}
+
+enum SupabaseBucket: String {
+    case avatar = "avatars"
+    case medicalRecords = "medical_records"
+    case labReports = "lab_reports"
+    
+    var id: String {
+        self.rawValue
+    }
+}
+
+enum SupabaseError: Error {
+    case invalidURL
+    case invalidResponse
+    case invalidData
+    case invalidUser
+    case invalidRole
+    case invalidDoctor
+    case invalidDepartment
+    case unauthorized
 }

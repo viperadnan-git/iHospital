@@ -8,7 +8,7 @@
 import Foundation
 
 
-class Patient: Codable, Hashable {
+class Patient: Codable, Hashable, Identifiable {
     let id: UUID
     let userId: UUID
     var firstName: String
@@ -47,9 +47,6 @@ class Patient: Codable, Hashable {
         hasher.combine(id)
     }
     
-    static let decoder = JSONDecoder()
-    static let encoder = JSONEncoder()
-    
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(UUID.self, forKey: .id)
@@ -61,7 +58,7 @@ class Patient: Codable, Hashable {
         bloodGroup = try container.decode(BloodGroup.self, forKey: .bloodGroup)
         
         let dateString = try container.decode(String.self, forKey: .dateOfBirth)
-        guard let date = Date.dateFormatter.date(from: dateString) else {
+        guard let date = DateFormatter.dateFormatter.date(from: dateString) else {
             throw DecodingError.dataCorruptedError(forKey: .dateOfBirth, in: container, debugDescription: "Invalid date format")
         }
         dateOfBirth = date
@@ -94,7 +91,7 @@ class Patient: Codable, Hashable {
         try container.encode(lastName, forKey: .lastName)
         try container.encode(phoneNumber, forKey: .phoneNumber)
         try container.encode(bloodGroup, forKey: .bloodGroup)
-        try container.encode(Date.dateFormatter.string(from: dateOfBirth), forKey: .dateOfBirth)
+        try container.encode(DateFormatter.dateFormatter.string(from: dateOfBirth), forKey: .dateOfBirth)
         try container.encodeIfPresent(height, forKey: .height)
         try container.encodeIfPresent(weight, forKey: .weight)
         try container.encode(address, forKey: .address)
@@ -121,7 +118,7 @@ class Patient: Codable, Hashable {
             "gender": gender.id,
             "phone_number": String(phoneNumber),
             "blood_group": bloodGroup.rawValue,
-            "date_of_birth": Date.dateFormatter.string(from: dateOfBirth),
+            "date_of_birth": DateFormatter.dateFormatter.string(from: dateOfBirth),
             "address": address
         ]
         
@@ -133,26 +130,28 @@ class Patient: Codable, Hashable {
             dataToInsert["weight"] = String(weight)
         }
         
-        let response = try await supabase.from(SupabaseTable.patients.id)
+        let response: Patient = try await supabase.from(SupabaseTable.patients.id)
             .insert(dataToInsert)
             .select()
             .single()
             .execute()
+            .value
         
-        let patient = try decoder.decode(Patient.self, from: response.data)
-        return patient
+        
+        return response
     }
     
     static func fetchAll() async throws -> [Patient] {
         guard let user = SupaUser.shared else { return [] }
         
-        let response = try await supabase.from(SupabaseTable.patients.id)
+        let response:[Patient] = try await supabase.from(SupabaseTable.patients.id)
             .select()
             .eq("user_id", value: user.id.uuidString)
             .execute()
+            .value
         
-        let patients = try decoder.decode([Patient].self, from: response.data)
-        return patients
+        
+        return response
     }
     
     func save() async throws {
@@ -162,7 +161,7 @@ class Patient: Codable, Hashable {
             "gender": gender.id,
             "phone_number": String(phoneNumber),
             "blood_group": bloodGroup.rawValue,
-            "date_of_birth": Date.dateFormatter.string(from: dateOfBirth),
+            "date_of_birth": DateFormatter.dateFormatter.string(from: dateOfBirth),
             "address": address
         ]
         
@@ -181,5 +180,38 @@ class Patient: Codable, Hashable {
             .single()
             .execute()
             .value
+    }
+    
+    func fetchMedicalRecords() async throws -> [MedicalRecord] {
+        let response: [MedicalRecord] = try await supabase.from(SupabaseTable.medicalRecords.id)
+            .select(MedicalRecord.supabaseSelectQuery)
+            .eq("patient_id", value: id.uuidString)
+            .order("created_at", ascending: false)
+            .execute()
+            .value
+        
+        return response
+    }
+    
+    func fetchLabTests() async throws -> [LabTest] {
+        let response: [LabTest] = try await supabase.from(SupabaseTable.labTests.id)
+            .select(LabTest.supabaseSelectQuery)
+            .eq("patient_id", value: id.uuidString)
+            .order("created_at", ascending: false)
+            .execute()
+            .value
+        
+        return response
+    }
+    
+    func fetchInvoices() async throws -> [Invoice] {
+        let response: [Invoice] = try await supabase.from(SupabaseTable.invoices.id)
+            .select(Invoice.supabaseSelectQuery)
+            .eq("patient_id", value: id.uuidString)
+            .order("created_at", ascending: false)
+            .execute()
+            .value
+        
+        return response
     }
 }

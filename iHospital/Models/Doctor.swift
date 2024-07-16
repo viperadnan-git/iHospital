@@ -20,7 +20,12 @@ struct Doctor: Codable, Hashable {
     let experienceSince: Date
     let dateOfJoining: Date
     let departmentId: UUID
-    let settings: DoctorSettings?
+    let fee: Int
+    let doctorSettings: DoctorSettings?
+    
+    var name: String {
+        "\(firstName) \(lastName)"
+    }
     
     enum CodingKeys: String, CodingKey {
         case userId = "user_id"
@@ -34,7 +39,8 @@ struct Doctor: Codable, Hashable {
         case experienceSince = "experience_since"
         case dateOfJoining = "date_of_joining"
         case departmentId = "department_id"
-        case settings = "doctor_settings"
+        case fee
+        case doctorSettings = "doctor_settings"
     }
     
     static func == (lhs: Doctor, rhs: Doctor) -> Bool {
@@ -45,8 +51,8 @@ struct Doctor: Codable, Hashable {
         hasher.combine(userId)
     }
     
-    var name: String {
-        "\(firstName) \(lastName)"
+    var settings: DoctorSettings {
+        doctorSettings ?? DoctorSettings.getDefaultSettings(userId: userId)
     }
     
     static var sample: Doctor {
@@ -61,7 +67,8 @@ struct Doctor: Codable, Hashable {
                experienceSince: Date(),
                dateOfJoining: Date(),
                departmentId: UUID(),
-               settings: nil)
+               fee: 799,
+               doctorSettings: DoctorSettings.sample)
     }
     
     static let dateFormatter: DateFormatter = {
@@ -94,10 +101,11 @@ struct Doctor: Codable, Hashable {
         email = try container.decode(String.self, forKey: .email)
         qualification = try container.decode(String.self, forKey: .qualification)
         departmentId = try container.decode(UUID.self, forKey: .departmentId)
-        settings = try container.decodeIfPresent(DoctorSettings.self, forKey: .settings)
+        fee = try container.decode(Int.self, forKey: .fee)
+        doctorSettings = try container.decodeIfPresent(DoctorSettings.self, forKey: .doctorSettings)
     }
     
-    init(userId: UUID, firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, settings: DoctorSettings?) {
+    init(userId: UUID, firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, fee:Int, doctorSettings: DoctorSettings?) {
         self.userId = userId
         self.firstName = firstName
         self.lastName = lastName
@@ -109,7 +117,8 @@ struct Doctor: Codable, Hashable {
         self.experienceSince = experienceSince
         self.dateOfJoining = dateOfJoining
         self.departmentId = departmentId
-        self.settings = settings
+        self.fee = fee
+        self.doctorSettings = doctorSettings
     }
     
     static let supabaseSelectQuery = "*, doctor_settings(*)"
@@ -153,12 +162,10 @@ struct Doctor: Codable, Hashable {
         return response
     }
     
-    func getAvailableTimeSlots(for date: Date) async throws -> [Date] {
+    func getAvailableTimeSlots(for date: Date) async throws -> [(Date, Bool)] {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE" // Day of the week
         let dayOfWeek = dateFormatter.string(from: date)
-        
-        let settings = settings ?? DoctorSettings.getDefaultSettings(userId: userId)
         
         guard settings.selectedDays.contains(dayOfWeek) else {
             return []
@@ -166,9 +173,8 @@ struct Doctor: Codable, Hashable {
         
         let appointments = try await fetchAppointments(for: date)
         let calendar = Calendar.current
-        var availableSlots: [Date] = []
+        var availableSlots: [(Date, Bool)] = []
         let today = Date()
-        
         
         let startTime = date.startOfDay == today.startOfDay ? calendar.date(byAdding: .hour, value: 1, to: today)!.nextQuarter : settings.startTime
         
@@ -176,16 +182,13 @@ struct Doctor: Codable, Hashable {
         let endTime = calendar.date(bySettingHour: calendar.component(.hour, from: settings.endTime), minute: calendar.component(.minute, from: settings.endTime), second: 0, of: date)!
         
         while currentTime < endTime {
-            let isAvailable = !appointments.contains { appointment in
+            let isBooked = appointments.contains { appointment in
                 calendar.isDate(appointment.date, equalTo: currentTime, toGranularity: .minute)
             }
-            if isAvailable {
-                availableSlots.append(currentTime)
-            }
+            availableSlots.append((currentTime, isBooked))
             currentTime = calendar.date(byAdding: .minute, value: 15, to: currentTime)!
         }
         
         return availableSlots
     }
 }
-

@@ -51,12 +51,10 @@ struct AppointmentBooking: View {
                                 Text("\(bookingDate, style: .time)")
                             }
                             
-                            if let settings = doctor.settings {
-                                HStack {
-                                    Text("Doctor's Fee")
-                                    Spacer()
-                                    Text(settings.fee.formatted(.currency(code: "INR")))
-                                }
+                            HStack {
+                                Text("Doctor's Fee")
+                                Spacer()
+                                Text(doctor.fee.formatted(.currency(code: "INR")))
                             }
                         }
                         
