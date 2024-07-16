@@ -12,7 +12,7 @@ struct RescheduleAppointment: View {
                 HStack {
                     Text("Select Date")
                         .padding(.leading)
-                        .foregroundColor(.black)
+                        .foregroundColor(Color(.label))
                     Spacer()
                     DatePicker("", selection: $selectedDate, displayedComponents: .date)
                         .labelsHidden()
@@ -45,7 +45,6 @@ struct RescheduleAppointment: View {
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.white)
             .navigationTitle("Reschedule Appointment")
         
         //Confirm button
