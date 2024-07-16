@@ -12,8 +12,8 @@ import Supabase
 import Auth
 
 let supabase = SupabaseClient(
-    supabaseURL: URL(string: SUPABASE_URL)!,
-    supabaseKey: SUPABASE_KEY
+    supabaseURL: URL(string: Constants.supabaseURL)!,
+    supabaseKey: Constants.supabaseKey
 )
 
 enum SupabaseTable: String {

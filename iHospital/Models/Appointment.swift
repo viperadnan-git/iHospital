@@ -7,6 +7,7 @@
 
 import Foundation
 import Supabase
+import SwiftUI
 
 struct Appointment: Codable, Hashable {
     let id: Int
@@ -14,7 +15,6 @@ struct Appointment: Codable, Hashable {
     let doctor: Doctor
     let user: SupaUser
     let date: Date
-    let paymentStatus: PaymentStatus
     let appointmentStatus: AppointmentStatus
     let createdAt: Date
 
@@ -24,7 +24,6 @@ struct Appointment: Codable, Hashable {
         case doctor
         case user
         case date
-        case paymentStatus = "payment_status"
         case appointmentStatus = "appointment_status"
         case createdAt = "created_at"
     }
@@ -45,18 +44,16 @@ struct Appointment: Codable, Hashable {
         patient: Patient.sample,
         doctor: Doctor.sample,
         date: Date(),
-        paymentStatus: .pending,
         appointmentStatus: .pending,
         user: SupaUser.sample,
         createdAt: Date()
     )
 
-    init(id: Int = 0, patient: Patient, doctor: Doctor, date: Date, paymentStatus: PaymentStatus, appointmentStatus: AppointmentStatus, user: SupaUser, createdAt: Date = Date()) {
+    init(id: Int = 0, patient: Patient, doctor: Doctor, date: Date, appointmentStatus: AppointmentStatus, user: SupaUser, createdAt: Date = Date()) {
         self.id = id
         self.patient = patient
         self.doctor = doctor
         self.date = date
-        self.paymentStatus = paymentStatus
         self.appointmentStatus = appointmentStatus
         self.user = user
         self.createdAt = createdAt
@@ -79,7 +76,6 @@ struct Appointment: Codable, Hashable {
         
         self.date = date
         self.createdAt = createdAt
-        paymentStatus = try container.decode(PaymentStatus.self, forKey: .paymentStatus)
         appointmentStatus = try container.decode(AppointmentStatus.self, forKey: .appointmentStatus)
     }
 
@@ -90,7 +86,6 @@ struct Appointment: Codable, Hashable {
                 "patient_id": patientId.uuidString,
                 "doctor_id": doctorId.uuidString,
                 "date": date.ISO8601Format(),
-                "payment_status": PaymentStatus.pending.rawValue,
                 "appointment_status": AppointmentStatus.pending.rawValue,
                 "user_id": userId.uuidString,
                 "created_at": Date().ISO8601Format()
@@ -121,6 +116,20 @@ enum PaymentStatus: String, Codable {
     case paid
     case pending
     case failed
+    case cancelled
+    
+    var color: Color {
+        switch self {
+        case .paid:
+            return .green
+        case .pending:
+            return .orange
+        case .failed:
+            return .red
+        case .cancelled:
+            return .gray
+        }
+    }
 }
 
 enum AppointmentStatus: String, Codable {

@@ -59,7 +59,7 @@ struct DashboardView: View {
                                                }
                                                .foregroundColor(.white)
                                        }
-                    Text("Additional features")
+                    Text("Features")
                         .font(.title3)
                         .fontWeight(.bold)
                     
@@ -83,18 +83,18 @@ struct DashboardView: View {
                                 }
                                 .frame(width: 170, height: 100)
                             }
-                            NavigationLink(destination: MedicalInformationView()) {
+                            NavigationLink(destination: InvoiceListView()) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 15)
                                         .fill(Color(uiColor: .systemGray6))
                                     VStack {
-                                        Image(systemName: "info.circle.fill")
+                                        Image(systemName: "dollarsign.circle.fill")
                                             .resizable()
                                             .scaledToFit()
                                             .foregroundColor(.blue)
                                         Spacer()
                                         
-                                        Text("Medical Information")
+                                        Text("Billing")
                                             .font(.headline)
                                     }
                                     .padding()

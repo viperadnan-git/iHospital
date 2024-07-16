@@ -13,6 +13,28 @@ struct MedicalRecordDetailView: View {
     var body: some View {
         VStack {
             Form {
+                Section(header: Text("Appointment")) {
+                    HStack {
+                        Image(systemName: "stethoscope")
+                        Text(medicalRecord.appointment.doctor.name)
+                    }
+                    
+                    HStack {
+                        Image(systemName: "person")
+                        Text(medicalRecord.appointment.patient.name)
+                    }
+                    
+                    HStack {
+                        Image(systemName: "calendar")
+                        Text(medicalRecord.appointment.date.dateTimeString)
+                    }
+
+                    HStack {
+                        Image(systemName: "dollarsign.circle")
+                        Text(medicalRecord.appointment.doctor.fee.currency)
+                    }
+                }
+                
                 Section(header: Text("Prescription Note")) {
                     Text(medicalRecord.note)
                 }
@@ -31,7 +53,8 @@ struct MedicalRecordDetailView: View {
                     }
                 }
             }
-        }
+        }.navigationTitle(medicalRecord.appointment.doctor.name)
+            .navigationBarTitleDisplayMode(.inline)
     }
 }
 

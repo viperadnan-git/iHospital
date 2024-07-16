@@ -76,10 +76,11 @@ struct DoctorRow: View {
                 } else {
                     VStack(alignment: .leading) {
                         Text("Available Slots")
-                            .font(.headline)
+                            .textCase(.uppercase)
+                            .font(.caption)
                             .padding(.horizontal)
                         ScrollView(.horizontal) {
-                            LazyHGrid(rows: Array(repeating: GridItem(.fixed(50), spacing: 10), count: 4), spacing: 10) {
+                            LazyHGrid(rows: Array(repeating: GridItem(.fixed(40), spacing: 10), count: 4), spacing: 10) {
                                 ForEach(availableSlots, id: \.0) { slot, isBooked in
                                     Button(action: {
                                         if !isBooked {
@@ -98,7 +99,7 @@ struct DoctorRow: View {
                                     }
                                     .disabled(isBooked)
                                 }
-                            }.padding(.bottom, 8)
+                            }
                             .padding(.horizontal)
                         }
                     }.padding(.top, 8)

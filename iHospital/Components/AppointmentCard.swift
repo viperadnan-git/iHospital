@@ -18,16 +18,14 @@ struct AppointmentCard: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
-                Image("DoctorImage")
-                    .resizable()
-                    .scaledToFit()
+                Image(systemName: "person.crop.circle.fill")
                     .frame(height: 48)
                     .padding(.trailing, 4)
                 
                 VStack(alignment: .leading) {
                     Text(appointment.doctor.name)
                         .font(.title3)
-                    Text(appointment.doctor.experienceSince.ago)
+                    Text("\(appointment.doctor.experienceSince.ago) experience")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }

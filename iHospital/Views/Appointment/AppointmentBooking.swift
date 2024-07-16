@@ -13,7 +13,10 @@ struct AppointmentBooking: View {
     
     @Environment(\.navigation) private var navigation
     @State private var showPatientSheet = false
+    @State private var showPaymentPage = false
     @State private var isLoading = false
+    @State private var bookedAppointment: Appointment?
+    @State private var isPaymentSuccessful = false
     @StateObject var errorAlertMessage = ErrorAlertMessage(title: "Unable to book appointment")
     
     var body: some View {
@@ -90,12 +93,24 @@ struct AppointmentBooking: View {
             .sheet(isPresented: $showPatientSheet) {
                 AddPatientView(showPatientSheet: $showPatientSheet)
             }
+            .sheet(isPresented: $showPaymentPage) {
+                if let bookedAppointment = bookedAppointment {
+                    PaymentPageSingleView(isSuccess: $isPaymentSuccessful, paymentType: .appointment, refrenceId: bookedAppointment.id)
+                }
+            }
+            .onChange(of: isPaymentSuccessful) { newValue in
+                if newValue, let bookedAppointment = bookedAppointment {
+                    navigation.path.append(bookedAppointment)
+                } else {
+                    errorAlertMessage.message = "Failed to book appointment"
+                }
+            }
         }
     }
     
     func confirmBooking() {
         guard let patient = patientViewModel.currentPatient else {
-            if (patientViewModel.patients.isEmpty) {
+            if patientViewModel.patients.isEmpty {
                 showPatientSheet.toggle()
             } else {
                 errorAlertMessage.message = "Please select a patient"
@@ -110,7 +125,8 @@ struct AppointmentBooking: View {
             do {
                 let appointment = try await booking.bookAppointment(patient: patient)
                 booking.selectedSlot = nil // Clear the selected slot after booking
-                navigation.path.append(appointment)
+                bookedAppointment = appointment
+                showPaymentPage = true
             } catch {
                 errorAlertMessage.message = error.localizedDescription
             }

@@ -11,12 +11,12 @@ class MedicalRecordViewModel: ObservableObject {
     @Published var medicalRecords:[MedicalRecord] = []
     @Published var isLoading: Bool = false
     
-    var cachedMedicalRecords: [MedicalRecord] = []
+    private var cached: [MedicalRecord] = []
     
     @MainActor
     func fetchMedicalRecords(patient:Patient, showLoader: Bool = true, force: Bool = false) {
-        if !force, !cachedMedicalRecords.isEmpty {
-            medicalRecords = cachedMedicalRecords
+        if !force, !cached.isEmpty {
+            medicalRecords = cached
             return
         }
         
@@ -27,7 +27,7 @@ class MedicalRecordViewModel: ObservableObject {
             }
             do {
                 let medicalRecords = try await patient.fetchMedicalRecords()
-                self.cachedMedicalRecords = medicalRecords
+                self.cached = medicalRecords
                 self.medicalRecords = medicalRecords
             } catch {
                 print("Error while fetching lab tests: \(error.localizedDescription)")

@@ -50,12 +50,12 @@ struct SupaUser: Codable, Hashable {
             return
         }
         
-        UserDefaults.standard.set(data, forKey: USER_INFO_KEY)
+        UserDefaults.standard.set(data, forKey: Constants.supabaseKey)
         print("User saved to user defaults")
     }
     
     static let loadUser: () -> SupaUser? = {
-        guard let data = UserDefaults.standard.data(forKey: USER_INFO_KEY) else {
+        guard let data = UserDefaults.standard.data(forKey: Constants.supabaseKey) else {
             return nil
         }
         
@@ -111,7 +111,7 @@ struct SupaUser: Codable, Hashable {
     }
     
     static func logOut() async throws {
-        UserDefaults.standard.removeObject(forKey: USER_INFO_KEY)
+        UserDefaults.standard.removeObject(forKey: Constants.supabaseKey)
         try await supabase.auth.signOut()
     }
     
@@ -127,5 +127,16 @@ struct SupaUser: Codable, Hashable {
     
     static func updatePassword(password: String) async throws {
         try await supabase.auth.update(user: UserAttributes(password: password))
+    }
+    
+    func fetchInvoices() async throws -> [Invoice] {
+        let response: [Invoice] = try await supabase.from(SupabaseTable.invoices.id)
+            .select(Invoice.supabaseSelectQuery)
+            .eq("user_id", value: id.uuidString)
+            .order("created_at", ascending: false)
+            .execute()
+            .value
+        
+        return response
     }
 }

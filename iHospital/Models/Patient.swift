@@ -203,15 +203,4 @@ class Patient: Codable, Hashable, Identifiable {
         
         return response
     }
-    
-    func fetchInvoices() async throws -> [Invoice] {
-        let response: [Invoice] = try await supabase.from(SupabaseTable.invoices.id)
-            .select(Invoice.supabaseSelectQuery)
-            .eq("patient_id", value: id.uuidString)
-            .order("created_at", ascending: false)
-            .execute()
-            .value
-        
-        return response
-    }
 }

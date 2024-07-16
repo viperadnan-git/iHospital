@@ -54,13 +54,16 @@ struct LabTestView: View {
                                 switch labTest.status {
                                 case .completed:
                                     Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(.green)
+                                        .foregroundColor(labTest.status.color)
                                 case .pending:
                                     Image(systemName: "clock.fill")
-                                        .foregroundColor(.yellow)
+                                        .foregroundColor(labTest.status.color)
+                                case .waiting:
+                                    Image(systemName: "clock.fill")
+                                        .foregroundColor(labTest.status.color)
                                 case .inProgress:
                                     Image(systemName: "clock.fill")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(labTest.status.color)
                                 }
                             }
                         }

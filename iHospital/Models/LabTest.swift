@@ -65,14 +65,18 @@ class LabTest: Codable, Identifiable {
 
 
 enum LabTestStatus: String, Codable, CaseIterable {
-    case pending = "pending"
+    case pending
+    case waiting
     case inProgress = "in-progress"
-    case completed = "completed"
+    case completed
+
     
     var color: Color {
         switch self {
         case .pending:
             return .yellow
+        case .waiting:
+            return .purple
         case .inProgress:
             return .blue
         case .completed:

@@ -27,8 +27,8 @@ enum PaymentType: String, Codable {
 struct Invoice: Identifiable, Codable {
     var id: Int
     var createdAt: Date
-    var patientId: UUID
-    var userId: UUID
+    var patient: Patient
+    var userID: UUID
     var amount: Int
     var paymentType: PaymentType
     var referenceId: Int
@@ -37,20 +37,20 @@ struct Invoice: Identifiable, Codable {
     enum CodingKeys: String, CodingKey {
         case id
         case createdAt = "created_at"
-        case patientId = "patient_id"
-        case userId = "user_id"
+        case patient
+        case userID = "user_id"
         case amount
         case paymentType = "payment_type"
         case referenceId = "reference_id"
         case status
     }
     
-    static let supabaseSelectQuery = "*"
+    static let supabaseSelectQuery = "*, patient:patient_id(*)"
     
     static let sample = Invoice(id: 1,
                                 createdAt: Date(),
-                                patientId: UUID(),
-                                userId: UUID(),
+                                patient: Patient.sample,
+                                userID: UUID(),
                                 amount: 100,
                                 paymentType: .appointment,
                                 referenceId: 1,
@@ -69,7 +69,7 @@ struct Invoice: Identifiable, Codable {
     
     private func fetchAppointment(referenceId: Int) async throws -> Appointment {
         let response:Appointment = try await supabase.from(SupabaseTable.appointments.id)
-            .select()
+            .select(Appointment.supabaseSelectQuery)
             .eq("id", value: referenceId)
             .single()
             .execute()
@@ -80,7 +80,7 @@ struct Invoice: Identifiable, Codable {
     
     private func fetchLabTest(referenceId: Int) async throws -> LabTest {
         let response:LabTest = try await supabase.from(SupabaseTable.labTests.id)
-            .select()
+            .select(LabTest.supabaseSelectQuery)
             .eq("id", value: referenceId)
             .single()
             .execute()
@@ -93,6 +93,39 @@ struct Invoice: Identifiable, Codable {
         let response:BedBooking = try await supabase.from(SupabaseTable.bedBookings.id)
             .select()
             .eq("id", value: referenceId)
+            .single()
+            .execute()
+            .value
+        
+        return response
+    }
+    
+    // this is for demonstartin puropose
+    // should not be used in real life scenarios
+    func changePaymentStatus(status: PaymentStatus) async throws -> Invoice {
+        let response: Invoice = try await supabase.from(SupabaseTable.invoices.id)
+            .update([
+                "status": status.rawValue
+            ])
+            .eq("id", value: id)
+            .select(Invoice.supabaseSelectQuery)
+            .single()
+            .execute()
+            .value
+        
+        return response
+    }
+    
+    // this is for demonstartin puropose
+    // should not be used in real life scenarios
+    static func changePaymentStatus(paymentType: PaymentType, refrenceId: Int, status: PaymentStatus) async throws -> Invoice {
+        let response: Invoice = try await supabase.from(SupabaseTable.invoices.id)
+            .update([
+                "status": status.rawValue
+            ])
+            .eq(CodingKeys.paymentType.rawValue, value: paymentType.rawValue)
+            .eq(CodingKeys.referenceId.rawValue, value: refrenceId)
+            .select(supabaseSelectQuery)
             .single()
             .execute()
             .value

@@ -10,36 +10,34 @@ import SwiftUI
 struct AppointmentView: View {
     @StateObject private var viewModel = AppointmentViewModel()
     
+    @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Failed to load appointments")
+    
     var body: some View {
         NavigationView {
             VStack {
-                Picker("Appointments", selection: $viewModel.selectedSegment) {
-                    ForEach(AppointmentViewModel.Segment.allCases, id: \.self) { segment in
-                        Text(segment.rawValue).tag(segment)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
                 
-                HStack {
-                    TextField("Search by doctor, patient, status", text: $viewModel.filterText)
-                        .withIcon("magnifyingglass")
-                        .paddedTextFieldStyle()
-                        .padding(.leading)
-                    
+                
+                HStack { 
+                    Picker("Appointments", selection: $viewModel.selectedSegment) {
+                        ForEach(AppointmentViewModel.Segment.allCases, id: \.self) { segment in
+                            Text(segment.rawValue).tag(segment)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(8)
+                    .padding(.leading)
                     Picker("Sort by", selection: $viewModel.sortOption) {
                         ForEach(AppointmentViewModel.SortOption.allCases, id: \.self) { option in
                             Text(option.rawValue).tag(option)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .padding(.horizontal)
+                    .padding(.trailing)
                 }
                 
                 if viewModel.isLoading {
                     Spacer()
                     ProgressView()
-                        .scaleEffect(2)
                     Spacer()
                 } else if viewModel.selectedSegment == .upcoming && viewModel.upcomingAppointments.isEmpty || viewModel.selectedSegment == .past && viewModel.pastAppointments.isEmpty {
                     Spacer()
@@ -58,16 +56,17 @@ struct AppointmentView: View {
                             AppointmentCard(appointment: appointment)
                         }
                     }.listStyle(.plain)
+                        .refreshable {
+                            viewModel.fetchAppointments()
+                        }
                 }
                 
                 Spacer()
             }
             .navigationTitle("Appointments")
-            .onAppear {
-                Task {
-                    await viewModel.fetchAppointments()
-                }
-            }
+            .navigationBarTitleDisplayMode(.inline)
+            .errorAlert(errorAlertMessage: errorAlertMessage)
+            .searchable(text: $viewModel.filterText)
         }
     }
 }

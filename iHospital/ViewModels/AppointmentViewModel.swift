@@ -34,55 +34,60 @@ class AppointmentViewModel: ObservableObject {
         case patient = "Patient"
         case status = "Status"
     }
-
+    
+    @MainActor
     init() {
-        Publishers.CombineLatest3($filterText, $sortOption, $appointments)
-            .map { [weak self] filterText, sortOption, appointments in
-                self?.applyFiltersAndSort(filterText: filterText, sortOption: sortOption) ?? []
+        fetchAppointments()
+        Publishers.CombineLatest3($filterText, $sortOption, $allAppointments)
+            .map { [weak self] filterText, sortOption, allAppointments in
+                self?.applyFiltersAndSort(filterText: filterText, sortOption: sortOption, appointments: allAppointments) ?? []
             }
+            .handleEvents(receiveOutput: { [weak self] filteredAppointments in
+                self?.splitAppointments(appointments: filteredAppointments)
+            })
             .assign(to: &$appointments)
-        
-        $appointments
-            .sink { [weak self] appointments in
-                self?.splitAppointments(appointments: appointments)
-            }
-            .store(in: &cancellables)
     }
     
     @MainActor
-    func fetchAppointments() async {
-        isLoading = true
-        defer { isLoading = false }
-        
-        do {
-            let fetchedAppointments = try await Appointment.fetchAllAppointments()
+    func fetchAppointments() {
+        Task {
+            isLoading = true
+            defer { isLoading = false }
+            
+            do {
+                let fetchedAppointments = try await Appointment.fetchAllAppointments()
                 self.allAppointments = fetchedAppointments
                 self.appointments = fetchedAppointments
-        } catch {
-            print("Error fetching appointments: \(error.localizedDescription)")
+            } catch {
+                print("Error while fetching appointments: \(error)")
+            }
         }
     }
     
-    private func applyFiltersAndSort(filterText: String, sortOption: SortOption) -> [Appointment] {
-        var filteredAppointments = allAppointments
+    private func applyFiltersAndSort(filterText: String, sortOption: SortOption, appointments: [Appointment]) -> [Appointment] {
+        var filteredAppointments = appointments
         
         if !filterText.isEmpty {
-            filteredAppointments = appointments.filter { appointment in
-                appointment.doctor.name.lowercased().contains(filterText.lowercased()) ||
-                appointment.patient.name.lowercased().contains(filterText.lowercased()) ||
-                appointment.appointmentStatus.rawValue.lowercased().contains(filterText.lowercased())
+            let lowercasedFilter = filterText.lowercased()
+            filteredAppointments = filteredAppointments.filter { appointment in
+                appointment.doctor.name.lowercased().contains(lowercasedFilter) ||
+                appointment.patient.name.lowercased().contains(lowercasedFilter) ||
+                appointment.date.dateTimeString.lowercased().contains(lowercasedFilter) ||
+                appointment.appointmentStatus.rawValue.lowercased().contains(lowercasedFilter)
             }
         }
         
-        switch sortOption {
-        case .date:
-            filteredAppointments.sort { $0.date < $1.date }
-        case .doctor:
-            filteredAppointments.sort { $0.doctor.name < $1.doctor.name }
-        case .patient:
-            filteredAppointments.sort { $0.patient.name < $1.patient.name }
-        case .status:
-            filteredAppointments.sort { $0.appointmentStatus.rawValue < $1.appointmentStatus.rawValue }
+        filteredAppointments.sort { a, b in
+            switch sortOption {
+            case .date:
+                return a.date > b.date
+            case .doctor:
+                return a.doctor.name < b.doctor.name
+            case .patient:
+                return a.patient.name < b.patient.name
+            case .status:
+                return a.appointmentStatus.rawValue < b.appointmentStatus.rawValue
+            }
         }
         
         return filteredAppointments
@@ -90,7 +95,7 @@ class AppointmentViewModel: ObservableObject {
     
     private func splitAppointments(appointments: [Appointment]) {
         let now = Date()
-        self.upcomingAppointments = appointments.filter { $0.date >= now }
-        self.pastAppointments = appointments.filter { $0.date < now }
+        self.upcomingAppointments = appointments.filter { $0.date >= now && $0.appointmentStatus != .completed }
+        self.pastAppointments = appointments.filter { $0.date < now || $0.appointmentStatus == .completed }
     }
 }
