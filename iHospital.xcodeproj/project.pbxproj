@@ -57,6 +57,7 @@
 		32AF569B2C354A4D002E599F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AF569A2C354A4D002E599F /* Constants.swift */; };
 		32AF569E2C354A9E002E599F /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 32AF569D2C354A9E002E599F /* Auth */; };
 		32AF56A02C354A9E002E599F /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 32AF569F2C354A9E002E599F /* Storage */; };
+		D513F6252C4644D1003F8B50 /* AppointmentDetailwithReports.swift in Sources */ = {isa = PBXBuildFile; fileRef = D513F6242C4644D1003F8B50 /* AppointmentDetailwithReports.swift */; };
 		EF86A6C92C428EEB0016ED22 /* RescheduleAppointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86A6C82C428EEB0016ED22 /* RescheduleAppointment.swift */; };
 		EF86A6CB2C4443550016ED22 /* BookedBedsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86A6CA2C4443550016ED22 /* BookedBedsCard.swift */; };
 		EF86A6CD2C4443690016ED22 /* BedBillingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF86A6CC2C4443690016ED22 /* BedBillingPage.swift */; };
@@ -120,6 +121,7 @@
 		32AF56952C354839002E599F /* VerifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyView.swift; sourceTree = "<group>"; };
 		32AF56982C354973002E599F /* Supabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supabase.swift; sourceTree = "<group>"; };
 		32AF569A2C354A4D002E599F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D513F6242C4644D1003F8B50 /* AppointmentDetailwithReports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentDetailwithReports.swift; sourceTree = "<group>"; };
 		EF86A6C82C428EEB0016ED22 /* RescheduleAppointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RescheduleAppointment.swift; sourceTree = "<group>"; };
 		EF86A6CA2C4443550016ED22 /* BookedBedsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedBedsCard.swift; sourceTree = "<group>"; };
 		EF86A6CC2C4443690016ED22 /* BedBillingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedBillingPage.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				3246E5F12C398059000B5A23 /* AppointmentSearch.swift */,
 				325D0B9B2C39EA5800728445 /* AppointmentBooking.swift */,
 				3213A8672C3AAF8E00509BCB /* AppointmentDetail.swift */,
+				D513F6242C4644D1003F8B50 /* AppointmentDetailwithReports.swift */,
 				3213A8692C3AD2ED00509BCB /* AppointmentView.swift */,
 			);
 			path = Appointment;
@@ -423,6 +426,7 @@
 				3213A8782C3C7FA200509BCB /* UpdatePassword.swift in Sources */,
 				328FECAF2C41EACD00EFA273 /* Router.swift in Sources */,
 				325D0B9E2C39F19D00728445 /* BookingViewModel.swift in Sources */,
+				D513F6252C4644D1003F8B50 /* AppointmentDetailwithReports.swift in Sources */,
 				32AF56992C354973002E599F /* Supabase.swift in Sources */,
 				3246E5F02C397F9D000B5A23 /* Search.swift in Sources */,
 				3284097F2C37E36C00473841 /* BloodGroup.swift in Sources */,

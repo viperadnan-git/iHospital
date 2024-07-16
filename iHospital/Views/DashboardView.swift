@@ -10,8 +10,8 @@ import SwiftUI
 struct DashboardView: View {
     @EnvironmentObject private var patientViewModel: PatientViewModel
     @EnvironmentObject private var authViewModel: AuthViewModel
-
     @StateObject private var navigation = Navigation()
+    @State private var showAppointmentDetail = false
     
     var body: some View {
         NavigationStack(path:$navigation.path) {
@@ -51,9 +51,14 @@ struct DashboardView: View {
                     Text("Next Appointment")
                         .font(.title3)
                         .fontWeight(.bold)
-                    
-                    AppointmentCard(appointment: Appointment.sample)
-                    
+        
+                    NavigationLink(destination: AppointmentDetailwithReports(appointment: Appointment.sample), isActive: $showAppointmentDetail) {
+                                           AppointmentCard(appointment: Appointment.sample)
+                                               .onTapGesture {
+                                                   showAppointmentDetail = true
+                                               }
+                                               .foregroundColor(.white)
+                                       }
                     Text("Additional features")
                         .font(.title3)
                         .fontWeight(.bold)
