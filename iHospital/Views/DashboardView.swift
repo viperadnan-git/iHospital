@@ -25,7 +25,7 @@ struct DashboardView: View {
                                 Text("Need an Appointment")
                                     .multilineTextAlignment(.leading)
                                     .font(.title2)
-                                    .foregroundColor(.black)
+                                    .foregroundColor(Color(.label))
                                     .fontWeight(.bold)
                                 
                                 Spacer()

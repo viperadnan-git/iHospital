@@ -31,7 +31,7 @@ struct LabStatusCard: View {
                 }
             }
             .padding()
-            .foregroundColor(.black)
+            .foregroundColor(Color(.label))
         }
         .onTapGesture {
             onTap()
