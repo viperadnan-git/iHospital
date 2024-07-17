@@ -37,9 +37,10 @@ struct PaymentPageView: View {
 }
 
 struct PaymentPageSingleView: View {
-    @Binding var isSuccess: Bool
     let paymentType: PaymentType
     let refrenceId: Int
+    
+    @Binding var isSuccess: Bool
     
     @Environment(\.dismiss) private var dismiss
     
@@ -50,8 +51,9 @@ struct PaymentPageSingleView: View {
             Spacer()
             PaymentPageContent(changeStatus: changeStatus)
             Spacer()
-        }.padding()
-            .errorAlert(errorAlertMessage: errorAlertMessage)
+        }
+        .padding()
+        .errorAlert(errorAlertMessage: errorAlertMessage)
     }
     
     private func changeStatus(_ status: PaymentStatus) {

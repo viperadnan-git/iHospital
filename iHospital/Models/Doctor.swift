@@ -176,7 +176,13 @@ struct Doctor: Codable, Hashable {
         var availableSlots: [(Date, Bool)] = []
         let today = Date()
         
-        let startTime = date.startOfDay == today.startOfDay ? calendar.date(byAdding: .hour, value: 1, to: today)!.nextQuarter : settings.startTime
+        
+        var startTime: Date = settings.startTime
+        if date.startOfDay == today.startOfDay {
+            if let date = calendar.date(byAdding: .hour, value: 1, to: today) {
+                startTime = date.nextQuarter
+            }
+        }
         
         var currentTime = calendar.date(bySettingHour: calendar.component(.hour, from: startTime), minute: calendar.component(.minute, from: startTime), second: 0, of: date)!
         let endTime = calendar.date(bySettingHour: calendar.component(.hour, from: settings.endTime), minute: calendar.component(.minute, from: settings.endTime), second: 0, of: date)!

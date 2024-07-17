@@ -12,6 +12,7 @@ class BookingViewModel: ObservableObject {
     @Published var doctor: Doctor?
     @Published var selectedSlot: Date?
     @Published var forDate: Date = Date()
+    @Published var bookedAppointment: Appointment?
     
     func bookAppointment(patient: Patient) async throws -> Appointment {
         guard let doctor = doctor, let selectedSlot = selectedSlot else {
@@ -19,7 +20,6 @@ class BookingViewModel: ObservableObject {
         }
 
         let appointment = try await Appointment.bookAppointment(patientId: patient.id, doctorId: doctor.userId, date: selectedSlot, userId: patient.userId)
-        print("Appointment booked successfully: \(appointment)")
         return appointment
     }
 }

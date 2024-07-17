@@ -1,5 +1,5 @@
 //
-//  AppointmentDetail.swift
+//  AppointmentConfirmationView.swift
 //  iHospital
 //
 //  Created by Adnan Ahmad on 07/07/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AppointmentDetailView: View {
+struct AppointmentConfirmationView: View {
     let appointment: Appointment
     
     @Environment(\.navigation) private var navigation

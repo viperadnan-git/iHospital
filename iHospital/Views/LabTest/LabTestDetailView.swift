@@ -36,8 +36,19 @@ struct LabTestDetailView: View {
                 ProgressView()
             } else {
                 Spacer()
-                Text(labTest.status == LabTestStatus.inProgress ?  "Report not generated yet." : "Sample not collected yet.")
-                    .foregroundStyle(.gray)
+                VStack(alignment: .leading) {
+                    LabTestStatusIndicator(status: labTest.status)
+                    switch labTest.status {
+                    case .pending:
+                        Text("Payment is pending for this test.")
+                    case .waiting:
+                        Text("Waiting for sample collection.")
+                    case .inProgress:
+                        Text("Sample is collected, creation of report is in progress.")
+                    case .completed:
+                        Text("Report is generated.")
+                    }
+                }.foregroundStyle(.gray)
             }
             
             Spacer()
@@ -81,6 +92,20 @@ struct LabTestDetailView: View {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootViewController = windowScene.windows.first?.rootViewController {
             rootViewController.present(activityController, animated: true, completion: nil)
+        }
+    }
+}
+
+struct LabTestStatusIndicator: View {
+    let status: LabTestStatus
+
+    var body: some View {
+        HStack {
+            Circle()
+                .fill(status.color)
+                .frame(width: 10, height: 10)
+            Text(status.rawValue.capitalized)
+                .font(.footnote)
         }
     }
 }

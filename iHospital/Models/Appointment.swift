@@ -9,12 +9,12 @@ import Foundation
 import Supabase
 import SwiftUI
 
-struct Appointment: Codable, Hashable {
+class Appointment: Codable, Hashable {
     let id: Int
     let patient: Patient
     let doctor: Doctor
     let user: SupaUser
-    let date: Date
+    var date: Date
     let appointmentStatus: AppointmentStatus
     let createdAt: Date
 
@@ -37,7 +37,8 @@ struct Appointment: Codable, Hashable {
     }
     
     static let iso8601Formatter = ISO8601DateFormatter()
-    static let supabaseSelectQuery = "*, doctor:doctor_id(*), patient:patient_id(*), user:user_id(*)"
+    
+    static let supabaseSelectQuery = "*, doctor:doctor_id(\(Doctor.supabaseSelectQuery)), patient:patient_id(*), user:user_id(*)"
     
     static let sample: Appointment = Appointment(
         id: 1,
@@ -59,7 +60,7 @@ struct Appointment: Codable, Hashable {
         self.createdAt = createdAt
     }
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(Int.self, forKey: .id)
         patient = try container.decode(Patient.self, forKey: .patient)
@@ -110,6 +111,33 @@ struct Appointment: Codable, Hashable {
         
         return response
     }
+    
+    func reschedule(date: Date) async throws -> Appointment {
+        self.date = date
+        
+        let response: Appointment = try await supabase
+            .from(SupabaseTable.appointments.id)
+            .update([
+                "date": date.ISO8601Format()
+            ])
+            .eq("id", value: id)
+            .select(Appointment.supabaseSelectQuery)
+            .single()
+            .execute()
+            .value
+        
+        return response
+    }
+    
+    func cancel() async throws {
+        try await supabase
+            .from(SupabaseTable.appointments.id)
+            .update([
+                "appointment_status": AppointmentStatus.cancelled.rawValue
+            ])
+            .eq("id", value: id)
+            .execute()
+    }
 }
 
 enum PaymentStatus: String, Codable {
@@ -137,6 +165,19 @@ enum AppointmentStatus: String, Codable {
     case confirmed
     case pending
     case cancelled
+    
+    var color: Color {
+        switch self {
+        case .completed:
+            return .green
+        case .confirmed:
+            return .blue
+        case .pending:
+            return .yellow
+        case .cancelled:
+            return .red
+        }
+    }
 }
 
 enum AppointmentError: Error, LocalizedError {

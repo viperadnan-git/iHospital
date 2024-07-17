@@ -15,7 +15,6 @@ struct AppointmentBooking: View {
     @State private var showPatientSheet = false
     @State private var showPaymentPage = false
     @State private var isLoading = false
-    @State private var bookedAppointment: Appointment?
     @State private var isPaymentSuccessful = false
     @StateObject var errorAlertMessage = ErrorAlertMessage(title: "Unable to book appointment")
     
@@ -87,22 +86,27 @@ struct AppointmentBooking: View {
             .navigationTitle("Confirm Booking")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: Appointment.self) {
-                AppointmentDetailView(appointment: $0)
+                AppointmentConfirmationView(appointment: $0)
             }
             .errorAlert(errorAlertMessage: errorAlertMessage)
             .sheet(isPresented: $showPatientSheet) {
                 AddPatientView(showPatientSheet: $showPatientSheet)
             }
             .sheet(isPresented: $showPaymentPage) {
-                if let bookedAppointment = bookedAppointment {
-                    PaymentPageSingleView(isSuccess: $isPaymentSuccessful, paymentType: .appointment, refrenceId: bookedAppointment.id)
+                if let bookedAppointment = booking.bookedAppointment {
+                    PaymentPageSingleView(paymentType: .appointment, refrenceId: bookedAppointment.id, isSuccess: $isPaymentSuccessful)
+                } else {
+                    Text("Failed to book appointment")
                 }
             }
             .onChange(of: isPaymentSuccessful) { newValue in
-                if newValue, let bookedAppointment = bookedAppointment {
-                    navigation.path.append(bookedAppointment)
+                print(newValue)
+                if newValue {
+                    if let bookedAppointment = booking.bookedAppointment {
+                        navigation.path.append(bookedAppointment)
+                    }
                 } else {
-                    errorAlertMessage.message = "Failed to book appointment"
+                    errorAlertMessage.message = "Failed to process payment"
                 }
             }
         }
@@ -124,8 +128,7 @@ struct AppointmentBooking: View {
             
             do {
                 let appointment = try await booking.bookAppointment(patient: patient)
-                booking.selectedSlot = nil // Clear the selected slot after booking
-                bookedAppointment = appointment
+                booking.bookedAppointment = appointment
                 showPaymentPage = true
             } catch {
                 errorAlertMessage.message = error.localizedDescription

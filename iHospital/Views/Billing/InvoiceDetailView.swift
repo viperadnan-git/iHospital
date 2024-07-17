@@ -15,39 +15,49 @@ struct InvoiceDetailView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                PaymentStatusIndicator(status: invoice.status)
-                    .font(.title)
-                    .textCase(.uppercase)
-                Spacer()
-                Text(invoice.amount.currency)
-                    .font(.title)
-                    .bold()
+            
+            Form {
+                Section {
+                    HStack {
+                        Text(invoice.status.rawValue.uppercased())
+                            .font(.title)
+                            .bold()
+                            .foregroundStyle(invoice.status.color)
+                        Spacer()
+                        Text(invoice.amount.currency)
+                            .font(.title)
+                            .bold()
+                    }
+                    .padding()
+                }
+                
+                Section(header: Text("Invoice Details")) {
+                    HStack {
+                        Text("Invoice ID")
+                        Spacer()
+                        Text("#\(invoice.id)")
+                    }
+                        
+                    HStack {
+                        Text("Patient")
+                        Spacer()
+                        Text(invoice.patient.name)
+                    }
+                    
+                    HStack {
+                        
+                        Text("Payment Type")
+                        Spacer()
+                        Text(invoice.paymentType.name)
+                    }
+                    
+                    HStack {
+                        Text("Created at")
+                        Spacer()
+                        Text(invoice.createdAt.dateTimeString)
+                    }
+                }
             }
-            .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(8)
-            .padding()
-            
-            Text("Invoice #\(invoice.id)")
-                .font(.title)
-                .fontWeight(.bold)
-                .padding()
-            
-            Text("Patient: \(invoice.patient.firstName) \(invoice.patient.lastName)")
-                .font(.title3)
-                .fontWeight(.bold)
-                .padding()
-            
-            Text("Payment Type: \(invoice.paymentType.name)")
-                .font(.title3)
-                .fontWeight(.bold)
-                .padding()
-            
-            Text("Created At: \(invoice.createdAt.dateTimeString)")
-                .font(.title3)
-                .fontWeight(.bold)
-                .padding()
             
             Spacer()
             

@@ -49,15 +49,15 @@ class AppointmentViewModel: ObservableObject {
     }
     
     @MainActor
-    func fetchAppointments() {
+    func fetchAppointments(showLoader: Bool = true) {
         Task {
-            isLoading = true
+            isLoading = showLoader
             defer { isLoading = false }
             
             do {
                 let fetchedAppointments = try await Appointment.fetchAllAppointments()
                 self.allAppointments = fetchedAppointments
-                self.appointments = fetchedAppointments
+                self.splitAppointments(appointments: fetchedAppointments)
             } catch {
                 print("Error while fetching appointments: \(error)")
             }
@@ -97,5 +97,25 @@ class AppointmentViewModel: ObservableObject {
         let now = Date()
         self.upcomingAppointments = appointments.filter { $0.date >= now && $0.appointmentStatus != .completed }
         self.pastAppointments = appointments.filter { $0.date < now || $0.appointmentStatus == .completed }
+    }
+    
+    func rescheduleAppointment(appointment: Appointment, newDate: Date) async throws {
+        let rescheduledAppointment = try await appointment.reschedule(date: newDate)
+        if let index = allAppointments.firstIndex(where: { $0.id == appointment.id }) {
+            DispatchQueue.main.async {
+                self.allAppointments[index] = rescheduledAppointment
+                self.splitAppointments(appointments: self.allAppointments)
+            }
+        }
+    }
+    
+    func cancelAppointment(appointment: Appointment) async throws {
+        try await appointment.cancel()
+        if let index = allAppointments.firstIndex(where: { $0.id == appointment.id }) {
+            DispatchQueue.main.async {
+                self.allAppointments.remove(at: index)
+                self.splitAppointments(appointments: self.allAppointments)
+            }
+        }
     }
 }

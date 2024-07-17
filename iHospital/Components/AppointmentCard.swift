@@ -19,45 +19,16 @@ struct AppointmentCard: View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 Image(systemName: "person.crop.circle.fill")
-                    .frame(height: 48)
+                    .font(.largeTitle)
                     .padding(.trailing, 4)
                 
                 VStack(alignment: .leading) {
                     Text(appointment.doctor.name)
                         .font(.title3)
-                    Text("\(appointment.doctor.experienceSince.ago) experience")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+                    AppointmentStatusIndicator(status: appointment.appointmentStatus)
+                    Spacer()
                 }
                 Spacer()
-                
-                HStack(alignment: .center) {
-                    Menu {
-                        ForEach(actions, id: \.self) { action in
-                            Button(action: {
-                                selectedAction = action
-                                if action == "Cancel Appointment" {
-                                    isCancelAlertPresented = true
-                                } else if action == "Reschedule Appointment" {
-                                    navigateToReschedule = true
-                                }
-                            }) {
-                                Text(action)
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis.circle")
-                    }
-                    .alert(isPresented: $isCancelAlertPresented) {
-                        Alert(
-                            title: Text("Are you sure you want to cancel your appointment?"),
-                            primaryButton: .destructive(Text("Confirm")) {
-                                // Handle appointment cancellation
-                            },
-                            secondaryButton: .cancel(Text("Go back"))
-                        )
-                    }
-                }
             }
             
             HStack {
@@ -70,25 +41,26 @@ struct AppointmentCard: View {
                     .foregroundColor(.accentColor)
                 Text("\(appointment.date, style: .date) at \(appointment.date, style: .time)")
             }
-            HStack {
-                Image(systemName: "info.square.fill")
-                    .foregroundColor(.accentColor)
-                Text(appointment.appointmentStatus.rawValue.capitalized)
-                Spacer()
-                Text((appointment.doctor.fee).formatted(.currency(code: "INR"))).font(.title3)
-            }
         }
         .padding()
-        .background(Color(.secondarySystemBackground))
-        .cornerRadius(8)
         .frame(maxWidth: .infinity)
-        .background(
-            NavigationLink(destination: RescheduleAppointment(), isActive: $navigateToReschedule) {
-                EmptyView()
-            }
-        )
     }
 }
+
+struct AppointmentStatusIndicator: View {
+    let status: AppointmentStatus
+
+    var body: some View {
+        HStack {
+            Circle()
+                .fill(status.color)
+                .frame(width: 10, height: 10)
+            Text(status.rawValue.capitalized)
+                .font(.footnote)
+        }
+    }
+}
+
 #Preview {
     AppointmentCard(
         appointment: Appointment.sample

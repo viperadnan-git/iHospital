@@ -18,7 +18,7 @@ struct MainView: View {
                 .tabItem {
                     Label("Home", systemImage: selection == 0 ? "house.fill" : "house")
                 }.tag(0)
-            AppointmentView()
+            AppointmentListView()
                 .tabItem {
                     Label("Appointment", systemImage: selection == 1 ? "calendar" : "calendar")
                 }.tag(1)

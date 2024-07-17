@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AppointmentView: View {
+struct AppointmentListView: View {
     @StateObject private var viewModel = AppointmentViewModel()
     
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Failed to load appointments")
@@ -15,8 +15,6 @@ struct AppointmentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                
-                
                 HStack { 
                     Picker("Appointments", selection: $viewModel.selectedSegment) {
                         ForEach(AppointmentViewModel.Segment.allCases, id: \.self) { segment in
@@ -47,21 +45,23 @@ struct AppointmentView: View {
                         .frame(width: 100, height: 100)
                         .padding()
                         .foregroundColor(Color(.systemGray5))
-                    Text("No appointments found")
+                    Text("No \(viewModel.selectedSegment == .upcoming ? "upcoming" : "past") appointments")
                         .foregroundColor(Color(.systemGray))
                     Spacer()
                 } else {
                     List {
                         ForEach(viewModel.selectedSegment == .upcoming ? viewModel.upcomingAppointments : viewModel.pastAppointments, id: \.self) { appointment in
-                            AppointmentCard(appointment: appointment)
+                            NavigationLink(destination: AppointmentDetailView(appointment: appointment).environmentObject(viewModel)) {
+                                AppointmentCard(appointment: appointment)
+                            }
                         }
                     }.listStyle(.plain)
-                        .refreshable {
-                            viewModel.fetchAppointments()
-                        }
                 }
                 
                 Spacer()
+            }
+            .refreshable {
+                viewModel.fetchAppointments(showLoader: false)
             }
             .navigationTitle("Appointments")
             .navigationBarTitleDisplayMode(.inline)
@@ -72,5 +72,5 @@ struct AppointmentView: View {
 }
 
 #Preview {
-    AppointmentView()
+    AppointmentListView()
 }
