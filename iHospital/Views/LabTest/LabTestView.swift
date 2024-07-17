@@ -36,38 +36,7 @@ struct LabTestView: View {
                         .foregroundStyle(.gray)
                         .padding()
                 } else {
-                    List(viewModel.labTests) { labTest in
-                        NavigationLink(destination: LabTestDetailView(labTest: labTest)) {
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text(labTest.test.name).bold()
-                                    HStack {
-                                        Text(labTest.appointment.doctor.name)
-                                        Text("•")
-                                        Text(labTest.appointment.date, style: .date)
-                                    }
-                                    .font(.subheadline)
-                                    .foregroundStyle(.gray)
-                                    
-                                }
-                                Spacer()
-                                switch labTest.status {
-                                case .completed:
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(labTest.status.color)
-                                case .pending:
-                                    Image(systemName: "clock.fill")
-                                        .foregroundColor(labTest.status.color)
-                                case .waiting:
-                                    Image(systemName: "clock.fill")
-                                        .foregroundColor(labTest.status.color)
-                                case .inProgress:
-                                    Image(systemName: "clock.fill")
-                                        .foregroundColor(labTest.status.color)
-                                }
-                            }
-                        }
-                    }.listStyle(PlainListStyle())
+                    LabTestListView(labTests: $viewModel.labTests)
                 }
                 
                 Spacer()
@@ -89,6 +58,46 @@ struct LabTestView: View {
                     }
                 }
         }
+    }
+}
+
+
+struct LabTestListView: View {
+    @Binding var labTests: [LabTest]
+    
+    var body: some View {
+        List(labTests) { labTest in
+            NavigationLink(destination: LabTestDetailView(labTest: labTest)) {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(labTest.test.name).bold()
+                        HStack {
+                            Text(labTest.appointment.doctor.name)
+                            Text("•")
+                            Text(labTest.appointment.date, style: .date)
+                        }
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
+                        
+                    }
+                    Spacer()
+                    switch labTest.status {
+                    case .completed:
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(labTest.status.color)
+                    case .pending:
+                        Image(systemName: "clock.fill")
+                            .foregroundColor(labTest.status.color)
+                    case .waiting:
+                        Image(systemName: "clock.fill")
+                            .foregroundColor(labTest.status.color)
+                    case .inProgress:
+                        Image(systemName: "clock.fill")
+                            .foregroundColor(labTest.status.color)
+                    }
+                }
+            }
+        }.listStyle(PlainListStyle())
     }
 }
 

@@ -53,24 +53,43 @@ struct AppointmentDetailView: View {
                         Text(appointment.appointmentStatus.rawValue.capitalized)
                             .foregroundColor(appointment.appointmentStatus.color)
                     }
-                }
-                
-                
-                Section(header: Text("Actions")) {
-                    if appointment.date > Date().addingTimeInterval(4 * 60 * 60) {
-                        Button("Reschedule Appointment") {
-                            showRescheduleSheet = true
-                        }
-                        Button("Cancel Appointment") {
-                            showCancelAlert = true
-                        }
-                        .foregroundColor(.red)
-                    } else {
-                        Text("You can reschedule or cancel up to 4 hours before the appointment time.")
+                    HStack {
+                        Text("Appointment ID")
+                        Spacer()
+                        Text("#\(appointment.id.string)")
                     }
                 }
                 
-                if appointment.appointmentStatus == .pending {
+                if appointment.appointmentStatus == .completed {
+                    Section {
+                        NavigationLink(destination: AppointmentMedicalRecordDetailView(appointment: appointment)) {
+                            Text("View Medical Record")
+                        }
+                        NavigationLink(destination: AppointmentLabTestDetailView(appointment: appointment)) {
+                            Text("View Lab Reports")
+                        }
+                    }
+                }
+                
+                
+                if appointment.appointmentStatus != .completed {
+                    Section(header: Text("Actions")) {
+                        if appointment.date > Date().addingTimeInterval(4 * 60 * 60) {
+                            Button("Reschedule Appointment") {
+                                showRescheduleSheet = true
+                            }
+                            Button("Cancel Appointment") {
+                                showCancelAlert = true
+                            }
+                            .foregroundColor(.red)
+                        } else {
+                            Text("You can reschedule or cancel up to 4 hours before the appointment time.")
+                        }
+                    }
+                }
+                
+                
+                if appointment.appointmentStatus == .pending && appointment.date > Date() {
                     Section(header: Text("Make Payment")) {
                         VStack(alignment: .center) {
                             Button("Pay Now") {

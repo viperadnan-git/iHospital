@@ -61,6 +61,8 @@
 		328409922C3810FD00473841 /* HorizontalCalenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328409912C3810FD00473841 /* HorizontalCalenderView.swift */; };
 		328409952C3812A300473841 /* AppointmentBrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328409942C3812A300473841 /* AppointmentBrowseView.swift */; };
 		328FECAF2C41EACD00EFA273 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328FECAE2C41EACD00EFA273 /* Router.swift */; };
+		329F10782C47D11F00829A51 /* AppointmentMedicalRecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329F10772C47D11F00829A51 /* AppointmentMedicalRecordDetailView.swift */; };
+		329F107A2C47D15500829A51 /* AppointmentLabTestDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329F10792C47D15500829A51 /* AppointmentLabTestDetailView.swift */; };
 		32AA98A12C47B3B7001053D1 /* AppointmentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AA98A02C47B3B7001053D1 /* AppointmentDetailView.swift */; };
 		32AA98A32C47B45E001053D1 /* SlotListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AA98A22C47B45E001053D1 /* SlotListView.swift */; };
 		32AEF25C2C46F85D00B06B25 /* PaymentPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AEF25B2C46F85D00B06B25 /* PaymentPageView.swift */; };
@@ -143,6 +145,8 @@
 		328409912C3810FD00473841 /* HorizontalCalenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCalenderView.swift; sourceTree = "<group>"; };
 		328409942C3812A300473841 /* AppointmentBrowseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentBrowseView.swift; sourceTree = "<group>"; };
 		328FECAE2C41EACD00EFA273 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		329F10772C47D11F00829A51 /* AppointmentMedicalRecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentMedicalRecordDetailView.swift; sourceTree = "<group>"; };
+		329F10792C47D15500829A51 /* AppointmentLabTestDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentLabTestDetailView.swift; sourceTree = "<group>"; };
 		32AA98A02C47B3B7001053D1 /* AppointmentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentDetailView.swift; sourceTree = "<group>"; };
 		32AA98A22C47B45E001053D1 /* SlotListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotListView.swift; sourceTree = "<group>"; };
 		32AEF25B2C46F85D00B06B25 /* PaymentPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentPageView.swift; sourceTree = "<group>"; };
@@ -329,6 +333,8 @@
 				D513F6242C4644D1003F8B50 /* AppointmentDetailwithReports.swift */,
 				3213A8692C3AD2ED00509BCB /* AppointmentListView.swift */,
 				32AA98A02C47B3B7001053D1 /* AppointmentDetailView.swift */,
+				329F10772C47D11F00829A51 /* AppointmentMedicalRecordDetailView.swift */,
+				329F10792C47D15500829A51 /* AppointmentLabTestDetailView.swift */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";
@@ -517,6 +523,7 @@
 				328409842C37EF8300473841 /* PatientViewModel.swift in Sources */,
 				3213A86A2C3AD2ED00509BCB /* AppointmentListView.swift in Sources */,
 				325112762C466533007D89F1 /* DateFormatter.swift in Sources */,
+				329F10782C47D11F00829A51 /* AppointmentMedicalRecordDetailView.swift in Sources */,
 				EF86A6CF2C44469B0016ED22 /* BedBookingDetailsView.swift in Sources */,
 				328409862C37F5AF00473841 /* ProfileView.swift in Sources */,
 				3284098B2C3801CF00473841 /* Doctor.swift in Sources */,
@@ -532,6 +539,7 @@
 				324C9CE62C35625D00712E84 /* AuthView.swift in Sources */,
 				EF86A6CB2C4443550016ED22 /* BookedBedsCard.swift in Sources */,
 				3251128F2C469C50007D89F1 /* Image.swift in Sources */,
+				329F107A2C47D15500829A51 /* AppointmentLabTestDetailView.swift in Sources */,
 				328409812C37E8A500473841 /* AppointmentCard.swift in Sources */,
 				324C9CA62C354DA800712E84 /* SupaUser.swift in Sources */,
 				325D0B9C2C39EA5800728445 /* AppointmentBooking.swift in Sources */,

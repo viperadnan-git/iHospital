@@ -138,6 +138,35 @@ class Appointment: Codable, Hashable {
             .eq("id", value: id)
             .execute()
     }
+    
+    func fetchMedicalRecord() async throws -> MedicalRecord? {
+        guard appointmentStatus == .completed else {
+            return nil
+        }
+        
+        let response: MedicalRecord = try await supabase.from(SupabaseTable.medicalRecords.id)
+            .select(MedicalRecord.supabaseSelectQuery)
+            .eq("appointment_id", value: id)
+            .single()
+            .execute()
+            .value
+        
+        return response
+    }
+    
+    func fetchLabTests() async throws -> [LabTest]? {
+        guard appointmentStatus == .completed else {
+            return nil
+        }
+        
+        let response: [LabTest] = try await supabase.from(SupabaseTable.labTests.id)
+            .select(LabTest.supabaseSelectQuery)
+            .eq("appointment_id", value: id)
+            .execute()
+            .value
+        
+        return response
+    }
 }
 
 enum PaymentStatus: String, Codable {
