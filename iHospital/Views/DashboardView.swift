@@ -12,6 +12,7 @@ struct DashboardView: View {
     @EnvironmentObject private var authViewModel: AuthViewModel
     @StateObject private var navigation = Navigation()
     @State private var showAppointmentDetail = false
+    @StateObject private var viewModel = AppointmentViewModel()
     
     var body: some View {
         NavigationStack(path:$navigation.path) {
@@ -48,17 +49,23 @@ struct DashboardView: View {
                         .background(Color(uiColor: .systemGray6))
                         .cornerRadius(8)
                     }
-                    Text("Next Appointment")
-                        .font(.title3)
-                        .fontWeight(.bold)
-        
-                    NavigationLink(destination: AppointmentDetailwithReports(appointment: Appointment.sample), isActive: $showAppointmentDetail) {
-                                           AppointmentCard(appointment: Appointment.sample)
-                                               .onTapGesture {
-                                                   showAppointmentDetail = true
-                                               }
-                                               .foregroundColor(.white)
-                                       }
+                    
+                    
+                    
+                    if let nextAppointment = viewModel.upcomingAppointments.first {
+                        
+                        Text("Next Appointment")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        
+                        NavigationLink(destination: AppointmentDetailView(appointment: nextAppointment).environmentObject(viewModel)) {
+                        AppointmentCard(appointment: nextAppointment)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .foregroundColor(Color(.label))
+                    }
+                    
+                }
                     Text("Features")
                         .font(.title3)
                         .fontWeight(.bold)

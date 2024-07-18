@@ -72,7 +72,7 @@ struct AppointmentDetailView: View {
                 }
                 
                 
-                if appointment.appointmentStatus != .completed {
+                if appointment.appointmentStatus != .completed && appointment.date > Date() {
                     Section(header: Text("Actions")) {
                         if appointment.date > Date().addingTimeInterval(4 * 60 * 60) {
                             Button("Reschedule Appointment") {
@@ -158,6 +158,8 @@ struct AppointmentDetailView: View {
                 PaymentPageSingleView(paymentType: .appointment, refrenceId: appointment.id, isSuccess: $isRescheduling)
             }
         }
+        .navigationTitle("Appointment Detail")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func cancelAppointment() {
