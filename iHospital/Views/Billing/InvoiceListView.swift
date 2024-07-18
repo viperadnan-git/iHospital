@@ -1,9 +1,4 @@
-//
-//  InvoiceListView.swift
-//  iHospital
-//
-//  Created by Adnan Ahmad on 16/07/24.
-//
+
 
 import SwiftUI
 
@@ -16,7 +11,7 @@ struct InvoiceListView: View {
                 ProgressView()
             } else {
                 List {
-                    ForEach(viewModel.invoices) { invoice in
+                    ForEach(viewModel.filteredInvoices) { invoice in
                         NavigationLink(destination: InvoiceDetailView(invoice: invoice).environmentObject(viewModel)) {
                             HStack {
                                 VStack(alignment: .leading) {
@@ -39,15 +34,31 @@ struct InvoiceListView: View {
                             }
                         }
                     }
-                }.listStyle(.plain)
+                }
+                .listStyle(.plain)
+                .refreshable {
+                    viewModel.fetchInvoices(showLoader: false)
+                }
             }
-        }.navigationTitle("Invoices")
-        .refreshable {
-            viewModel.fetchInvoices(showLoader: false)
+        }
+        .navigationTitle("Invoices")
+        .navigationBarItems(trailing: filterMenu)
+    }
+    
+    private var filterMenu: some View {
+        Menu {
+            ForEach(BillingViewModel.FilterType.allCases) { filter in
+                Button(action: {
+                    viewModel.selectedFilter = filter
+                }) {
+                    Text(filter.rawValue)
+                }
+            }
+        } label: {
+            Label("Filter", systemImage: "line.horizontal.3.decrease.circle")
         }
     }
 }
-
 
 struct PaymentStatusIndicator: View {
     var status: PaymentStatus

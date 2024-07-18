@@ -1,9 +1,4 @@
-//
-//  PaymentPageView.swift
-//  iHospital
-//
-//  Created by Adnan Ahmad on 17/07/24.
-//
+
 
 import SwiftUI
 
@@ -20,37 +15,6 @@ struct PaymentPageView: View {
             Spacer()
             PaymentPageContent(changeStatus: changeStatus)
             Spacer()
-        }.padding()
-            .errorAlert(errorAlertMessage: errorAlertMessage)
-    }
-    
-    private func changeStatus(_ status: PaymentStatus) {
-        Task {
-            do {
-                try await viewModel.changeStatus(invoice: invoice, status: status)
-                dismiss()
-            } catch {
-                errorAlertMessage.message = error.localizedDescription
-            }
-        }
-    }
-}
-
-struct PaymentPageSingleView: View {
-    let paymentType: PaymentType
-    let refrenceId: Int
-    
-    @Binding var isSuccess: Bool
-    
-    @Environment(\.dismiss) private var dismiss
-    
-    @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Failed to change payment status")
-    
-    var body: some View {
-        VStack(spacing: 8) {
-            Spacer()
-            PaymentPageContent(changeStatus: changeStatus)
-            Spacer()
         }
         .padding()
         .errorAlert(errorAlertMessage: errorAlertMessage)
@@ -59,8 +23,7 @@ struct PaymentPageSingleView: View {
     private func changeStatus(_ status: PaymentStatus) {
         Task {
             do {
-                _ = try await Invoice.changePaymentStatus(paymentType: paymentType, refrenceId: refrenceId, status: status)
-                isSuccess = (status == .paid)
+                try await viewModel.changeStatus(invoice: invoice, status: status)
                 dismiss()
             } catch {
                 errorAlertMessage.message = error.localizedDescription
@@ -96,6 +59,42 @@ struct PaymentPageContent: View {
     }
 }
 
+
+struct PaymentPageSingleView: View {
+    let paymentType: PaymentType
+    let refrenceId: Int
+    
+    @Binding var isSuccess: Bool
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Failed to change payment status")
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            Spacer()
+            PaymentPageContent(changeStatus: changeStatus)
+            Spacer()
+        }
+        .padding()
+        .errorAlert(errorAlertMessage: errorAlertMessage)
+    }
+    
+    private func changeStatus(_ status: PaymentStatus) {
+        Task {
+            do {
+                _ = try await Invoice.changePaymentStatus(paymentType: paymentType, refrenceId: refrenceId, status: status)
+                isSuccess = (status == .paid)
+                dismiss()
+            } catch {
+                errorAlertMessage.message = error.localizedDescription
+            }
+        }
+    }
+}
+
+
 #Preview {
     PaymentPageView(invoice: .sample)
+        .environmentObject(BillingViewModel())
 }

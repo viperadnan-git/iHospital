@@ -22,9 +22,6 @@ struct BookedBedsCard: View {
                         
                     }
                     Spacer()
-                    Button("Get Discharged") {
-                        showModal.toggle()
-                    }
                     
                     .sheet(isPresented: $showModal) {
                         BedBillingPage()

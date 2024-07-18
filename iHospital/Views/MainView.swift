@@ -28,7 +28,7 @@ struct MainView: View {
                 }.tag(2)
             LabTestView()
                 .tabItem {
-                    Label("Lab Test", systemImage: selection == 2 ? "flask.fill" : "flask")
+                    Label("Lab Records", systemImage: selection == 2 ? "flask.fill" : "flask")
                 }.tag(3)
         }
         .environmentObject(authViewModel)
