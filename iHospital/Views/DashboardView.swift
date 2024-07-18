@@ -50,22 +50,26 @@ struct DashboardView: View {
                         .cornerRadius(8)
                     }
                     
-                    
-                    
-                    if let nextAppointment = viewModel.upcomingAppointments.first {
+                    if viewModel.isLoading {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    } else{
                         
-                        Text("Next Appointment")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                        
-                        NavigationLink(destination: AppointmentDetailView(appointment: nextAppointment).environmentObject(viewModel)) {
-                        AppointmentCard(appointment: nextAppointment)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                            .foregroundColor(Color(.label))
+                        if let nextAppointment = viewModel.upcomingAppointments.first {
+                            
+                            Text("Next Appointment")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                            
+                            NavigationLink(destination: AppointmentDetailView(appointment: nextAppointment).environmentObject(viewModel)) {
+                                AppointmentCard(appointment: nextAppointment)
+                                    .background(Color(.systemGray6))
+                                    .cornerRadius(8)
+                                    .foregroundColor(Color(.label))
+                            }
+                            
+                        }
                     }
-                    
-                }
                     Text("Features")
                         .font(.title3)
                         .fontWeight(.bold)
@@ -92,7 +96,7 @@ struct DashboardView: View {
                             }
                             NavigationLink(destination: InvoiceListView()) {
                                 ZStack {
-                                    RoundedRectangle(cornerRadius: 15)
+                                    RoundedRectangle(cornerRadius: 8)
                                         .fill(Color(uiColor: .systemGray6))
                                     VStack {
                                         Image(systemName: "dollarsign.circle.fill")
