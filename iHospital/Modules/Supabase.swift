@@ -34,7 +34,7 @@ enum SupabaseTable: String {
 }
 
 enum SupabaseBucket: String {
-    case avatar = "avatars"
+    case avatars
     case medicalRecords = "medical_records"
     case labReports = "lab_reports"
     

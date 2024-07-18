@@ -60,13 +60,17 @@ struct AppointmentListView: View {
                 
                 Spacer()
             }
+            .onAppear {
+                viewModel.fetchAppointments(showLoader: true)
+            }
             .refreshable {
-                viewModel.fetchAppointments(showLoader: false)
+                viewModel.fetchAppointments(showLoader: false,force: true)
             }
             .navigationTitle("Appointments")
             .navigationBarTitleDisplayMode(.inline)
             .errorAlert(errorAlertMessage: errorAlertMessage)
             .searchable(text: $viewModel.filterText)
+            
         }
     }
 }

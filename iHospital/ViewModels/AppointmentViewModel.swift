@@ -22,6 +22,7 @@ class AppointmentViewModel: ObservableObject {
     @Published var sortOption: SortOption = .date
     
     private var cancellables = Set<AnyCancellable>()
+    private var cached: [Appointment] = []
     
     enum Segment: String, CaseIterable {
         case upcoming = "Upcoming"
@@ -49,7 +50,12 @@ class AppointmentViewModel: ObservableObject {
     }
     
     @MainActor
-    func fetchAppointments(showLoader: Bool = true) {
+    func fetchAppointments(showLoader: Bool = true, force: Bool = false) {
+        if !force, !cached.isEmpty {
+            allAppointments = cached
+            self.splitAppointments(appointments: cached)
+            return
+        }
         Task {
             isLoading = showLoader
             defer { isLoading = false }
@@ -57,6 +63,7 @@ class AppointmentViewModel: ObservableObject {
             do {
                 let fetchedAppointments = try await Appointment.fetchAllAppointments()
                 self.allAppointments = fetchedAppointments
+                self.cached = fetchedAppointments
                 self.splitAppointments(appointments: fetchedAppointments)
             } catch {
                 print("Error while fetching appointments: \(error)")

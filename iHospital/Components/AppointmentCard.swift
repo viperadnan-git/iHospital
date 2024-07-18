@@ -18,8 +18,8 @@ struct AppointmentCard: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
-                Image(systemName: "person.crop.circle.fill")
-                    .font(.largeTitle)
+                ProfileImage(userId: appointment.doctor.userId.uuidString)
+                    .frame(width: 50, height: 50)
                     .padding(.trailing, 4)
                 
                 VStack(alignment: .leading) {

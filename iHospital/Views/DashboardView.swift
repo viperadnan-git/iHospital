@@ -123,8 +123,8 @@ struct DashboardView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: ProfileView().environmentObject(patientViewModel)) {
-                        Image(systemName: "person.crop.circle.fill")
-                            .font(.title)
+                        ProfileImage(userId: authViewModel.user?.id.uuidString ?? "")
+                            .frame(width: 40, height: 40)
                     }
                 }
             }

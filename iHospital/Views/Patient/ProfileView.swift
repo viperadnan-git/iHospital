@@ -19,6 +19,12 @@ struct ProfileView: View {
     var body: some View {
         Form {
             if let user = authViewModel.user {
+                Section{
+                    HStack{
+                        ProfileImageChangeable(userId: authViewModel.user?.id.uuidString ?? "")
+                    }
+                }
+                
                 Section(header: Text("Your Profile")) {
                     HStack {
                         Image(systemName: "person")
