@@ -26,6 +26,7 @@ class LabTestsViewModel: ObservableObject {
             defer {
                 isLoading = false
             }
+            
             do {
                 let labTests = try await patient.fetchLabTests()
                 self.cached = labTests

@@ -7,6 +7,8 @@ struct DoctorsList: View {
     @State private var isLoading = true
     @StateObject private var errorAlertMessage = ErrorAlertMessage()
     
+    @EnvironmentObject var booking: BookingViewModel
+    
     var body: some View {
         VStack(spacing: 20) {
             if isLoading {
@@ -19,6 +21,7 @@ struct DoctorsList: View {
             } else {
                 ForEach(doctors, id: \.userId) { doctor in
                     DoctorRow(doctor: doctor)
+                        .environmentObject(booking)
                 }
             }
         }

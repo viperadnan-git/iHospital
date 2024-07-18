@@ -128,7 +128,7 @@ struct AppointmentDetailView: View {
                                     Text("No slots available for \(rescheduleDate, style: .date)")
                                         .foregroundColor(.gray)
                                 } else {
-                                    SlotListView(slots: availableSlots, selection: $selectedSlot)
+                                    SlotListView(slots: availableSlots, doctor: .constant(appointment.doctor), selection: $selectedSlot)
                                 }
                             }
                             if selectedSlot != nil {

@@ -80,7 +80,7 @@ struct DoctorRow: View {
                             .textCase(.uppercase)
                             .font(.caption)
                             .padding(.horizontal)
-                        SlotListView(slots: availableSlots, selection: $booking.selectedSlot)
+                        SlotListView(slots: availableSlots, doctor: $booking.doctor, selection: $booking.selectedSlot)
                     }.padding(.top, 8)
                 }
             }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SlotListView: View {
     var slots: [(Date, Bool)]
+    @Binding var doctor: Doctor?
     @Binding var selection: Date?
     
     var body: some View {
@@ -21,6 +22,7 @@ struct SlotListView: View {
                                 selection = nil
                             } else {
                                 selection = slot
+                                doctor = doctor
                             }
                         }
                     }) {
@@ -39,5 +41,5 @@ struct SlotListView: View {
 }
 
 #Preview {
-    SlotListView(slots: [(Date(), false)], selection: .constant(nil))
+    SlotListView(slots: [(Date(), false)], doctor: .constant(.sample), selection: .constant(nil))
 }
