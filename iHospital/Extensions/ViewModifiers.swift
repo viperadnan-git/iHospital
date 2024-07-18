@@ -7,25 +7,19 @@
 
 import SwiftUI
 
-
 class ErrorAlertMessage: ObservableObject {
     @Published var title: String
     @Published var message: String? = nil
     
-    init(title: String) {
+    init(title: String = "Error") {
         self.title = title
     }
-    
-    init(){
-        self.title = "Error"
-    }
 }
-
 
 struct ErrorAlert: ViewModifier {
     @ObservedObject var errorAlertMessage: ErrorAlertMessage
     
-    var isShowingError: Binding<Bool> {
+    private var isShowingError: Binding<Bool> {
         Binding(
             get: { errorAlertMessage.message != nil },
             set: { newValue in
@@ -48,7 +42,6 @@ struct ErrorAlert: ViewModifier {
     }
 }
 
-
 struct PaddedTextFieldStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -58,12 +51,16 @@ struct PaddedTextFieldStyle: ViewModifier {
     }
 }
 
-
 extension View {
+    /// Adds an error alert to the view
+    /// - Parameter errorAlertMessage: An instance of ErrorAlertMessage to manage the alert state
+    /// - Returns: A view with an error alert
     func errorAlert(errorAlertMessage: ErrorAlertMessage) -> some View {
         self.modifier(ErrorAlert(errorAlertMessage: errorAlertMessage))
     }
     
+    /// Applies padding and background style to a TextField
+    /// - Returns: A styled TextField view
     func paddedTextFieldStyle() -> some View {
         self.modifier(PaddedTextFieldStyle())
     }

@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct CheckboxToggleStyle: ToggleStyle {
     func makeBody(configuration: Configuration) -> some View {
         HStack {
@@ -16,7 +15,20 @@ struct CheckboxToggleStyle: ToggleStyle {
                 .onTapGesture {
                     configuration.isOn.toggle()
                 }
+                .accessibilityLabel(configuration.isOn ? "Checked" : "Unchecked")
+                .accessibilityAddTraits(.isButton)
             configuration.label
         }
     }
+}
+
+#Preview {
+    VStack {
+        Toggle("Option 1", isOn: .constant(true))
+            .toggleStyle(CheckboxToggleStyle())
+        
+        Toggle("Option 2", isOn: .constant(false))
+            .toggleStyle(CheckboxToggleStyle())
+    }
+    .padding()
 }
