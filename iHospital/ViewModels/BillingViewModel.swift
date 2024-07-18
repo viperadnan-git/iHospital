@@ -5,44 +5,6 @@
 //  Created by Adnan Ahmad on 16/07/24.
 //
 
-//import SwiftUI
-//
-//class BillingViewModel: ObservableObject {
-//    @Published var invoices: [Invoice] = []
-//    
-//    @Published var isLoading: Bool = false
-//    
-//    @MainActor
-//    init() {
-//        fetchInvoices()
-//    }
-//    
-//    @MainActor
-//    func fetchInvoices(showLoader: Bool = true) {
-//        guard let user = SupaUser.shared else { return }
-//        
-//        Task {
-//            isLoading = showLoader
-//            defer { isLoading = false }
-//            
-//            do {
-//                invoices = try await user.fetchInvoices()
-//            } catch {
-//                print("Error while fetching invoices: \(error)")
-//            }
-//        }
-//    }
-//    
-//    func changeStatus(invoice: Invoice, status: PaymentStatus) async throws {
-//        let newInvoice = try await invoice.changePaymentStatus(status: status)
-//        if let index = invoices.firstIndex(where: { $0.id == newInvoice.id }) {
-//            DispatchQueue.main.async {
-//                self.invoices[index] = newInvoice
-//            }
-//        }
-//    }
-//}
-
 import SwiftUI
 
 class BillingViewModel: ObservableObject {
@@ -72,6 +34,8 @@ class BillingViewModel: ObservableObject {
     }
     
     @MainActor
+    /// Fetches invoices for the current user and applies the selected filter
+    /// - Parameter showLoader: A flag to show loading indicator
     func fetchInvoices(showLoader: Bool = true) {
         guard let user = SupaUser.shared else { return }
         
@@ -83,11 +47,15 @@ class BillingViewModel: ObservableObject {
                 invoices = try await user.fetchInvoices()
                 applyFilter()
             } catch {
-                print("Error while fetching invoices: \(error)")
+                print("Error while fetching invoices: \(error.localizedDescription)")
             }
         }
     }
     
+    /// Changes the payment status of an invoice
+    /// - Parameters:
+    ///   - invoice: The invoice to change status for
+    ///   - status: The new payment status
     func changeStatus(invoice: Invoice, status: PaymentStatus) async throws {
         let newInvoice = try await invoice.changePaymentStatus(status: status)
         if let index = invoices.firstIndex(where: { $0.id == newInvoice.id }) {
@@ -98,6 +66,7 @@ class BillingViewModel: ObservableObject {
         }
     }
     
+    /// Applies the selected filter to the list of invoices
     private func applyFilter() {
         switch selectedFilter {
         case .all:
@@ -115,4 +84,3 @@ class BillingViewModel: ObservableObject {
         }
     }
 }
-

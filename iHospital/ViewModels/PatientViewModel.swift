@@ -20,6 +20,7 @@ class PatientViewModel: ObservableObject {
         fetchPatients()
     }
     
+    /// Selects the first patient in the list as the default patient
     func selectDefaultPatient() {
         if !patients.isEmpty {
             print("Selecting default patient")
@@ -30,6 +31,7 @@ class PatientViewModel: ObservableObject {
     }
     
     @MainActor
+    /// Fetches all patients and sets the first one as the default patient
     func fetchPatients() {
         Task {
             isLoading = true
@@ -51,12 +53,12 @@ class PatientViewModel: ObservableObject {
             }
         }
     }
-
-    func addPatient(firstName: String, lastName:String, gender: Gender, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) async throws {
+    
+    /// Adds a new patient and sets them as the current patient
+    func addPatient(firstName: String, lastName: String, gender: Gender, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) async throws {
         guard let user = SupaUser.shared else { return }
         
         let newPatient = try await Patient.addPatient(forUser: user.id, firstName: firstName, lastName: lastName, gender: gender, phoneNumber: phoneNumber, bloodGroup: bloodGroup, dateOfBirth: dateOfBirth, height: height, weight: weight, address: address)
-
 
         DispatchQueue.main.async {
             self.patients.append(newPatient)
@@ -64,6 +66,7 @@ class PatientViewModel: ObservableObject {
         }
     }
     
+    /// Saves the given patient and updates the list
     func save(patient: Patient) async throws {
         try await patient.save()
         
@@ -72,4 +75,3 @@ class PatientViewModel: ObservableObject {
         }
     }
 }
-

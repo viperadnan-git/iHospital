@@ -77,6 +77,7 @@ struct Doctor: Codable, Hashable {
         return formatter
     }()
     
+    /// Decodes a Doctor object from JSON
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         userId = try container.decode(UUID.self, forKey: .userId)
@@ -105,7 +106,8 @@ struct Doctor: Codable, Hashable {
         doctorSettings = try container.decodeIfPresent(DoctorSettings.self, forKey: .doctorSettings)
     }
     
-    init(userId: UUID, firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, fee:Int, doctorSettings: DoctorSettings?) {
+    /// Initializes a new Doctor object
+    init(userId: UUID, firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, fee: Int, doctorSettings: DoctorSettings?) {
         self.userId = userId
         self.firstName = firstName
         self.lastName = lastName
@@ -123,6 +125,8 @@ struct Doctor: Codable, Hashable {
     
     static let supabaseSelectQuery = "*, doctor_settings(*)"
     
+    /// Fetches all doctors
+    /// - Returns: An array of doctors
     static func fetchAll() async throws -> [Doctor] {
         let response: [Doctor] = try await supabase.from(SupabaseTable.doctors.id)
             .select()
@@ -132,8 +136,11 @@ struct Doctor: Codable, Hashable {
         return response
     }
     
+    /// Fetches doctors based on department ID
+    /// - Parameter departmentId: The UUID of the department
+    /// - Returns: An array of doctors
     static func fetchDepartmentWise(departmentId: UUID) async throws -> [Doctor] {
-        let response:[Doctor] = try await supabase.from(SupabaseTable.doctors.id)
+        let response: [Doctor] = try await supabase.from(SupabaseTable.doctors.id)
             .select(supabaseSelectQuery)
             .eq("department_id", value: departmentId)
             .execute()
@@ -142,12 +149,17 @@ struct Doctor: Codable, Hashable {
         return response
     }
     
+    /// Gets the settings for the doctor
+    /// - Returns: The settings of the doctor
     func getSettings() async throws -> DoctorSettings {
         try await DoctorSettings.get(userId: userId)
     }
     
+    /// Fetches appointments for a specific date
+    /// - Parameter date: The date for which to fetch appointments
+    /// - Returns: An array of appointments
     func fetchAppointments(for date: Date) async throws -> [Appointment] {
-        let response:[Appointment]? = try? await supabase.from(SupabaseTable.appointments.id)
+        let response: [Appointment]? = try? await supabase.from(SupabaseTable.appointments.id)
             .select(Appointment.supabaseSelectQuery)
             .eq("doctor_id", value: userId)
             .gte("date", value: date.startOfDay.ISO8601Format())
@@ -162,6 +174,9 @@ struct Doctor: Codable, Hashable {
         return response
     }
     
+    /// Gets available time slots for a specific date
+    /// - Parameter date: The date for which to get available time slots
+    /// - Returns: An array of tuples containing the date and a boolean indicating if the slot is booked
     func getAvailableTimeSlots(for date: Date) async throws -> [(Date, Bool)] {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE" // Day of the week
@@ -175,7 +190,6 @@ struct Doctor: Codable, Hashable {
         let calendar = Calendar.current
         var availableSlots: [(Date, Bool)] = []
         let today = Date()
-        
         
         var startTime: Date = settings.startTime
         if date.startOfDay == today.startOfDay {

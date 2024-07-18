@@ -34,6 +34,7 @@ class LabTest: Codable, Identifiable {
     
     static let sample = LabTest(id: 1, test: LabTestType.sample, patient: Patient.sample, status: .pending, appointment: Appointment.sample, sampleID: nil, reportPath: nil)
     
+    /// Initializes a new LabTest object
     init(id: Int, test: LabTestType, patient: Patient, status: LabTestStatus, appointment: Appointment, sampleID: String?, reportPath: String?) {
         self.id = id
         self.test = test
@@ -44,6 +45,8 @@ class LabTest: Codable, Identifiable {
         self.reportPath = reportPath
     }
 
+    /// Downloads the lab test report
+    /// - Returns: The URL of the downloaded report
     func downloadReport() async throws -> URL {
         guard let reportPath = self.reportPath else {
             throw SupabaseError.invalidData
@@ -63,14 +66,13 @@ class LabTest: Codable, Identifiable {
     }
 }
 
-
 enum LabTestStatus: String, Codable, CaseIterable {
     case pending
     case waiting
     case inProgress = "in-progress"
     case completed
 
-    
+    /// Returns the color associated with the lab test status
     var color: Color {
         switch self {
         case .pending:

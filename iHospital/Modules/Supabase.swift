@@ -5,7 +5,6 @@
 //  Created by Adnan Ahmad on 03/07/24.
 //
 
-
 import Foundation
 import SwiftUI
 import Supabase
@@ -16,6 +15,7 @@ let supabase = SupabaseClient(
     supabaseKey: Constants.supabaseKey
 )
 
+/// Enum representing different tables in the Supabase database
 enum SupabaseTable: String {
     case users
     case doctors
@@ -28,21 +28,25 @@ enum SupabaseTable: String {
     case invoices
     case bedBookings = "bed_bookings"
     
+    /// Returns the raw value of the table name
     var id: String {
         self.rawValue
     }
 }
 
+/// Enum representing different storage buckets in Supabase
 enum SupabaseBucket: String {
     case avatars
     case medicalRecords = "medical_records"
     case labReports = "lab_reports"
     
+    /// Returns the raw value of the bucket name
     var id: String {
         self.rawValue
     }
 }
 
+/// Enum representing various errors that can occur while interacting with Supabase
 enum SupabaseError: Error {
     case invalidURL
     case invalidResponse

@@ -19,9 +19,9 @@ struct ProfileView: View {
     var body: some View {
         Form {
             if let user = authViewModel.user {
-                Section{
-                    HStack{
-                        ProfileImageChangeable(userId: authViewModel.user?.id.uuidString ?? "")
+                Section {
+                    HStack {
+                        ProfileImageChangeable(userId: user.id.uuidString)
                     }
                 }
                 
@@ -42,10 +42,8 @@ struct ProfileView: View {
                     }
                 }
             }
-          
             
             Section(header: Text("Your Family & Friends")) {
-                // TODO: remove this
                 ForEach(patientViewModel.patients, id: \.id) { patient in
                     NavigationLink(destination: PatientInfoView(patientId: patient.id)) {
                         Text(patient.name)
@@ -58,7 +56,6 @@ struct ProfileView: View {
                     }
                 }
             }
-
             
             Section(header: Text("Settings")) {
                 Button(role: .destructive, action: {
@@ -71,7 +68,8 @@ struct ProfileView: View {
         .sheet(isPresented: $showPatientSheet) {
             AddPatientView(showPatientSheet: $showPatientSheet)
                 .environmentObject(patientViewModel)
-        }.alert(isPresented: $showLogoutAlert) {
+        }
+        .alert(isPresented: $showLogoutAlert) {
             Alert(
                 title: Text("Logout"),
                 message: Text("Are you sure you want to logout?"),
@@ -81,9 +79,10 @@ struct ProfileView: View {
                 secondaryButton: .cancel()
             )
         }
-        .navigationBarTitle("Patients", displayMode: .inline)
+        .navigationBarTitle("Profile", displayMode: .inline)
     }
     
+    /// Logs out the current user
     func logOut() {
         Task {
             do {

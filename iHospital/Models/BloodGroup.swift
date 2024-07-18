@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 enum BloodGroup: String, Codable, CaseIterable {
     case APositive = "A+"
     case ANegative = "A-"
@@ -19,6 +18,7 @@ enum BloodGroup: String, Codable, CaseIterable {
     case ONegative = "O-"
     case Unknown = "Unknown"
     
+    /// Returns the raw value of the blood group as a string
     var id: String {
         self.rawValue
     }

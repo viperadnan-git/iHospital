@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 class Patient: Codable, Hashable, Identifiable {
     let id: UUID
     let userId: UUID
@@ -47,6 +46,7 @@ class Patient: Codable, Hashable, Identifiable {
         hasher.combine(id)
     }
     
+    /// Decodes a Patient object from JSON
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(UUID.self, forKey: .id)
@@ -68,7 +68,8 @@ class Patient: Codable, Hashable, Identifiable {
         address = try container.decode(String.self, forKey: .address)
     }
     
-    init(id: UUID, userId: UUID, firstName: String, lastName: String, gender:Gender, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) {
+    /// Initializes a new Patient object
+    init(id: UUID, userId: UUID, firstName: String, lastName: String, gender: Gender, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) {
         self.id = id
         self.userId = userId
         self.firstName = firstName
@@ -82,6 +83,7 @@ class Patient: Codable, Hashable, Identifiable {
         self.address = address
     }
     
+    /// Encodes a Patient object to JSON
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
@@ -109,7 +111,19 @@ class Patient: Codable, Hashable, Identifiable {
                                 weight: 70,
                                 address: "123, Main Street, City, Country")
     
-    
+    /// Adds a new patient for a given user
+    /// - Parameters:
+    ///   - userId: The UUID of the user
+    ///   - firstName: The first name of the patient
+    ///   - lastName: The last name of the patient
+    ///   - gender: The gender of the patient
+    ///   - phoneNumber: The phone number of the patient
+    ///   - bloodGroup: The blood group of the patient
+    ///   - dateOfBirth: The date of birth of the patient
+    ///   - height: The height of the patient
+    ///   - weight: The weight of the patient
+    ///   - address: The address of the patient
+    /// - Returns: The newly added patient
     static func addPatient(forUser userId: UUID, firstName: String, lastName: String, gender: Gender, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) async throws -> Patient {
         var dataToInsert: [String: String] = [
             "user_id": userId.uuidString,
@@ -137,23 +151,24 @@ class Patient: Codable, Hashable, Identifiable {
             .execute()
             .value
         
-        
         return response
     }
     
+    /// Fetches all patients for the current user
+    /// - Returns: An array of patients
     static func fetchAll() async throws -> [Patient] {
         guard let user = SupaUser.shared else { return [] }
         
-        let response:[Patient] = try await supabase.from(SupabaseTable.patients.id)
+        let response: [Patient] = try await supabase.from(SupabaseTable.patients.id)
             .select()
             .eq("user_id", value: user.id.uuidString)
             .execute()
             .value
         
-        
         return response
     }
     
+    /// Saves the current patient object
     func save() async throws {
         var dataToUpdate: [String: String] = [
             "first_name": firstName,
@@ -182,6 +197,8 @@ class Patient: Codable, Hashable, Identifiable {
             .value
     }
     
+    /// Fetches the medical records for the patient
+    /// - Returns: An array of medical records
     func fetchMedicalRecords() async throws -> [MedicalRecord] {
         let response: [MedicalRecord] = try await supabase.from(SupabaseTable.medicalRecords.id)
             .select(MedicalRecord.supabaseSelectQuery)
@@ -193,6 +210,8 @@ class Patient: Codable, Hashable, Identifiable {
         return response
     }
     
+    /// Fetches the lab tests for the patient
+    /// - Returns: An array of lab tests
     func fetchLabTests() async throws -> [LabTest] {
         let response: [LabTest] = try await supabase.from(SupabaseTable.labTests.id)
             .select(LabTest.supabaseSelectQuery)

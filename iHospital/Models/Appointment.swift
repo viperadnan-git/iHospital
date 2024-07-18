@@ -80,8 +80,15 @@ class Appointment: Codable, Hashable {
         appointmentStatus = try container.decode(AppointmentStatus.self, forKey: .appointmentStatus)
     }
 
+    /// Books an appointment for the given patient and doctor
+    /// - Parameters:
+    ///   - patientId: The UUID of the patient
+    ///   - doctorId: The UUID of the doctor
+    ///   - date: The date of the appointment
+    ///   - userId: The UUID of the user
+    /// - Returns: The booked appointment
     static func bookAppointment(patientId: UUID, doctorId: UUID, date: Date, userId: UUID) async throws -> Appointment {
-        let response:Appointment = try await supabase
+        let response: Appointment = try await supabase
             .from(SupabaseTable.appointments.id)
             .insert([
                 "patient_id": patientId.uuidString,
@@ -99,10 +106,12 @@ class Appointment: Codable, Hashable {
         return response
     }
     
+    /// Fetches all appointments for the current user
+    /// - Returns: An array of appointments
     static func fetchAllAppointments() async throws -> [Appointment] {
         guard let user = SupaUser.shared else { return [] }
         
-        let response:[Appointment] = try await supabase
+        let response: [Appointment] = try await supabase
             .from(SupabaseTable.appointments.id)
             .select(supabaseSelectQuery)
             .eq("user_id", value: user.id.uuidString)
@@ -112,6 +121,9 @@ class Appointment: Codable, Hashable {
         return response
     }
     
+    /// Reschedules the appointment to a new date
+    /// - Parameter date: The new date for the appointment
+    /// - Returns: The rescheduled appointment
     func reschedule(date: Date) async throws -> Appointment {
         self.date = date
         
@@ -129,6 +141,7 @@ class Appointment: Codable, Hashable {
         return response
     }
     
+    /// Cancels the appointment
     func cancel() async throws {
         try await supabase
             .from(SupabaseTable.appointments.id)
@@ -139,6 +152,8 @@ class Appointment: Codable, Hashable {
             .execute()
     }
     
+    /// Fetches the medical record for the appointment if it is completed
+    /// - Returns: The medical record if the appointment is completed, otherwise nil
     func fetchMedicalRecord() async throws -> MedicalRecord? {
         guard appointmentStatus == .completed else {
             return nil
@@ -154,6 +169,8 @@ class Appointment: Codable, Hashable {
         return response
     }
     
+    /// Fetches the lab tests for the appointment if it is completed
+    /// - Returns: An array of lab tests if the appointment is completed, otherwise nil
     func fetchLabTests() async throws -> [LabTest]? {
         guard appointmentStatus == .completed else {
             return nil

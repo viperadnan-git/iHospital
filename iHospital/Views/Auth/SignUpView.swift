@@ -68,11 +68,16 @@ struct SignUpView: View {
                             .onChange(of: firstName) { _ in
                                 validateFirstName()
                             }
+                            .accessibilityLabel("First Name")
+                            .accessibilityHint("Enter your first name")
+                        
                         if let firstNameError = firstNameError {
                             Text(firstNameError)
                                 .foregroundColor(.red)
                                 .font(.caption)
                                 .padding(.leading, 2)
+                                .accessibilityLabel("First Name Error")
+                                .accessibilityHint(firstNameError)
                         } else {
                             Spacer().frame(height: 17)
                         }
@@ -90,11 +95,16 @@ struct SignUpView: View {
                             .onChange(of: lastName) { _ in
                                 validateLastName()
                             }
+                            .accessibilityLabel("Last Name")
+                            .accessibilityHint("Enter your last name")
+                        
                         if let lastNameError = lastNameError {
                             Text(lastNameError)
                                 .foregroundColor(.red)
                                 .font(.caption)
                                 .padding(.leading, 2)
+                                .accessibilityLabel("Last Name Error")
+                                .accessibilityHint(lastNameError)
                         } else {
                             Spacer().frame(height: 17)
                         }
@@ -115,11 +125,16 @@ struct SignUpView: View {
                             .onChange(of: email) { _ in
                                 validateEmail()
                             }
+                            .accessibilityLabel("Email")
+                            .accessibilityHint("Enter your email address")
+                        
                         if let emailError = emailError {
                             Text(emailError)
                                 .foregroundColor(.red)
                                 .font(.caption)
                                 .padding(.leading, 2)
+                                .accessibilityLabel("Email Error")
+                                .accessibilityHint(emailError)
                         } else {
                             Spacer().frame(height: 17)
                         }
@@ -143,11 +158,16 @@ struct SignUpView: View {
                                     phoneNumber = String(phoneNumber.prefix(10))
                                 }
                             }
+                            .accessibilityLabel("Phone Number")
+                            .accessibilityHint("Enter your phone number")
+                        
                         if let phoneNumberError = phoneNumberError {
                             Text(phoneNumberError)
                                 .foregroundColor(.red)
                                 .font(.caption)
                                 .padding(.leading, 2)
+                                .accessibilityLabel("Phone Number Error")
+                                .accessibilityHint(phoneNumberError)
                         } else {
                             Spacer().frame(height: 17)
                         }
@@ -165,11 +185,16 @@ struct SignUpView: View {
                             .onChange(of: password) { _ in
                                 validatePassword()
                             }
+                            .accessibilityLabel("Password")
+                            .accessibilityHint("Enter your password")
+                        
                         if let passwordError = passwordError {
                             Text(passwordError)
                                 .foregroundColor(.red)
                                 .font(.caption)
                                 .padding(.leading, 2)
+                                .accessibilityLabel("Password Error")
+                                .accessibilityHint(passwordError)
                         } else {
                             Spacer().frame(height: 17)
                         }
@@ -186,11 +211,16 @@ struct SignUpView: View {
                             .onChange(of: confirmPassword) { _ in
                                 validateConfirmPassword()
                             }
+                            .accessibilityLabel("Confirm Password")
+                            .accessibilityHint("Re-enter your password")
+                        
                         if let confirmPasswordError = confirmPasswordError {
                             Text(confirmPasswordError)
                                 .foregroundColor(.red)
                                 .font(.caption)
                                 .padding(.leading, 2)
+                                .accessibilityLabel("Confirm Password Error")
+                                .accessibilityHint(confirmPasswordError)
                         } else {
                             Spacer().frame(height: 17)
                         }
@@ -206,6 +236,8 @@ struct SignUpView: View {
                                 .underline()
                         }
                         .toggleStyle(CheckboxToggleStyle())
+                        .accessibilityLabel("Agree to Terms and Conditions")
+                        .accessibilityHint("Toggle to agree with our terms and conditions")
                     }
                     .padding(.horizontal, 16)
                 }
@@ -220,6 +252,8 @@ struct SignUpView: View {
                 .padding(.horizontal, 16)
                 .padding(.bottom, 20)
                 .disabled(!agreeToTerms)
+                .accessibilityLabel("Create account")
+                .accessibilityHint("Tap to create a new account")
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 16)
@@ -235,6 +269,7 @@ struct SignUpView: View {
         }
     }
     
+    /// Validates the first name field
     func validateFirstName() {
         if firstName.isEmpty {
             firstNameError = "First name is required."
@@ -247,6 +282,7 @@ struct SignUpView: View {
         }
     }
 
+    /// Validates the last name field
     func validateLastName() {
         if lastName.isEmpty {
             lastNameError = "Last name is required."
@@ -259,6 +295,7 @@ struct SignUpView: View {
         }
     }
 
+    /// Validates the email field
     func validateEmail() {
         if email.isEmpty {
             emailError = "Email is required."
@@ -269,6 +306,7 @@ struct SignUpView: View {
         }
     }
 
+    /// Validates the phone number field
     func validatePhoneNumber() {
         if phoneNumber.isEmpty {
             phoneNumberError = "Phone number is required."
@@ -279,6 +317,7 @@ struct SignUpView: View {
         }
     }
 
+    /// Validates the password field
     func validatePassword() {
         if password.isEmpty {
             passwordError = "Password is required."
@@ -287,6 +326,7 @@ struct SignUpView: View {
         }
     }
 
+    /// Validates the confirm password field
     func validateConfirmPassword() {
         if confirmPassword.isEmpty {
             confirmPasswordError = "Confirm password is required."
@@ -297,7 +337,7 @@ struct SignUpView: View {
         }
     }
     
-    
+    /// Handles the sign-up action
     func onSignUp() {
         validateFirstName()
         validateLastName()
@@ -328,6 +368,7 @@ struct SignUpView: View {
         }
     }
     
+    /// Hides the keyboard
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }

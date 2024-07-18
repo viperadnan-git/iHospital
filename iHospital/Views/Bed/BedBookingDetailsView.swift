@@ -10,15 +10,14 @@ struct BedBookingDetailsView: View {
     @State private var selectedDate = Date()
     @State private var selectedWard: String?
     @State private var selectedBedType: String?
-    @State private var showWardPicker = false
-    @State private var showBedTypePicker = false
     @State private var selectedRoom: Room?
     @State private var showAlert = false
     @Environment(\.presentationMode) var presentationMode
     
     let wards = ["General Medical Ward", "Intensive Care Unit (ICU)", "Neonatal Intensive Care Unit (NICU)", "Emergency Ward", "Pediatric Ward", "Maternity Ward"]
-    let bedTypes = ["Neonatal Bed/Incubator", "Standard Hospital Bed", "Vip Bed"]
-    // Modify the rooms array to use the Room struct
+    let bedTypes = ["Neonatal Bed/Incubator", "Standard Hospital Bed", "VIP Bed"]
+    
+    // Define rooms using the Room struct
     let rooms = [
         Room(number: 101, bed: 1), Room(number: 101, bed: 2),
         Room(number: 102, bed: 3), Room(number: 102, bed: 4),
@@ -34,6 +33,7 @@ struct BedBookingDetailsView: View {
                     .padding(.top, 16)
                 
                 VStack(alignment: .leading, spacing: 16) {
+                    // Ward Selection
                     HStack {
                         Text("Select Ward")
                         Spacer()
@@ -53,8 +53,11 @@ struct BedBookingDetailsView: View {
                                     .foregroundColor(.blue)
                             }
                         }
+                        .accessibilityLabel("Select Ward")
+                        .accessibilityHint("Select a ward for the bed booking")
                     }
                     
+                    // Bed Type Selection
                     HStack {
                         Text("Select bed type")
                         Spacer()
@@ -74,6 +77,8 @@ struct BedBookingDetailsView: View {
                                     .foregroundColor(.blue)
                             }
                         }
+                        .accessibilityLabel("Select Bed Type")
+                        .accessibilityHint("Select a bed type for the booking")
                     }
                 }
                 .padding()
@@ -82,6 +87,7 @@ struct BedBookingDetailsView: View {
                     .font(.headline)
                     .padding(.trailing, 250)
                 
+                // Grid of Available Beds
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 16) {
                     ForEach(rooms, id: \.self) { room in
                         Text("\(room.number)\n\(room.bed)")
@@ -93,12 +99,15 @@ struct BedBookingDetailsView: View {
                             .onTapGesture {
                                 selectedRoom = room
                             }
+                            .accessibilityLabel("Room \(room.number) Bed \(room.bed)")
+                            .accessibilityHint("Tap to select this bed")
                     }
                 }
                 .padding([.leading, .trailing])
                 
                 Spacer()
                 
+                // Proceed Button
                 Text("Proceed")
                     .frame(maxWidth: .infinity)
                     .padding(.top, -40)
@@ -120,16 +129,18 @@ struct BedBookingDetailsView: View {
                             })
                         )
                     }
+                    .accessibilityLabel("Proceed")
+                    .accessibilityHint("Tap to complete the booking")
             }
             .navigationTitle("Select a Date")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 setInitialDateToJuly2024()
-                
             }
         }
     }
     
+    /// Sets the initial date to July 1, 2024
     private func setInitialDateToJuly2024() {
         var dateComponents = DateComponents()
         dateComponents.year = 2024

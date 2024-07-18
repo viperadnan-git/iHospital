@@ -32,6 +32,9 @@ struct Search: Identifiable {
         }
     }
     
+    /// Searches for doctors or departments by name
+    /// - Parameter name: The name to search for
+    /// - Returns: An array of Search results containing doctors or departments
     static func doctorsOrDepartments(byName name: String) async throws -> [Search] {
         let searchWords = name.split(separator: " ").map { String($0 + ":*") }
         let searchQuery = searchWords.joined(separator: " | ")

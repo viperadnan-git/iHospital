@@ -28,6 +28,8 @@ struct MedicalRecord: Codable, Identifiable {
     
     static let sample = MedicalRecord(id: 1, note: "Prescription Note", imagePath: "pencil_note.jpg", medicines: ["Medicine 1", "Medicine 2"], appointment: Appointment.sample, patient: Patient.sample)
     
+    /// Loads the image associated with the medical record
+    /// - Returns: The image data
     func loadImage() async throws -> Data {
         try await supabase.storage.from(SupabaseBucket.medicalRecords.id).download(path: imagePath)
     }

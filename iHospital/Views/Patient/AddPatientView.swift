@@ -60,6 +60,8 @@ struct AddPatientView: View {
                                 .onSubmit { focusedField = .lastName }
                                 .onChange(of: firstName) { _ in validateFirstName() }
                                 .overlay(validationIcon(for: firstNameError), alignment: .trailing)
+                                .accessibilityLabel("First Name")
+                                .accessibilityHint("Enter the patient's first name")
                         }
                         Divider()
                         VStack(alignment: .leading) {
@@ -69,6 +71,8 @@ struct AddPatientView: View {
                                 .onSubmit { focusedField = .phoneNumber }
                                 .onChange(of: lastName) { _ in validateLastName() }
                                 .overlay(validationIcon(for: lastNameError), alignment: .trailing)
+                                .accessibilityLabel("Last Name")
+                                .accessibilityHint("Enter the patient's last name")
                         }
                     }
                     
@@ -77,14 +81,20 @@ struct AddPatientView: View {
                             Text(group.id.capitalized)
                         }
                     }
+                    .accessibilityLabel("Gender")
+                    .accessibilityHint("Select the patient's gender")
                     
                     Picker("Blood Group", selection: $bloodGroup) {
                         ForEach(bloodGroups, id: \.self) { group in
                             Text(group.rawValue)
                         }
                     }
+                    .accessibilityLabel("Blood Group")
+                    .accessibilityHint("Select the patient's blood group")
                     
                     DatePicker("Date of Birth", selection: $dateOfBirth, in: ...Date(), displayedComponents: .date)
+                        .accessibilityLabel("Date of Birth")
+                        .accessibilityHint("Select the patient's date of birth")
                     
                     VStack(alignment: .leading) {
                         TextField("Phone Number", text: $phoneNumber)
@@ -94,6 +104,8 @@ struct AddPatientView: View {
                             .onSubmit { focusedField = .height }
                             .onChange(of: phoneNumber) { _ in validatePhoneNumber() }
                             .overlay(validationIcon(for: phoneNumberError), alignment: .trailing)
+                            .accessibilityLabel("Phone Number")
+                            .accessibilityHint("Enter the patient's phone number")
                     }
                 }
                 
@@ -106,6 +118,8 @@ struct AddPatientView: View {
                             .onSubmit { focusedField = .weight }
                             .onChange(of: height) { _ in validateHeight() }
                             .overlay(validationIcon(for: heightError), alignment: .trailing)
+                            .accessibilityLabel("Height")
+                            .accessibilityHint("Enter the patient's height in centimeters")
                     }
                     
                     VStack(alignment: .leading) {
@@ -116,6 +130,8 @@ struct AddPatientView: View {
                             .onSubmit { focusedField = .address }
                             .onChange(of: weight) { _ in validateWeight() }
                             .overlay(validationIcon(for: weightError), alignment: .trailing)
+                            .accessibilityLabel("Weight")
+                            .accessibilityHint("Enter the patient's weight in kilograms")
                     }
                     VStack(alignment: .leading) {
                         TextField("Address", text: $address)
@@ -124,31 +140,38 @@ struct AddPatientView: View {
                             .onSubmit { onSave() }
                             .onChange(of: address) { _ in validateAddress() }
                             .overlay(validationIcon(for: addressError), alignment: .trailing)
+                            .accessibilityLabel("Address")
+                            .accessibilityHint("Enter the patient's address")
                     }
                 }
-            }.navigationBarTitle("\(patient == nil ? "Add New":"Edit") Patient", displayMode: .inline)
-                .navigationBarItems(trailing: Button((patient != nil) ? "Save" : "Done", action: onSave))
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel") {
-                            showPatientSheet.toggle()
-                        }
+            }
+            .navigationBarTitle("\(patient == nil ? "Add New" : "Edit") Patient", displayMode: .inline)
+            .navigationBarItems(trailing: Button((patient != nil) ? "Save" : "Done", action: onSave))
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        showPatientSheet.toggle()
                     }
                 }
-                .errorAlert(errorAlertMessage: errorAlertMessage)
-                .onChange(of: showPatientSheet) { newValue in
-                    if !newValue {
-                        hideKeyboard()
-                    }
+            }
+            .errorAlert(errorAlertMessage: errorAlertMessage)
+            .onChange(of: showPatientSheet) { newValue in
+                if !newValue {
+                    hideKeyboard()
                 }
-                .alert(isPresented: $showAlert) {
-                    Alert(title: Text("Validation Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")) {
-                        showNextError()
-                    })
-                }.onAppear(perform: onAppear)
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("Validation Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")) {
+                    showNextError()
+                })
+            }
+            .onAppear(perform: onAppear)
         }
     }
     
+    /// Validation icon for form fields
+    /// - Parameter error: The error message
+    /// - Returns: A view showing the validation icon if there's an error
     func validationIcon(for error: String?) -> some View {
         Group {
             if let error = error {
@@ -158,11 +181,14 @@ struct AddPatientView: View {
                 }) {
                     Image(systemName: "exclamationmark.circle.fill")
                         .foregroundColor(.red)
+                        .accessibilityLabel("Validation Error")
+                        .accessibilityHint(error)
                 }
             }
         }
     }
     
+    /// Validates the first name field
     func validateFirstName() {
         if firstName.isEmpty {
             firstNameError = "First name is required."
@@ -175,6 +201,7 @@ struct AddPatientView: View {
         }
     }
     
+    /// Validates the last name field
     func validateLastName() {
         if lastName.isEmpty {
             lastNameError = "Last name is required."
@@ -187,6 +214,7 @@ struct AddPatientView: View {
         }
     }
     
+    /// Validates the phone number field
     func validatePhoneNumber() {
         if phoneNumber.isEmpty {
             phoneNumberError = "Phone number is required."
@@ -197,6 +225,7 @@ struct AddPatientView: View {
         }
     }
     
+    /// Validates the height field
     func validateHeight() {
         if let heightValue = Double(height), heightValue > 0 {
             heightError = nil
@@ -207,15 +236,18 @@ struct AddPatientView: View {
         }
     }
     
+    /// Validates the weight field
     func validateWeight() {
         if let weightValue = Double(weight), weightValue > 0 {
             weightError = nil
         } else if weight.isEmpty {
+            weightError = nil
         } else {
             weightError = "Weight must be a positive number."
         }
     }
     
+    /// Validates the address field
     func validateAddress() {
         if address.trimmed.isEmpty {
             addressError = nil
@@ -226,6 +258,7 @@ struct AddPatientView: View {
         }
     }
     
+    /// Shows the next error message in the alert
     func showNextError() {
         if let error = firstNameError ?? lastNameError ?? phoneNumberError ?? heightError ?? weightError ?? addressError {
             alertMessage = error
@@ -233,6 +266,7 @@ struct AddPatientView: View {
         }
     }
     
+    /// Loads patient data into the form fields if editing an existing patient
     func onAppear() {
         if let patient = patient {
             firstName = patient.firstName
@@ -240,13 +274,14 @@ struct AddPatientView: View {
             gender = patient.gender
             bloodGroup = patient.bloodGroup
             dateOfBirth = patient.dateOfBirth
-            phoneNumber = patient.phoneNumber.string
-            height = patient.height?.string ?? ""
-            weight = patient.weight?.string ?? ""
+            phoneNumber = String(patient.phoneNumber)
+            height = patient.height?.description ?? ""
+            weight = patient.weight?.description ?? ""
             address = patient.address
         }
     }
     
+    /// Handles the save action for adding or editing a patient
     func onSave() {
         validateFirstName()
         validateLastName()
@@ -306,6 +341,7 @@ struct AddPatientView: View {
         }
     }
     
+    /// Hides the keyboard
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }

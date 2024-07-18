@@ -22,6 +22,7 @@ struct DoctorSettings: Codable {
         case selectedDays = "selected_days"
     }
     
+    /// Encodes the DoctorSettings object to JSON
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(doctorId, forKey: .doctorId)
@@ -31,6 +32,7 @@ struct DoctorSettings: Codable {
         try container.encode(selectedDays, forKey: .selectedDays)
     }
     
+    /// Decodes a DoctorSettings object from JSON
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         doctorId = try container.decode(UUID.self, forKey: .doctorId)
@@ -49,6 +51,7 @@ struct DoctorSettings: Codable {
         selectedDays = try container.decode([String].self, forKey: .selectedDays)
     }
     
+    /// Initializes a new DoctorSettings object
     init(doctorId: UUID, priorBookingDays: Int, startTime: Date, endTime: Date, selectedDays: [String]) {
         self.doctorId = doctorId
         self.priorBookingDays = priorBookingDays
@@ -65,6 +68,9 @@ struct DoctorSettings: Codable {
         selectedDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
     )
     
+    /// Returns default settings for a doctor
+    /// - Parameter userId: The UUID of the doctor
+    /// - Returns: The default DoctorSettings
     static func getDefaultSettings(userId: UUID) -> DoctorSettings {
         let startTime = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
         let endTime = Calendar.current.date(bySettingHour: 19, minute: 0, second: 0, of: Date())!
@@ -79,6 +85,9 @@ struct DoctorSettings: Codable {
         )
     }
     
+    /// Fetches the settings for a doctor from the database
+    /// - Parameter userId: The UUID of the doctor
+    /// - Returns: The DoctorSettings object
     static func get(userId: UUID) async throws -> DoctorSettings {
         let response = try? await supabase.from("doctor_settings")
             .select()
@@ -89,7 +98,6 @@ struct DoctorSettings: Codable {
         guard let response = response else {
             return getDefaultSettings(userId: userId)
         }
-        
         
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .custom { decoder in

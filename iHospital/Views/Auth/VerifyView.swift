@@ -27,6 +27,7 @@ struct VerifyView: View {
             Text("Email sent to ")
             + Text("\(user?.email ?? "Unknown")")
                 .foregroundColor(.blue)
+                .accessibilityLabel("Email sent to \(user?.email ?? "Unknown")")
             
             TextField("Enter OTP", text: $otp)
                 .keyboardType(.numberPad)
@@ -38,16 +39,22 @@ struct VerifyView: View {
                 .onSubmit {
                     onVerifyOtp()
                 }
+                .accessibilityLabel("Enter OTP")
+                .accessibilityHint("Enter the OTP sent to your email")
             
             LoaderButton(isLoading: $isLoading, action: onVerifyOtp) {
                 Text("Verify")
             }
             .buttonStyle(.borderedProminent)
+            .accessibilityLabel("Verify")
+            .accessibilityHint("Tap to verify OTP")
         
             Button(action: onSendOtp, label: {
                 Text("Resend OTP")
             })
             .disabled(sendingOtp)
+            .accessibilityLabel("Resend OTP")
+            .accessibilityHint("Tap to resend OTP")
         }
         .padding()
         .errorAlert(errorAlertMessage: errorAlertMessage)
@@ -57,6 +64,7 @@ struct VerifyView: View {
         }
     }
     
+    /// Sends the OTP to the user's email
     func onSendOtp() {
         guard let user = user else { return }
         
@@ -72,6 +80,7 @@ struct VerifyView: View {
         }
     }
     
+    /// Verifies the OTP entered by the user
     func onVerifyOtp() {
         guard let user = user else { return }
         
@@ -101,6 +110,7 @@ struct VerifyView: View {
         }
     }
     
+    /// Enables the resend OTP button after a delay
     func enableOtp() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
             sendingOtp = false
@@ -109,5 +119,5 @@ struct VerifyView: View {
 }
 
 #Preview {
-    return VerifyView(user: .constant(SupaUser.sample))
+    VerifyView(user: .constant(SupaUser.sample))
 }

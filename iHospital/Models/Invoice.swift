@@ -56,6 +56,8 @@ struct Invoice: Identifiable, Codable {
                                 referenceId: 1,
                                 status: .pending)
     
+    /// Fetches the referenced object based on the payment type
+    /// - Returns: The referenced object (Appointment, LabTest, or BedBooking)
     func fetchReferencedObject() async throws -> Any {
         switch paymentType {
         case .appointment:
@@ -67,8 +69,11 @@ struct Invoice: Identifiable, Codable {
         }
     }
     
+    /// Fetches an appointment by reference ID
+    /// - Parameter referenceId: The ID of the appointment
+    /// - Returns: The fetched appointment
     private func fetchAppointment(referenceId: Int) async throws -> Appointment {
-        let response:Appointment = try await supabase.from(SupabaseTable.appointments.id)
+        let response: Appointment = try await supabase.from(SupabaseTable.appointments.id)
             .select(Appointment.supabaseSelectQuery)
             .eq("id", value: referenceId)
             .single()
@@ -78,8 +83,11 @@ struct Invoice: Identifiable, Codable {
         return response
     }
     
+    /// Fetches a lab test by reference ID
+    /// - Parameter referenceId: The ID of the lab test
+    /// - Returns: The fetched lab test
     private func fetchLabTest(referenceId: Int) async throws -> LabTest {
-        let response:LabTest = try await supabase.from(SupabaseTable.labTests.id)
+        let response: LabTest = try await supabase.from(SupabaseTable.labTests.id)
             .select(LabTest.supabaseSelectQuery)
             .eq("id", value: referenceId)
             .single()
@@ -89,8 +97,11 @@ struct Invoice: Identifiable, Codable {
         return response
     }
     
+    /// Fetches a bed booking by reference ID
+    /// - Parameter referenceId: The ID of the bed booking
+    /// - Returns: The fetched bed booking
     private func fetchBedBooking(referenceId: Int) async throws -> BedBooking {
-        let response:BedBooking = try await supabase.from(SupabaseTable.bedBookings.id)
+        let response: BedBooking = try await supabase.from(SupabaseTable.bedBookings.id)
             .select()
             .eq("id", value: referenceId)
             .single()
@@ -100,8 +111,9 @@ struct Invoice: Identifiable, Codable {
         return response
     }
     
-    // this is for demonstartin puropose
-    // should not be used in real life scenarios
+    /// Changes the payment status of the invoice
+    /// - Parameter status: The new payment status
+    /// - Returns: The updated invoice
     func changePaymentStatus(status: PaymentStatus) async throws -> Invoice {
         let response: Invoice = try await supabase.from(SupabaseTable.invoices.id)
             .update([
@@ -116,15 +128,19 @@ struct Invoice: Identifiable, Codable {
         return response
     }
     
-    // this is for demonstartin puropose
-    // should not be used in real life scenarios
-    static func changePaymentStatus(paymentType: PaymentType, refrenceId: Int, status: PaymentStatus) async throws -> Invoice {
+    /// Changes the payment status of the invoice based on payment type and reference ID
+    /// - Parameters:
+    ///   - paymentType: The type of payment
+    ///   - referenceId: The ID of the reference
+    ///   - status: The new payment status
+    /// - Returns: The updated invoice
+    static func changePaymentStatus(paymentType: PaymentType, referenceId: Int, status: PaymentStatus) async throws -> Invoice {
         let response: Invoice = try await supabase.from(SupabaseTable.invoices.id)
             .update([
                 "status": status.rawValue
             ])
             .eq(CodingKeys.paymentType.rawValue, value: paymentType.rawValue)
-            .eq(CodingKeys.referenceId.rawValue, value: refrenceId)
+            .eq(CodingKeys.referenceId.rawValue, value: referenceId)
             .select(supabaseSelectQuery)
             .single()
             .execute()

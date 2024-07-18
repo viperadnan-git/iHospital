@@ -83,7 +83,7 @@ struct PaymentPageSingleView: View {
     private func changeStatus(_ status: PaymentStatus) {
         Task {
             do {
-                _ = try await Invoice.changePaymentStatus(paymentType: paymentType, refrenceId: refrenceId, status: status)
+                _ = try await Invoice.changePaymentStatus(paymentType: paymentType, referenceId: refrenceId, status: status)
                 isSuccess = (status == .paid)
                 dismiss()
             } catch {

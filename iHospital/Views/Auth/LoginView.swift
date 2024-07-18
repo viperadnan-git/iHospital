@@ -59,12 +59,16 @@ struct LoginView: View {
                                 validateEmail()
                             }
                             .paddedTextFieldStyle()
+                            .accessibilityLabel("Email")
+                            .accessibilityHint("Enter your email address")
                         
                         if let emailError = emailError {
                             Text(emailError)
                                 .foregroundColor(.red)
                                 .font(.caption)
                                 .padding(.leading, 2)
+                                .accessibilityLabel("Email Error")
+                                .accessibilityHint(emailError)
                         } else {
                             Spacer().frame(height: 17)
                         }
@@ -82,12 +86,16 @@ struct LoginView: View {
                                 validatePassword()
                             }
                             .paddedTextFieldStyle()
+                            .accessibilityLabel("Password")
+                            .accessibilityHint("Enter your password")
                         
                         if let passwordError = passwordError {
                             Text(passwordError)
                                 .foregroundColor(.red)
                                 .font(.caption)
                                 .padding(.leading, 2)
+                                .accessibilityLabel("Password Error")
+                                .accessibilityHint(passwordError)
                         } else {
                             Spacer().frame(height: 17)
                         }
@@ -102,6 +110,8 @@ struct LoginView: View {
                             Text("Forgot password?")
                         }
                         .padding(.trailing, 16)
+                        .accessibilityLabel("Forgot password")
+                        .accessibilityHint("Tap to reset your password")
                     }
                 }
                 .padding()
@@ -116,6 +126,8 @@ struct LoginView: View {
                 .padding(.horizontal, 16)
                 .padding(.bottom, 20)
                 .foregroundColor(.white)
+                .accessibilityLabel("Sign In")
+                .accessibilityHint("Tap to sign in")
                 
                 HStack {
                     Text("Don't have an account?")
@@ -124,6 +136,8 @@ struct LoginView: View {
                     NavigationLink(destination: SignUpView()) {
                         Text("Create account")
                     }
+                    .accessibilityLabel("Create account")
+                    .accessibilityHint("Tap to create a new account")
                 }
             }
             .navigationTitle("Login")
@@ -133,6 +147,7 @@ struct LoginView: View {
         }
     }
 
+    /// Validates the email field
     func validateEmail() {
         if email.isEmpty {
             emailError = "Email is required."
@@ -143,6 +158,7 @@ struct LoginView: View {
         }
     }
 
+    /// Validates the password field
     func validatePassword() {
         if password.isEmpty {
             passwordError = "Password is required."
@@ -151,6 +167,7 @@ struct LoginView: View {
         }
     }
 
+    /// Handles the login action
     func onLogin() {
         validateEmail()
         validatePassword()

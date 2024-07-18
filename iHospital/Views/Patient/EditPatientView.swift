@@ -38,7 +38,6 @@ struct EditPatientView: View {
     }
     
     var body: some View {
-        
         NavigationView {
             Form {
                 Section(header: Text("Personal Information")) {
@@ -49,28 +48,40 @@ struct EditPatientView: View {
                             .onSubmit {
                                 focusedField = .lastName
                             }
+                            .accessibilityLabel("First Name")
+                            .accessibilityHint("Enter the patient's first name")
+                        
                         Divider()
+                        
                         TextField("Last Name", text: $lastName)
                             .focused($focusedField, equals: .lastName)
                             .submitLabel(.next)
                             .onSubmit {
                                 focusedField = .phoneNumber
                             }
+                            .accessibilityLabel("Last Name")
+                            .accessibilityHint("Enter the patient's last name")
                     }
                     
                     Picker("Gender", selection: $gender) {
-                        ForEach(genders, id: \.self) { group in
-                            Text(group.id.capitalized)
+                        ForEach(genders, id: \.self) { gender in
+                            Text(gender.id.capitalized)
                         }
                     }
+                    .accessibilityLabel("Gender")
+                    .accessibilityHint("Select the patient's gender")
                     
                     Picker("Blood Group", selection: $bloodGroup) {
                         ForEach(bloodGroups, id: \.self) { group in
                             Text(group.rawValue)
                         }
                     }
+                    .accessibilityLabel("Blood Group")
+                    .accessibilityHint("Select the patient's blood group")
                     
                     DatePicker("Date of Birth", selection: $dateOfBirth, displayedComponents: .date)
+                        .accessibilityLabel("Date of Birth")
+                        .accessibilityHint("Select the patient's date of birth")
                     
                     TextField("Phone Number", text: $phoneNumber)
                         .keyboardType(.phonePad)
@@ -79,6 +90,8 @@ struct EditPatientView: View {
                         .onSubmit {
                             focusedField = .height
                         }
+                        .accessibilityLabel("Phone Number")
+                        .accessibilityHint("Enter the patient's phone number")
                     
                     TextField("Height (cm)", text: $height)
                         .keyboardType(.decimalPad)
@@ -87,6 +100,8 @@ struct EditPatientView: View {
                         .onSubmit {
                             focusedField = .weight
                         }
+                        .accessibilityLabel("Height")
+                        .accessibilityHint("Enter the patient's height in centimeters")
                     
                     TextField("Weight (kg)", text: $weight)
                         .keyboardType(.decimalPad)
@@ -95,6 +110,8 @@ struct EditPatientView: View {
                         .onSubmit {
                             focusedField = .address
                         }
+                        .accessibilityLabel("Weight")
+                        .accessibilityHint("Enter the patient's weight in kilograms")
                 }
 
                 Section(header: Text("Address")) {
@@ -104,10 +121,13 @@ struct EditPatientView: View {
                         .onSubmit {
                             savePatient()
                         }
+                        .accessibilityLabel("Address")
+                        .accessibilityHint("Enter the patient's address")
                 }
             }
         }
         .onAppear {
+            // Initialize form fields with existing patient data
             firstName = patient.firstName
             lastName = patient.lastName
             gender = patient.gender
@@ -131,8 +151,12 @@ struct EditPatientView: View {
         }) {
             if isSaving {
                 ProgressView()
+                    .accessibilityLabel("Saving")
+                    .accessibilityHint("Patient details are being saved")
             } else {
                 Text("Save")
+                    .accessibilityLabel("Save")
+                    .accessibilityHint("Save the patient details")
             }
         })
         .errorAlert(errorAlertMessage: errorAlertMessage)
@@ -143,8 +167,9 @@ struct EditPatientView: View {
         }
     }
                             
+    /// Saves the patient details
     private func savePatient() {
-        guard !firstName.isEmpty, !lastName.isEmpty, !phoneNumber.isEmpty  else {
+        guard !firstName.isEmpty, !lastName.isEmpty, !phoneNumber.isEmpty else {
             errorAlertMessage.message = "Please enter a valid name and phone number"
             return
         }
@@ -170,7 +195,7 @@ struct EditPatientView: View {
         }
         
         if !address.trimmed.isEmpty {
-            guard 10 < address.count,  address.count < 100 else {
+            guard address.count > 10, address.count < 100 else {
                 errorAlertMessage.message = "Address must be between 10 to 100 characters"
                 return
             }
@@ -197,6 +222,7 @@ struct EditPatientView: View {
         }
     }
     
+    /// Hides the keyboard
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
@@ -205,4 +231,3 @@ struct EditPatientView: View {
 #Preview {
     EditPatientView(patient: Patient.sample)
 }
-

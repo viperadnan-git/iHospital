@@ -14,15 +14,21 @@ class AuthViewModel: ObservableObject {
     @MainActor
     init() {
         Task {
-            // TODO: optimize this, this check for user login at startup
-            for await state in supabase.auth.authStateChanges {
-                if [.initialSession, .signedOut].contains(state.event) {
-                    try? await updateSupaUser()
-                }
-            }
+            await observeAuthStateChanges()
         }
     }
     
+    /// Observes authentication state changes and updates the user accordingly
+    @MainActor
+    func observeAuthStateChanges() async {
+        for await state in supabase.auth.authStateChanges {
+            if [.initialSession, .signedOut].contains(state.event) {
+                try? await updateSupaUser()
+            }
+        }
+    }
+
+    /// Updates the SupaUser instance and sets the shared user
     @MainActor
     func updateSupaUser() async throws {
         let user = try await SupaUser.getSupaUser()

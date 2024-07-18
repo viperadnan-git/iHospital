@@ -15,13 +15,12 @@ struct DashboardView: View {
     @StateObject private var viewModel = AppointmentViewModel()
     
     var body: some View {
-        NavigationStack(path:$navigation.path) {
+        NavigationStack(path: $navigation.path) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    
+                    // Appointment Booking Section
                     NavigationLink(destination: AppointmentBrowseView()) {
                         HStack {
-                            
                             VStack(alignment: .leading) {
                                 Text("Need an Appointment")
                                     .multilineTextAlignment(.leading)
@@ -36,6 +35,8 @@ struct DashboardView: View {
                                         .foregroundColor(.white)
                                         .background(Color.accentColor)
                                         .cornerRadius(8)
+                                        .accessibilityLabel("Book Now")
+                                        .accessibilityHint("Navigates to the appointment booking screen")
                                 }
                             }
                             .frame(alignment: .leading)
@@ -48,15 +49,17 @@ struct DashboardView: View {
                         }
                         .background(Color(uiColor: .systemGray6))
                         .cornerRadius(8)
+                        .accessibilityLabel("Need an Appointment")
+                        .accessibilityHint("Tap to book an appointment")
                     }
                     
+                    // Loading Indicator for Appointments
                     if viewModel.isLoading {
                         ProgressView()
                             .frame(maxWidth: .infinity, alignment: .center)
-                    } else{
-                        
+                    } else {
+                        // Next Appointment Section
                         if let nextAppointment = viewModel.upcomingAppointments.first {
-                            
                             Text("Next Appointment")
                                 .font(.title3)
                                 .fontWeight(.bold)
@@ -66,16 +69,20 @@ struct DashboardView: View {
                                     .background(Color(.systemGray6))
                                     .cornerRadius(8)
                                     .foregroundColor(Color(.label))
+                                    .accessibilityLabel("Next Appointment")
+                                    .accessibilityHint("Shows details of your next appointment")
                             }
-                            
                         }
                     }
+                    
+                    // Features Section
                     Text("Features")
                         .font(.title3)
                         .fontWeight(.bold)
                     
                     GeometryReader { geometry in
                         HStack(alignment: .top, spacing: 20) {
+                            // Bed Booking Feature
                             NavigationLink(destination: BedBookingView()) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 8)
@@ -93,7 +100,11 @@ struct DashboardView: View {
                                     .padding()
                                 }
                                 .frame(width: 170, height: 100)
+                                .accessibilityLabel("Bed Booking")
+                                .accessibilityHint("Navigates to the bed booking screen")
                             }
+                            
+                            // Billing Feature
                             NavigationLink(destination: InvoiceListView()) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 8)
@@ -111,8 +122,9 @@ struct DashboardView: View {
                                     .padding()
                                 }
                                 .frame(width: 170, height: 100)
+                                .accessibilityLabel("Billing")
+                                .accessibilityHint("Navigates to the billing screen")
                             }
-                            
                         }
                         .foregroundColor(Color(.label))
                     }
@@ -125,11 +137,14 @@ struct DashboardView: View {
                     NavigationLink(destination: ProfileView().environmentObject(patientViewModel)) {
                         ProfileImage(userId: authViewModel.user?.id.uuidString ?? "")
                             .frame(width: 40, height: 40)
+                            .accessibilityLabel("Profile")
+                            .accessibilityHint("Navigates to your profile")
                     }
                 }
             }
             .navigationTitle("Hello \(authViewModel.user?.firstName ?? "Unknown")")
-        }.environment(\.navigation, navigation)
+        }
+        .environment(\.navigation, navigation)
     }
 }
 

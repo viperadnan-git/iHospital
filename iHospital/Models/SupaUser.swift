@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  SupaUser.swift
 //  iHospital
 //
 //  Created by Adnan Ahmad on 03/07/24.
@@ -8,7 +8,6 @@
 import Foundation
 import Auth
 import Supabase
-
 
 struct SupaUser: Codable, Hashable {
     let id: UUID
@@ -35,14 +34,13 @@ struct SupaUser: Codable, Hashable {
     
     static var shared: SupaUser? = loadUser() {
         didSet {
-            if let shared = shared {
-                shared.saveUser()
-            }
+            shared?.saveUser()
         }
     }
     
     static let sample: SupaUser = SupaUser(id: UUID(), firstName: "John", lastName: "Doe", email: "mail@viperadnan.com", phoneNumber: 1234567890)
     
+    /// Saves the user object to UserDefaults
     func saveUser() {
         let encoder = JSONEncoder()
         guard let data = try? encoder.encode(self) else {
@@ -54,6 +52,7 @@ struct SupaUser: Codable, Hashable {
         print("User saved to user defaults")
     }
     
+    /// Loads the user object from UserDefaults
     static let loadUser: () -> SupaUser? = {
         guard let data = UserDefaults.standard.data(forKey: Constants.supabaseKey) else {
             return nil
@@ -66,17 +65,27 @@ struct SupaUser: Codable, Hashable {
         }
         
         return user
-        
     }
     
-    static func signUp(email: String, password:String) async throws {
+    /// Signs up a new user with email and password
+    /// - Parameters:
+    ///   - email: The user's email
+    ///   - password: The user's password
+    static func signUp(email: String, password: String) async throws {
         try await supabase.auth.signUp(email: email, password: password)
     }
     
+    /// Sends an OTP to the user's email
+    /// - Parameter email: The user's email
     static func sendOTP(email: String) async throws {
         try await supabase.auth.signInWithOTP(email: email)
     }
     
+    /// Verifies the user with an OTP and saves the user
+    /// - Parameters:
+    ///   - user: The user to verify
+    ///   - otp: The OTP code
+    /// - Returns: The verified user or an existing user if already verified
     static func verify(user: SupaUser, otp: String) async throws -> SupaUser? {
         let session = try await supabase.auth.verifyOTP(email: user.email, token: otp, type: .email)
         let userToSave = SupaUser(
@@ -88,47 +97,55 @@ struct SupaUser: Codable, Hashable {
         )
         
         do {
-            let user:SupaUser = try await supabase.from(SupabaseTable.users.id).insert(userToSave).select().single().execute().value
+            let user: SupaUser = try await supabase.from(SupabaseTable.users.id).insert(userToSave).select().single().execute().value
             return user
         } catch {
-            if let error = error as? PostgrestError {
+            if let error = error as? PostgrestError, error.code == "23505" {
                 // If the user already exists, return the user
-                if error.code == "23505" {
-                    return userToSave
-                }
+                return userToSave
             }
             throw error
         }
     }
     
+    /// Logs in a user with email and password
+    /// - Parameters:
+    ///   - email: The user's email
+    ///   - password: The user's password
+    /// - Returns: The logged-in user if email is confirmed
     static func login(email: String, password: String) async throws -> SupaUser? {
         let session = try await supabase.auth.signIn(email: email, password: password)
         if session.user.emailConfirmedAt != nil {
             return try await SupaUser.getSupaUser()
         }
-        
         return nil
     }
     
+    /// Logs out the current user
     static func logOut() async throws {
         UserDefaults.standard.removeObject(forKey: Constants.supabaseKey)
         try await supabase.auth.signOut()
     }
     
-    
+    /// Gets the current SupaUser object
+    /// - Returns: The current user if authenticated
     static func getSupaUser() async throws -> SupaUser? {
         guard let user = supabase.auth.currentUser else {
             return nil
         }
         
-        let supaUser:SupaUser = try await supabase.from(SupabaseTable.users.id).select().eq("user_id", value: user.id).single().execute().value
+        let supaUser: SupaUser = try await supabase.from(SupabaseTable.users.id).select().eq("user_id", value: user.id).single().execute().value
         return supaUser
     }
     
+    /// Updates the user's password
+    /// - Parameter password: The new password
     static func updatePassword(password: String) async throws {
         try await supabase.auth.update(user: UserAttributes(password: password))
     }
     
+    /// Fetches the invoices for the current user
+    /// - Returns: An array of invoices
     func fetchInvoices() async throws -> [Invoice] {
         let response: [Invoice] = try await supabase.from(SupabaseTable.invoices.id)
             .select(Invoice.supabaseSelectQuery)

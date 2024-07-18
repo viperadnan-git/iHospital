@@ -11,7 +11,6 @@ struct BedBooking: Codable {
     let id: Int
     let price: Int
     
-    
     enum CodingKeys: String, CodingKey {
         case id
         case price
