@@ -38,6 +38,7 @@ struct HorizontalCalenderView: View {
             Text(currentMonth)
                 .font(.caption)
                 .padding(.top, 8)
+                .accessibilityLabel("Current month: \(currentMonth)")
             
             TabView {
                 ForEach(weeks.indices, id: \.self) { weekIndex in
@@ -49,6 +50,8 @@ struct HorizontalCalenderView: View {
                                 Text(date, formatter: dateFormatter)
                                     .font(.caption)
                                     .foregroundColor(.gray)
+                                    .accessibilityHidden(true) // Day name is not critical for screen readers
+                                
                                 Button(action: {
                                     selectedDate = date
                                     updateCurrentMonth(for: date)
@@ -57,13 +60,15 @@ struct HorizontalCalenderView: View {
                                         .font(.title2)
                                         .padding(8)
                                         .background(
-                                            selectedDate == date ? .accent :
-                                                date == today.startOfDay ? .accent.opacity(0.2) : Color.clear
+                                            selectedDate == date ? Color.accentColor :
+                                                date == today.startOfDay ? Color.accentColor.opacity(0.2) : Color.clear
                                         )
                                         .foregroundColor(selectedDate == date ? .white : date == today.startOfDay ? .accentColor : disabled ? .gray : .primary)
                                         .clipShape(Circle())
                                 }
                                 .disabled(disabled)
+                                .accessibilityLabel("Date: \(dayFormatter.string(from: date))")
+                                .accessibilityHint(disabled ? "Past date" : "Select date")
                             }
                             .frame(maxWidth: .infinity)
                         }
@@ -85,6 +90,8 @@ struct HorizontalCalenderView: View {
         }
         .onAppear(perform: setupInitialWeeks)
         .fixedSize(horizontal: false, vertical: true)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Horizontal calendar view")
     }
     
     private func setupInitialWeeks() {
@@ -132,5 +139,5 @@ struct HorizontalCalenderView: View {
 #Preview {
     HorizontalCalenderView(selectedDate: .constant(Date()))
         .previewLayout(.sizeThatFits)
-        .border(.black)
+        .border(Color.black)
 }

@@ -21,10 +21,12 @@ struct AppointmentCard: View {
                 ProfileImage(userId: appointment.doctor.userId.uuidString)
                     .frame(width: 50, height: 50)
                     .padding(.trailing, 4)
+                    .accessibilityLabel("Doctor's profile picture")
                 
                 VStack(alignment: .leading) {
                     Text(appointment.doctor.name)
                         .font(.title3)
+                        .accessibilityLabel("Doctor: \(appointment.doctor.name)")
                     AppointmentStatusIndicator(status: appointment.appointmentStatus)
                     Spacer()
                 }
@@ -34,12 +36,16 @@ struct AppointmentCard: View {
             HStack {
                 Image(systemName: "person")
                     .foregroundColor(.accentColor)
+                    .accessibilityHidden(true)
                 Text(appointment.patient.name)
+                    .accessibilityLabel("Patient: \(appointment.patient.name)")
             }
             HStack {
                 Image(systemName: "calendar")
                     .foregroundColor(.accentColor)
+                    .accessibilityHidden(true)
                 Text("\(appointment.date, style: .date) at \(appointment.date, style: .time)")
+                    .accessibilityLabel("Appointment date and time: \(appointment.date, style: .date) at \(appointment.date, style: .time)")
             }
         }
         .padding()
@@ -55,8 +61,10 @@ struct AppointmentStatusIndicator: View {
             Circle()
                 .fill(status.color)
                 .frame(width: 10, height: 10)
+                .accessibilityHidden(true)
             Text(status.rawValue.capitalized)
                 .font(.footnote)
+                .accessibilityLabel("Status: \(status.rawValue.capitalized)")
         }
     }
 }

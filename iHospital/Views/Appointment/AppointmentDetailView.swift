@@ -31,32 +31,38 @@ struct AppointmentDetailView: View {
                         Text("Doctor")
                         Spacer()
                         Text(appointment.doctor.name)
+                            .accessibilityLabel("Doctor's name: \(appointment.doctor.name)")
                     }
                     HStack {
                         Text("Patient")
                         Spacer()
                         Text(appointment.patient.name)
+                            .accessibilityLabel("Patient's name: \(appointment.patient.name)")
                     }
                     HStack {
                         Text("Date")
                         Spacer()
                         Text("\(appointment.date, style: .date)")
+                            .accessibilityLabel("Appointment date: \(appointment.date, style: .date)")
                     }
                     HStack {
                         Text("Time")
                         Spacer()
                         Text("\(appointment.date, style: .time)")
+                            .accessibilityLabel("Appointment time: \(appointment.date, style: .time)")
                     }
                     HStack {
                         Text("Status")
                         Spacer()
                         Text(appointment.appointmentStatus.rawValue.capitalized)
                             .foregroundColor(appointment.appointmentStatus.color)
+                            .accessibilityLabel("Status: \(appointment.appointmentStatus.rawValue.capitalized)")
                     }
                     HStack {
                         Text("Appointment ID")
                         Spacer()
                         Text("#\(appointment.id.string)")
+                            .accessibilityLabel("Appointment ID: \(appointment.id.string)")
                     }
                 }
                 
@@ -64,13 +70,14 @@ struct AppointmentDetailView: View {
                     Section {
                         NavigationLink(destination: AppointmentMedicalRecordDetailView(appointment: appointment)) {
                             Text("View Medical Record")
+                                .accessibilityLabel("View Medical Record")
                         }
                         NavigationLink(destination: AppointmentLabTestDetailView(appointment: appointment)) {
                             Text("View Lab Reports")
+                                .accessibilityLabel("View Lab Reports")
                         }
                     }
                 }
-                
                 
                 if appointment.appointmentStatus != .completed && appointment.date > Date() {
                     Section(header: Text("Actions")) {
@@ -78,16 +85,18 @@ struct AppointmentDetailView: View {
                             Button("Reschedule Appointment") {
                                 showRescheduleSheet = true
                             }
+                            .accessibilityLabel("Reschedule Appointment")
                             Button("Cancel Appointment") {
                                 showCancelAlert = true
                             }
                             .foregroundColor(.red)
+                            .accessibilityLabel("Cancel Appointment")
                         } else {
                             Text("You can reschedule or cancel up to 4 hours before the appointment time.")
+                                .accessibilityLabel("You can reschedule or cancel up to 4 hours before the appointment time.")
                         }
                     }
                 }
-                
                 
                 if appointment.appointmentStatus == .pending && appointment.date > Date() {
                     Section(header: Text("Make Payment")) {
@@ -95,6 +104,7 @@ struct AppointmentDetailView: View {
                             Button("Pay Now") {
                                 showPaymentPage = true
                             }
+                            .accessibilityLabel("Pay Now")
                         }
                     }
                 }
@@ -106,6 +116,7 @@ struct AppointmentDetailView: View {
                 Button("Dismiss", role: .cancel) {}
             } message: {
                 Text("Are you sure you want to cancel this appointment?")
+                    .accessibilityLabel("Are you sure you want to cancel this appointment?")
             }
             .sheet(isPresented: $showRescheduleSheet) {
                 NavigationStack {
@@ -119,14 +130,17 @@ struct AppointmentDetailView: View {
                                         }.onAppear {
                                             fetchAvailableSlots()
                                         }
+                                        .accessibilityLabel("Select Date")
                                 }
                             }
                             Section(header: Text("Slots")) {
                                 if isLoading {
                                     ProgressView()
+                                        .accessibilityLabel("Loading available slots")
                                 } else if availableSlots.isEmpty {
                                     Text("No slots available for \(rescheduleDate, style: .date)")
                                         .foregroundColor(.gray)
+                                        .accessibilityLabel("No slots available for \(rescheduleDate, style: .date)")
                                 } else {
                                     SlotListView(slots: availableSlots, doctor: .constant(appointment.doctor), selection: $selectedSlot)
                                 }
@@ -137,6 +151,7 @@ struct AppointmentDetailView: View {
                                         Button("Reschedule Appointment") {
                                             rescheduleAppointment()
                                         }
+                                        .accessibilityLabel("Reschedule Appointment")
                                     }
                                 }
                             }
@@ -150,12 +165,15 @@ struct AppointmentDetailView: View {
                             Button("Cancel") {
                                 showRescheduleSheet = false
                             }
+                            .accessibilityLabel("Cancel")
+                            .accessibilityHint("Tap to cancel rescheduling")
                         }
                     }
                 }
             }
             .sheet(isPresented: $showPaymentPage) {
                 PaymentPageSingleView(paymentType: .appointment, refrenceId: appointment.id, isSuccess: $isRescheduling)
+                    .accessibilityLabel("Payment Page")
             }
         }
         .navigationTitle("Appointment Detail")

@@ -19,16 +19,18 @@ struct AppointmentConfirmationView: View {
             Image(systemName: "checkmark.seal.fill")
                 .foregroundStyle(.green)
                 .font(.system(size: 100))
-
+                .accessibilityHidden(true)
+            
             Text("Appointment Confirmed")
                 .font(.title)
                 .fontWeight(.bold)
                 .padding()
+                .accessibilityLabel("Appointment Confirmed")
             
             Text("\(appointment.patient.firstName)'s appointment with \(appointment.doctor.name) has been confirmed for \(appointment.date, style: .date) at \(appointment.date, style: .time).")
                 .multilineTextAlignment(.center)
                 .padding()
-
+                .accessibilityLabel("\(appointment.patient.firstName)'s appointment with \(appointment.doctor.name) has been confirmed for \(appointment.date, style: .date) at \(appointment.date, style: .time).")
             
             Spacer()
             
@@ -42,7 +44,10 @@ struct AppointmentConfirmationView: View {
                     .background(Color.accentColor)
                     .foregroundColor(.white)
                     .cornerRadius(8)
-            }.padding()
+                    .accessibilityLabel("Done")
+                    .accessibilityHint("Tap to return to the home screen")
+            }
+            .padding()
         }
         .navigationTitle("Appointment Details")
         .navigationBarTitleDisplayMode(.inline)
@@ -51,5 +56,5 @@ struct AppointmentConfirmationView: View {
 }
 
 #Preview {
-    AppointmentDetailView(appointment: Appointment.sample)
+    AppointmentConfirmationView(appointment: Appointment.sample)
 }

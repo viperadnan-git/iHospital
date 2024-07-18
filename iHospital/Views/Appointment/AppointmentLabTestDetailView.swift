@@ -20,21 +20,29 @@ struct AppointmentLabTestDetailView: View {
             if isLoading {
                 Spacer()
                 ProgressView()
+                    .accessibilityLabel("Loading lab tests")
                 Spacer()
             } else {
                 if !labTests.isEmpty {
                     LabTestListView(labTests: $labTests)
+                        .accessibilityLabel("List of lab tests for appointment with Doctor \(appointment.doctor.name)")
                 } else {
                     Spacer()
                     Text("No lab tests have been suggested in this appointment.")
+                        .foregroundColor(.gray)
+                        .accessibilityLabel("No lab tests have been suggested in this appointment.")
                     Spacer()
                 }
             }
-        }.onAppear {
+        }
+        .onAppear {
             fetchLabTests()
-        }.navigationTitle("Lab Reports")
+        }
+        .navigationTitle("Lab Reports")
         .navigationBarTitleDisplayMode(.inline)
         .errorAlert(errorAlertMessage: errorAlertMessage)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Appointment Lab Test Detail View")
     }
     
     func fetchLabTests() {

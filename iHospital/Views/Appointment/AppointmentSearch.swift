@@ -34,6 +34,7 @@ struct AppointmentSearch: View {
                         .onChange(of: searchText) { _ in
                             debounceSearch()
                         }
+                        .accessibilityLabel("Search doctors or departments")
                 }
                 
                 if isLoading {
@@ -41,6 +42,7 @@ struct AppointmentSearch: View {
                         Spacer()
                         ProgressView()
                             .padding(.trailing)
+                            .accessibilityLabel("Loading search results")
                         Spacer()
                     }
                 } else {
@@ -49,6 +51,7 @@ struct AppointmentSearch: View {
                             Spacer()
                             Text("No results found")
                                 .foregroundColor(.secondary)
+                                .accessibilityLabel("No results found")
                             Spacer()
                         }
                     } else {
@@ -64,8 +67,10 @@ struct AppointmentSearch: View {
                                 HStack {
                                     Image(systemName: result.icon)
                                         .foregroundColor(result.type == .doctor ? .blue : .green)
+                                        .accessibilityHidden(true)
                                     Text(result.name)
                                         .foregroundColor(.primary)
+                                        .accessibilityLabel("\(result.type == .doctor ? "Doctor" : "Department"): \(result.name)")
                                 }
                             }
                         }
@@ -81,8 +86,12 @@ struct AppointmentSearch: View {
                 Button("Cancel", action: {
                     showSearch = false
                 })
-            }.errorAlert(errorAlertMessage: errorAlertMessage)
+                .accessibilityLabel("Cancel search")
+            }
+            .errorAlert(errorAlertMessage: errorAlertMessage)
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Search doctors or departments view")
     }
     
     private func debounceSearch() {

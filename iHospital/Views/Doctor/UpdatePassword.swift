@@ -13,12 +13,12 @@ struct UpdatePassword: View {
     @State private var isLoading = false
     @StateObject private var errorAlertMessage = ErrorAlertMessage()
     
-    
     var body: some View {
         VStack {
             Text("Update Password")
                 .font(.largeTitle)
                 .fontWeight(.bold)
+                .accessibilityLabel("Update Password")
             
             Text("Enter your new password")
                 .font(.subheadline)
@@ -26,21 +26,27 @@ struct UpdatePassword: View {
                 .foregroundColor(.gray)
                 .padding(.top, 1)
                 .padding(.bottom, 20)
+                .accessibilityLabel("Enter your new password")
             
             VStack(spacing: 16) {
                 SecureField("New Password", text: $password)
                     .paddedTextFieldStyle()
+                    .accessibilityLabel("New Password")
                 
                 SecureField("Confirm Password", text: $confirmPassword)
                     .paddedTextFieldStyle()
+                    .accessibilityLabel("Confirm Password")
                 
                 LoaderButton(isLoading: $isLoading, action: onUpdatePassword) {
                     Text("Update Password")
+                        .accessibilityLabel("Update Password")
                 }
                 .buttonStyle(.borderedProminent)
             }
             .padding()
             .errorAlert(errorAlertMessage: errorAlertMessage)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Update Password Form")
         }
     }
     

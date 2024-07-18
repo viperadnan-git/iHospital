@@ -35,6 +35,8 @@ struct AppointmentBrowseView: View {
                         }
                     } label: {
                         Label(selectedDepartment?.name ?? "Department", systemImage: "building.2.crop.circle.fill")
+                            .accessibilityLabel("Select Department")
+                            .accessibilityHint("Tap to select a department")
                     }
                     Spacer()
                     
@@ -44,6 +46,8 @@ struct AppointmentBrowseView: View {
                         Image(systemName: "magnifyingglass")
                         Text("Search")
                     }
+                    .accessibilityLabel("Search")
+                    .accessibilityHint("Tap to search for doctors or departments")
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
@@ -53,20 +57,24 @@ struct AppointmentBrowseView: View {
                     case .doctor:
                         if case .doctor(let doctor) = selectedSearchResult.item {
                             DoctorRow(doctor: doctor, expanded: true).environmentObject(booking)
+                                .accessibilityLabel("Doctor: \(doctor.name)")
                         }
                     case .department:
                         if case .department(let department) = selectedSearchResult.item {
                             DoctorsList(departmentId: department.id).environmentObject(booking)
+                                .accessibilityLabel("Doctors list for department: \(department.name)")
                         }
                     }
                 } else if let selectedDepartment = selectedDepartment {
                     DoctorsList(departmentId: selectedDepartment.id).environmentObject(booking)
                         .id(selectedDepartment.id)
+                        .accessibilityLabel("Doctors list for department: \(selectedDepartment.name)")
                 } else {
                     VStack {
                         Text("Select a department or use search to find doctors")
                             .foregroundColor(.gray)
                             .padding()
+                            .accessibilityLabel("Select a department or use search to find doctors")
                     }
                 }
             }
@@ -76,10 +84,14 @@ struct AppointmentBrowseView: View {
         .onAppear(perform: fetchDepartments)
         .sheet(isPresented: $showSearch) {
             AppointmentSearch(selectedSearchResult: $selectedSearchResult, selectedDepartment: $selectedDepartment, showSearch: $showSearch)
+                .accessibilityLabel("Appointment Search")
+                .accessibilityHint("Search for doctors or departments")
         }
         .toolbar {
             NavigationLink(destination: AppointmentBooking().environmentObject(booking)) {
                 Text("Proceed")
+                    .accessibilityLabel("Proceed")
+                    .accessibilityHint("Tap to proceed to booking")
             }
             .disabled(booking.selectedSlot == nil)
         }

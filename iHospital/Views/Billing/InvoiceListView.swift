@@ -1,5 +1,3 @@
-
-
 import SwiftUI
 
 struct InvoiceListView: View {
@@ -9,6 +7,7 @@ struct InvoiceListView: View {
         VStack {
             if viewModel.isLoading {
                 ProgressView()
+                    .accessibilityLabel("Loading invoices")
             } else {
                 List {
                     ForEach(viewModel.filteredInvoices) { invoice in
@@ -19,9 +18,11 @@ struct InvoiceListView: View {
                                         .fontWeight(.semibold)
                                         .lineLimit(1)
                                         .truncationMode(.tail)
+                                        .accessibilityLabel("Patient: \(invoice.patient.firstName), Payment type: \(invoice.paymentType.rawValue.capitalized)")
                                     Text("\(invoice.createdAt.dateTimeString) #\(invoice.id)")
                                         .font(.subheadline)
                                         .foregroundStyle(.gray)
+                                        .accessibilityLabel("Date: \(invoice.createdAt.dateTimeString), Invoice ID: \(invoice.id)")
                                 }
                                 Spacer()
                                 VStack(alignment: .trailing) {
@@ -30,6 +31,7 @@ struct InvoiceListView: View {
                                         .textCase(.uppercase)
                                     Text(invoice.amount.currency)
                                         .bold()
+                                        .accessibilityLabel("Amount: \(invoice.amount.currency)")
                                 }
                             }
                         }
@@ -43,6 +45,7 @@ struct InvoiceListView: View {
         }
         .navigationTitle("Invoices")
         .navigationBarItems(trailing: filterMenu)
+        .accessibilityElement(children: .combine)
     }
     
     private var filterMenu: some View {
@@ -52,10 +55,12 @@ struct InvoiceListView: View {
                     viewModel.selectedFilter = filter
                 }) {
                     Text(filter.rawValue)
+                        .accessibilityLabel("Filter by \(filter.rawValue)")
                 }
             }
         } label: {
             Label("Filter", systemImage: "line.horizontal.3.decrease.circle")
+                .accessibilityLabel("Filter menu")
         }
     }
 }
@@ -67,7 +72,9 @@ struct PaymentStatusIndicator: View {
             Circle()
                 .fill(status.color)
                 .frame(width: 10, height: 10)
+                .accessibilityHidden(true) // Status color is conveyed through text
             Text(status.rawValue.capitalized)
+                .accessibilityLabel("Status: \(status.rawValue.capitalized)")
         }
     }
 }

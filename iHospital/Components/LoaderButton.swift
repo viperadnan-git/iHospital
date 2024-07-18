@@ -11,13 +11,13 @@ struct LoaderButton<Content: View>: View {
     @Binding var isLoading: Bool
     var action: () -> Void
     var content: Content
-    
+
     init(isLoading: Binding<Bool>, action: @escaping () -> Void, @ViewBuilder content: () -> Content) {
         self._isLoading = isLoading
         self.action = action
         self.content = content()
     }
-    
+
     var body: some View {
         Button(action: action) {
             ZStack {
@@ -27,8 +27,8 @@ struct LoaderButton<Content: View>: View {
                         .padding()
                 } else {
                     content
-                    .opacity(isLoading ? 0 : 1)
-                    .padding()
+                        .opacity(isLoading ? 0 : 1)
+                        .padding()
                 }
             }
             .frame(maxWidth: .infinity)
@@ -38,9 +38,11 @@ struct LoaderButton<Content: View>: View {
             .disabled(isLoading)
         }
         .buttonStyle(PlainButtonStyle())
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(isLoading ? "Loading" : "Button")
+        .accessibilityHint(isLoading ? "Button is currently loading" : "Tap to perform action")
     }
 }
-
 
 #Preview {
     @State var isLoading = false

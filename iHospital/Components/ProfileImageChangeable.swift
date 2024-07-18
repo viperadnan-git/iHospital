@@ -12,9 +12,9 @@ struct ProfileImageChangeable: View {
     let userId: String
     var placeholder: Image = Image(systemName: "person.crop.circle.fill")
     
-    @State var image: Image?
-    @State var imageData: Data?
-    @State var isChangingImage: Bool = false
+    @State private var image: Image?
+    @State private var imageData: Data?
+    @State private var isChangingImage: Bool = false
     
     @State private var isShowingPhotoPicker = false
     @State private var isShowingCamera = false
@@ -25,6 +25,7 @@ struct ProfileImageChangeable: View {
             Group {
                 if isChangingImage {
                     ProgressView()
+                        .accessibilityLabel("Changing image, please wait")
                 } else if let imageData = imageData {
                     if let image = image {
                         image.resizable()
@@ -44,13 +45,13 @@ struct ProfileImageChangeable: View {
                         showProgress: false
                     )
                 }
-            }.scaledToFill()
-                .frame(width: 100, height: 100)
-                .clipShape(Circle())
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .center)
-            
-            
+            }
+            .scaledToFill()
+            .frame(width: 100, height: 100)
+            .clipShape(Circle())
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .center)
+            .accessibilityLabel("Profile image")
             
             Button {
                 showActionSheet = true
@@ -74,6 +75,8 @@ struct ProfileImageChangeable: View {
                     ]
                 )
             }
+            .accessibilityLabel("Change Image")
+            .accessibilityHint("Tap to change profile image")
         }
         .sheet(isPresented: $isShowingPhotoPicker) {
             ImagePicker(sourceType: .photoLibrary, selectedImageData: $imageData)
@@ -121,3 +124,10 @@ struct ProfileImageChangeable: View {
     }
 }
 
+struct ProfileImageChangeable_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfileImageChangeable(userId: "sampleUserID")
+            .previewLayout(.sizeThatFits)
+            .padding()
+    }
+}

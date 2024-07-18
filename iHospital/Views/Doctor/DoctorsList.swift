@@ -14,19 +14,24 @@ struct DoctorsList: View {
             if isLoading {
                 ProgressView()
                     .padding()
+                    .accessibilityLabel("Loading doctors")
             } else if doctors.isEmpty {
                 Text("No doctors available for this department.")
                     .foregroundColor(.gray)
                     .padding()
+                    .accessibilityLabel("No doctors available for this department.")
             } else {
                 ForEach(doctors, id: \.userId) { doctor in
                     DoctorRow(doctor: doctor)
                         .environmentObject(booking)
+                        .accessibilityLabel("Doctor: \(doctor.name)")
                 }
             }
         }
         .onAppear(perform: fetchDoctors)
         .errorAlert(errorAlertMessage: errorAlertMessage)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Doctors list for department")
     }
     
     private func fetchDoctors() {
@@ -36,7 +41,7 @@ struct DoctorsList: View {
             }
             
             do {
-                print("fetching doctors for depratment \(departmentId)")
+                print("fetching doctors for department \(departmentId)")
                 let fetchedDoctors = try await Doctor.fetchDepartmentWise(departmentId: departmentId)
                 doctors = fetchedDoctors
             } catch {

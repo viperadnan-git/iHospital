@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct AppointmentMedicalRecordDetailView: View {
     var appointment: Appointment
     
@@ -17,21 +16,31 @@ struct AppointmentMedicalRecordDetailView: View {
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Failed to load")
     
     var body: some View {
-        if isLoading {
-            VStack {
+        VStack {
+            if isLoading {
                 Spacer()
                 ProgressView()
+                    .accessibilityLabel("Loading medical record")
                 Spacer()
-            }.onAppear {
-                fetchMedicalRecord()
-            }.navigationTitle(appointment.doctor.name)
-            .navigationBarTitleDisplayMode(.inline)
-            .errorAlert(errorAlertMessage: errorAlertMessage)
-        } else {
-            if let medicalRecords = medicalRecords {
-                MedicalRecordDetailView(medicalRecord: medicalRecords)
+            } else {
+                if let medicalRecords = medicalRecords {
+                    MedicalRecordDetailView(medicalRecord: medicalRecords)
+                        .accessibilityLabel("Medical record details for \(appointment.patient.name) with Doctor \(appointment.doctor.name)")
+                } else {
+                    Text("Failed to load medical record")
+                        .foregroundColor(.gray)
+                        .accessibilityLabel("Failed to load medical record")
+                }
             }
         }
+        .onAppear {
+            fetchMedicalRecord()
+        }
+        .navigationTitle(appointment.doctor.name)
+        .navigationBarTitleDisplayMode(.inline)
+        .errorAlert(errorAlertMessage: errorAlertMessage)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Appointment Medical Record Detail View")
     }
     
     func fetchMedicalRecord() {

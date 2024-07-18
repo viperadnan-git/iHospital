@@ -19,12 +19,23 @@ struct ProfileImage: View {
             placeholder: placeholder,
             cacheKey: "AV#\(userId)",
             showProgress: false
-        ).clipShape(Circle())
+        )
+        .clipShape(Circle())
+        .accessibilityLabel("Profile image")
+        .accessibilityHint("Profile image for user with ID \(userId)")
     }
     
     private func fetchImageData(for userId: String) async throws -> Data {
         let path = "\(userId.lowercased())/avatar.jpeg"
         return try await supabase.storage.from(SupabaseBucket.avatars.id)
             .download(path: path)
+    }
+}
+
+struct ProfileImage_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfileImage(userId: "sampleUserID")
+            .previewLayout(.sizeThatFits)
+            .padding()
     }
 }

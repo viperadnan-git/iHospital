@@ -19,21 +19,27 @@ struct LabTestDetailView: View {
                 Text(labTest.test.name)
                     .font(.title)
                     .bold()
+                    .accessibilityLabel("Test: \(labTest.test.name)")
                 HStack {
                     Text("By \(labTest.appointment.doctor.name)")
+                        .accessibilityLabel("Doctor: \(labTest.appointment.doctor.name)")
                     Spacer()
                     Text(labTest.appointment.date.dateString)
-                }.font(.subheadline)
-                    .foregroundStyle(.gray)
+                        .accessibilityLabel("Date: \(labTest.appointment.date.dateString)")
+                }
+                .font(.subheadline)
+                .foregroundStyle(.gray)
             }
             .padding(.horizontal)
             Divider()
 
             if let reportURL = reportURL {
                 PDFKitRepresentedView(reportURL)
+                    .accessibilityLabel("PDF Report View")
             } else if labTest.reportPath != nil {
                 Spacer()
                 ProgressView()
+                    .accessibilityLabel("Loading report")
             } else {
                 Spacer()
                 VStack(alignment: .leading) {
@@ -41,14 +47,19 @@ struct LabTestDetailView: View {
                     switch labTest.status {
                     case .pending:
                         Text("Payment is pending for this test.")
+                            .accessibilityLabel("Payment is pending for this test.")
                     case .waiting:
                         Text("Waiting for sample collection.")
+                            .accessibilityLabel("Waiting for sample collection.")
                     case .inProgress:
                         Text("Sample is collected, creation of report is in progress.")
+                            .accessibilityLabel("Sample is collected, creation of report is in progress.")
                     case .completed:
                         Text("Report is generated.")
+                            .accessibilityLabel("Report is generated.")
                     }
-                }.foregroundStyle(.gray)
+                }
+                .foregroundStyle(.gray)
             }
             
             Spacer()
@@ -63,6 +74,8 @@ struct LabTestDetailView: View {
                 fetchReport()
             }
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Lab test details for \(labTest.patient.name)")
     }
     
     private var shareButton: some View {
@@ -71,6 +84,8 @@ struct LabTestDetailView: View {
         }) {
             Image(systemName: "square.and.arrow.up")
         }
+        .accessibilityLabel("Share Report")
+        .accessibilityHint("Tap to share the report")
     }
     
     private func fetchReport() {
@@ -104,8 +119,10 @@ struct LabTestStatusIndicator: View {
             Circle()
                 .fill(status.color)
                 .frame(width: 10, height: 10)
+                .accessibilityHidden(true)
             Text(status.rawValue.capitalized)
                 .font(.footnote)
+                .accessibilityLabel("Status: \(status.rawValue.capitalized)")
         }
     }
 }

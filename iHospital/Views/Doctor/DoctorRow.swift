@@ -30,23 +30,30 @@ struct DoctorRow: View {
                         .padding(.trailing, 10)
                         .padding(.top)
                         .foregroundStyle(Color(.systemGray))
+                        .accessibilityHidden(true)
                     Spacer()
                 }
                 
                 VStack(alignment: .leading) {
                     Text(doctor.name)
                         .font(.headline)
+                        .accessibilityLabel("Doctor: \(doctor.name)")
                     HStack {
                         Image(systemName: "graduationcap.fill")
+                            .accessibilityHidden(true)
                         Text(doctor.qualification)
-                           
-                    }.font(.subheadline)
-                        .foregroundStyle(Color(.systemGray))
+                            .font(.subheadline)
+                            .foregroundStyle(Color(.systemGray))
+                            .accessibilityLabel("Qualification: \(doctor.qualification)")
+                    }
                     HStack {
                         Image(systemName: "briefcase.fill")
+                            .accessibilityHidden(true)
                         Text(doctor.experienceSince.ago)
-                    }.font(.subheadline)
-                        .foregroundStyle(Color(.systemGray))
+                            .font(.subheadline)
+                            .foregroundStyle(Color(.systemGray))
+                            .accessibilityLabel("Experience: \(doctor.experienceSince.ago)")
+                    }
                 }
                 Spacer()
                 
@@ -61,6 +68,8 @@ struct DoctorRow: View {
                     }) {
                         Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                             .padding()
+                            .accessibilityLabel(isExpanded ? "Collapse" : "Expand")
+                            .accessibilityHint(isExpanded ? "Tap to collapse the doctor's details" : "Tap to expand the doctor's details")
                     }
                 }
             }.padding(.horizontal)
@@ -69,17 +78,19 @@ struct DoctorRow: View {
                 if isLoading {
                     ProgressView()
                         .padding()
-                }
-                else if availableSlots.isEmpty {
+                        .accessibilityLabel("Loading available slots")
+                } else if availableSlots.isEmpty {
                     Text("No slots available for \(booking.forDate.startOfDay.localDate.dateString)")
                         .foregroundColor(.gray)
                         .padding()
+                        .accessibilityLabel("No slots available for \(booking.forDate.startOfDay.localDate.dateString)")
                 } else {
                     VStack(alignment: .leading) {
                         Text("Available Slots")
                             .textCase(.uppercase)
                             .font(.caption)
                             .padding(.horizontal)
+                            .accessibilityLabel("Available Slots")
                         SlotListView(slots: availableSlots, doctor: $booking.doctor, selection: $booking.selectedSlot)
                     }.padding(.top, 8)
                 }

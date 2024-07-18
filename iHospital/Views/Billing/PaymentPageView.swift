@@ -1,5 +1,3 @@
-
-
 import SwiftUI
 
 struct PaymentPageView: View {
@@ -18,6 +16,8 @@ struct PaymentPageView: View {
         }
         .padding()
         .errorAlert(errorAlertMessage: errorAlertMessage)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Payment Page for Invoice")
     }
     
     private func changeStatus(_ status: PaymentStatus) {
@@ -40,6 +40,7 @@ struct PaymentPageContent: View {
             .font(.largeTitle)
             .bold()
             .padding()
+            .accessibilityLabel("Payment Gateway Simulator")
         Button {
             changeStatus(.paid)
         } label: {
@@ -48,6 +49,8 @@ struct PaymentPageContent: View {
         }
         .buttonStyle(.bordered)
         .tint(.green)
+        .accessibilityLabel("Success")
+        .accessibilityHint("Tap to mark payment as successful")
         Button {
             changeStatus(.failed)
         } label: {
@@ -56,9 +59,10 @@ struct PaymentPageContent: View {
         }
         .buttonStyle(.bordered)
         .tint(.red)
+        .accessibilityLabel("Failed")
+        .accessibilityHint("Tap to mark payment as failed")
     }
 }
-
 
 struct PaymentPageSingleView: View {
     let paymentType: PaymentType
@@ -78,6 +82,8 @@ struct PaymentPageSingleView: View {
         }
         .padding()
         .errorAlert(errorAlertMessage: errorAlertMessage)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Payment Page for Payment Type: \(paymentType.rawValue)")
     }
     
     private func changeStatus(_ status: PaymentStatus) {
@@ -92,7 +98,6 @@ struct PaymentPageSingleView: View {
         }
     }
 }
-
 
 #Preview {
     PaymentPageView(invoice: .sample)

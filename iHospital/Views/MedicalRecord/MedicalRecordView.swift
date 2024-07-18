@@ -23,6 +23,7 @@ struct MedicalRecordView: View {
                             Text(patient.name).tag(patient as Patient?)
                         }
                     }
+                    .accessibilityLabel("Select Patient")
                 }
                 
                 if viewModel.isLoading || patientViewModel.isLoading {
@@ -30,17 +31,20 @@ struct MedicalRecordView: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
                         .padding()
+                        .accessibilityLabel("Loading medical records")
                 } else if viewModel.medicalRecords.isEmpty {
                     Spacer()
                     Text(patientViewModel.patients.isEmpty ? "You don't have any patients yet, start by adding a patient first." : "No medical records found for this profile.")
                         .foregroundStyle(.gray)
                         .padding()
+                        .accessibilityLabel(patientViewModel.patients.isEmpty ? "You don't have any patients yet, start by adding a patient first." : "No medical records found for this profile.")
                 } else {
                     List(viewModel.medicalRecords) { medicalRecord in
                         NavigationLink(destination: MedicalRecordDetailView(medicalRecord: medicalRecord)) {
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text(medicalRecord.appointment.doctor.name).bold()
+                                        .accessibilityLabel("Doctor: \(medicalRecord.appointment.doctor.name)")
                                     HStack {
                                         Text(medicalRecord.appointment.date.dateTimeString)
                                         Text("•")
@@ -48,35 +52,40 @@ struct MedicalRecordView: View {
                                     }
                                     .font(.subheadline)
                                     .foregroundStyle(.gray)
-                                    
+                                    .accessibilityLabel("Date: \(medicalRecord.appointment.date.dateTimeString), Record ID: \(medicalRecord.id.string)")
                                 }
                             }
                         }
-                    }.listStyle(PlainListStyle())
+                    }
+                    .listStyle(PlainListStyle())
                 }
                 
                 Spacer()
-            }.navigationTitle("Medical Records")
-                .errorAlert(errorAlertMessage: errorAlertMessage)
-                .onAppear {
-                    if let patient = patientViewModel.currentPatient {
-                        viewModel.fetchMedicalRecords(patient: patient)
-                    }
+            }
+            .navigationTitle("Medical Records")
+            .errorAlert(errorAlertMessage: errorAlertMessage)
+            .onAppear {
+                if let patient = patientViewModel.currentPatient {
+                    viewModel.fetchMedicalRecords(patient: patient)
                 }
-                .refreshable {
-                    if let patient = patientViewModel.currentPatient {
-                        viewModel.fetchMedicalRecords(patient: patient, showLoader: false, force: true)
-                    }
+            }
+            .refreshable {
+                if let patient = patientViewModel.currentPatient {
+                    viewModel.fetchMedicalRecords(patient: patient, showLoader: false, force: true)
                 }
-                .onChange(of: patientViewModel.currentPatient) { _ in
-                    if let patient = patientViewModel.currentPatient {
-                        viewModel.fetchMedicalRecords(patient: patient, force: true)
-                    }
+            }
+            .onChange(of: patientViewModel.currentPatient) { _ in
+                if let patient = patientViewModel.currentPatient {
+                    viewModel.fetchMedicalRecords(patient: patient, force: true)
                 }
+            }
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Medical records view")
     }
 }
 
 #Preview {
     MedicalRecordView()
+        .environmentObject(PatientViewModel())
 }

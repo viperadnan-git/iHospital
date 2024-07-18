@@ -25,38 +25,41 @@ struct AppointmentBooking: View {
                     Form {
                         Section {
                             ProfileImage(userId: doctor.userId.uuidString)
-//                                .resizable()
-//                                .scaledToFit()
                                 .frame(width: 100, height: 100)
                                 .clipShape(Circle())
                                 .padding()
                                 .foregroundColor(Color(.systemGray))
-                                .accessibility(label: Text("Doctor Profile Picture"))
-                        }.frame(maxWidth: .infinity, alignment: .center)
+                                .accessibilityLabel("Doctor Profile Picture")
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
                         
                         Section(header: Text("Appointment Information")) {
                             HStack {
                                 Text("Doctor's Name")
                                 Spacer()
                                 Text(doctor.name)
+                                    .accessibilityLabel("Doctor's Name: \(doctor.name)")
                             }
                             
                             HStack {
                                 Text("Date")
                                 Spacer()
                                 Text("\(bookingDate, style: .date)")
+                                    .accessibilityLabel("Date: \(bookingDate, style: .date)")
                             }
                             
                             HStack {
                                 Text("Time")
                                 Spacer()
                                 Text("\(bookingDate, style: .time)")
+                                    .accessibilityLabel("Time: \(bookingDate, style: .time)")
                             }
                             
                             HStack {
                                 Text("Doctor's Fee")
                                 Spacer()
                                 Text(doctor.fee.formatted(.currency(code: "INR")))
+                                    .accessibilityLabel("Doctor's Fee: \(doctor.fee.formatted(.currency(code: "INR")))")
                             }
                         }
                         
@@ -68,16 +71,20 @@ struct AppointmentBooking: View {
                                     .background(.accent)
                                     .foregroundColor(.white)
                                     .cornerRadius(8)
+                                    .accessibilityLabel("Add Patient")
                             }.buttonStyle(PlainButtonStyle())
                         } else {
                             Picker("Patient", selection: $patientViewModel.currentPatient) {
                                 ForEach(patientViewModel.patients, id: \.id) { patient in
                                     Text(patient.name).tag(patient as Patient?)
+                                        .accessibilityLabel(patient.name)
                                 }
                             }
+                            .accessibilityLabel("Select Patient")
                             
                             LoaderButton(isLoading: $isLoading, action: confirmBooking) {
                                 Text("Confirm Booking")
+                                    .accessibilityLabel("Confirm Booking")
                             }
                         }
                     }
@@ -97,6 +104,7 @@ struct AppointmentBooking: View {
                     PaymentPageSingleView(paymentType: .appointment, refrenceId: bookedAppointment.id, isSuccess: $isPaymentSuccessful)
                 } else {
                     Text("Failed to book appointment")
+                        .accessibilityLabel("Failed to book appointment")
                 }
             }
             .onChange(of: isPaymentSuccessful) { newValue in

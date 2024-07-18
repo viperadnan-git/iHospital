@@ -4,6 +4,7 @@
 //
 //  Created by Shoaib Akhtar on 04/07/24.
 //
+
 import SwiftUI
 
 struct SearchBar: View {
@@ -15,12 +16,12 @@ struct SearchBar: View {
             TextField("Search Doctor and Departments", text: $text)
                 .padding(7)
                 .padding(.horizontal, 25)
-                .background(Color(.systemGray6)) // Background color similar to native iOS search bar
+                .background(Color(.systemGray6))
                 .cornerRadius(8)
                 .overlay(
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(.gray) // Icon color similar to native iOS search bar
+                            .foregroundColor(.gray)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 8)
                         
@@ -31,15 +32,17 @@ struct SearchBar: View {
                                 Image(systemName: "multiply.circle.fill")
                                     .foregroundColor(.gray)
                                     .padding(.trailing, 8)
+                                    .accessibilityLabel("Clear search text")
                             }
                         }
                     }
                 )
-                .foregroundColor(.primary) // Text color similar to native iOS search bar
+                .foregroundColor(.primary)
                 .padding(.horizontal, 10)
                 .onTapGesture {
                     self.isEditing = true
                 }
+                .accessibilityHint("Search for doctors and departments")
 
             if isEditing {
                 Button(action: {
@@ -48,13 +51,15 @@ struct SearchBar: View {
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 }) {
                     Text("Cancel")
-                        .foregroundColor(.blue) // Cancel button color similar to native iOS search bar
+                        .foregroundColor(.blue)
+                        .accessibilityLabel("Cancel search")
                 }
                 .padding(.trailing, 10)
                 .transition(.move(edge: .trailing))
-                //.animation(.default)
             }
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Search bar")
     }
 }
 
@@ -63,7 +68,7 @@ struct SearchBar_Previews: PreviewProvider {
     static var previews: some View {
         SearchBar(text: $text)
             .padding()
-            .background(Color(.systemBackground)) // Background color to simulate a typical iOS view
+            .background(Color(.systemBackground))
             .previewLayout(.sizeThatFits)
     }
 }

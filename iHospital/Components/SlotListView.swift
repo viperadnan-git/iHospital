@@ -31,12 +31,16 @@ struct SlotListView: View {
                             .background(selection == slot ? Color.accentColor : isBooked ? Color.gray.opacity(0.5) : Color.accentColor.opacity(0.2))
                             .foregroundColor(selection == slot ? Color.white : isBooked ? Color.gray : Color.primary)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .accessibilityLabel("Slot at \(slot.formatted(.dateTime.hour().minute())), \(isBooked ? "Booked" : "Available")")
+                            .accessibilityHint(selection == slot ? "Selected slot" : "Tap to select this slot")
                     }
                     .disabled(isBooked)
                 }
             }
             .padding(.horizontal)
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Slot list view")
     }
 }
 

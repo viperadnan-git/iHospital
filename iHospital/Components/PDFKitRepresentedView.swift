@@ -15,13 +15,18 @@ struct PDFKitRepresentedView: UIViewRepresentable {
         self.url = url
     }
 
-    func makeUIView(context: UIViewRepresentableContext<PDFKitRepresentedView>) -> PDFView {
+    func makeUIView(context: Context) -> PDFView {
         let pdfView = PDFView()
         pdfView.document = PDFDocument(url: url)
         pdfView.autoScales = true
         return pdfView
     }
 
-    func updateUIView(_ uiView: PDFView, context: UIViewRepresentableContext<PDFKitRepresentedView>) {}
+    func updateUIView(_ uiView: PDFView, context: Context) {}
 }
 
+struct PDFKitRepresentedView_Previews: PreviewProvider {
+    static var previews: some View {
+        PDFKitRepresentedView(URL(string: "https://www.example.com/sample.pdf")!)
+    }
+}

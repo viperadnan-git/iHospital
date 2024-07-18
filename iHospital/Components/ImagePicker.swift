@@ -21,7 +21,6 @@ struct ImagePicker: UIViewControllerRepresentable {
             if let uiImage = info[.originalImage] as? UIImage {
                 parent.selectedImageData = uiImage.jpegData(compressionQuality: 0.5)
             }
-
             parent.presentationMode.wrappedValue.dismiss()
         }
 
@@ -48,3 +47,9 @@ struct ImagePicker: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
 }
 
+struct ImagePicker_Previews: PreviewProvider {
+    @State static var imageData: Data?
+    static var previews: some View {
+        ImagePicker(sourceType: .photoLibrary, selectedImageData: $imageData)
+    }
+}
