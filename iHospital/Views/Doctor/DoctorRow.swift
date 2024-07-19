@@ -9,9 +9,8 @@ import SwiftUI
 
 struct DoctorRow: View {
     var doctor: Doctor
-    var expanded: Bool = false
+    @Binding var expandedDoctorId: UUID?
     
-    @State private var isExpanded: Bool = false
     @State private var availableSlots: [(Date, Bool)] = []
     @State private var isLoading = false
     @State private var navigateToBooking = false
@@ -30,67 +29,56 @@ struct DoctorRow: View {
                         .padding(.trailing, 10)
                         .padding(.top)
                         .foregroundStyle(Color(.systemGray))
-                        .accessibilityHidden(true)
                     Spacer()
                 }
                 
                 VStack(alignment: .leading) {
                     Text(doctor.name)
                         .font(.headline)
-                        .accessibilityLabel("Doctor: \(doctor.name)")
                     HStack {
                         Image(systemName: "graduationcap.fill")
-                            .accessibilityHidden(true)
                         Text(doctor.qualification)
-                            .font(.subheadline)
-                            .foregroundStyle(Color(.systemGray))
-                            .accessibilityLabel("Qualification: \(doctor.qualification)")
-                    }
+                           
+                    }.font(.subheadline)
+                        .foregroundStyle(Color(.systemGray))
                     HStack {
                         Image(systemName: "briefcase.fill")
-                            .accessibilityHidden(true)
                         Text(doctor.experienceSince.ago)
-                            .font(.subheadline)
-                            .foregroundStyle(Color(.systemGray))
-                            .accessibilityLabel("Experience: \(doctor.experienceSince.ago)")
-                    }
+                    }.font(.subheadline)
+                        .foregroundStyle(Color(.systemGray))
                 }
                 Spacer()
                 
-                if !expanded {
-                    Button(action: {
-                        withAnimation {
-                            isExpanded.toggle()
-                            if isExpanded {
-                                fetchAvailableSlots()
-                            }
+                Button(action: {
+                    withAnimation {
+                        if expandedDoctorId == doctor.userId {
+                            expandedDoctorId = nil
+                        } else {
+                            expandedDoctorId = doctor.userId
+                            fetchAvailableSlots()
                         }
-                    }) {
-                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                            .padding()
-                            .accessibilityLabel(isExpanded ? "Collapse" : "Expand")
-                            .accessibilityHint(isExpanded ? "Tap to collapse the doctor's details" : "Tap to expand the doctor's details")
                     }
+                }) {
+                    Image(systemName: expandedDoctorId == doctor.userId ? "chevron.up" : "chevron.down")
+                        .padding()
                 }
             }.padding(.horizontal)
             
-            if isExpanded {
+            if expandedDoctorId == doctor.userId {
                 if isLoading {
                     ProgressView()
                         .padding()
-                        .accessibilityLabel("Loading available slots")
-                } else if availableSlots.isEmpty {
+                }
+                else if availableSlots.isEmpty {
                     Text("No slots available for \(booking.forDate.startOfDay.localDate.dateString)")
                         .foregroundColor(.gray)
                         .padding()
-                        .accessibilityLabel("No slots available for \(booking.forDate.startOfDay.localDate.dateString)")
                 } else {
                     VStack(alignment: .leading) {
                         Text("Available Slots")
                             .textCase(.uppercase)
                             .font(.caption)
                             .padding(.horizontal)
-                            .accessibilityLabel("Available Slots")
                         SlotListView(slots: availableSlots, doctor: $booking.doctor, selection: $booking.selectedSlot)
                     }.padding(.top, 8)
                 }
@@ -99,11 +87,9 @@ struct DoctorRow: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .errorAlert(errorAlertMessage: errorAlertMessage)
         .onChange(of: booking.forDate) { _ in
-            if isExpanded {
+            if expandedDoctorId == doctor.userId {
                 fetchAvailableSlots()
             }
-        }.onAppear {
-            isExpanded = expanded
         }
     }
     
@@ -129,7 +115,7 @@ struct DoctorRow: View {
 
 #Preview {
     NavigationView {
-        DoctorRow(doctor: Doctor.sample)
+        DoctorRow(doctor: Doctor.sample, expandedDoctorId: .constant(nil))
             .environmentObject(BookingViewModel())
     }
 }

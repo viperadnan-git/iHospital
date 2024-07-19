@@ -57,6 +57,12 @@ struct ProfileView: View {
                 }
             }
             
+            Section {
+                NavigationLink(destination: UpdatePassword()) {
+                    Text("Change Password")
+                }
+            }
+            
             Section(header: Text("Settings")) {
                 Button(role: .destructive, action: {
                     showLogoutAlert.toggle()

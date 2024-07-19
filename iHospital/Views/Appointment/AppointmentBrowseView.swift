@@ -12,6 +12,7 @@ struct AppointmentBrowseView: View {
     @State private var showSearch = false
     @State private var selectedSearchResult: Search?
     @State private var selectedDepartment: Department? = nil
+    @State private var expandedDoctorId: UUID? = nil
     
     @State var departments: [Department] = [Department.defaultDepartment]
     
@@ -56,17 +57,18 @@ struct AppointmentBrowseView: View {
                     switch selectedSearchResult.type {
                     case .doctor:
                         if case .doctor(let doctor) = selectedSearchResult.item {
-                            DoctorRow(doctor: doctor, expanded: true).environmentObject(booking)
+                            DoctorRow(doctor: doctor, expandedDoctorId: $expandedDoctorId).environmentObject(booking)
                                 .accessibilityLabel("Doctor: \(doctor.name)")
                         }
                     case .department:
                         if case .department(let department) = selectedSearchResult.item {
-                            DoctorsList(departmentId: department.id).environmentObject(booking)
+                            DoctorsList(departmentId: department.id, expandedDoctorId: $expandedDoctorId).environmentObject(booking)
                                 .accessibilityLabel("Doctors list for department: \(department.name)")
                         }
                     }
                 } else if let selectedDepartment = selectedDepartment {
-                    DoctorsList(departmentId: selectedDepartment.id).environmentObject(booking)
+                    DoctorsList(departmentId: selectedDepartment.id, expandedDoctorId: $expandedDoctorId)
+                        .environmentObject(booking)
                         .id(selectedDepartment.id)
                         .accessibilityLabel("Doctors list for department: \(selectedDepartment.name)")
                 } else {

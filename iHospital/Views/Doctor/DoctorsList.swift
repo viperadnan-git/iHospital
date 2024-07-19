@@ -1,7 +1,15 @@
+//
+//  DoctorsList.swift
+//  iHospital
+//
+//  Created by Adnan Ahmad on 07/07/24.
+//
+
 import SwiftUI
 
 struct DoctorsList: View {
     var departmentId: UUID
+    @Binding var expandedDoctorId: UUID?
     
     @State private var doctors: [Doctor] = []
     @State private var isLoading = true
@@ -14,24 +22,19 @@ struct DoctorsList: View {
             if isLoading {
                 ProgressView()
                     .padding()
-                    .accessibilityLabel("Loading doctors")
             } else if doctors.isEmpty {
                 Text("No doctors available for this department.")
                     .foregroundColor(.gray)
                     .padding()
-                    .accessibilityLabel("No doctors available for this department.")
             } else {
                 ForEach(doctors, id: \.userId) { doctor in
-                    DoctorRow(doctor: doctor)
+                    DoctorRow(doctor: doctor, expandedDoctorId: $expandedDoctorId)
                         .environmentObject(booking)
-                        .accessibilityLabel("Doctor: \(doctor.name)")
                 }
             }
         }
         .onAppear(perform: fetchDoctors)
         .errorAlert(errorAlertMessage: errorAlertMessage)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("Doctors list for department")
     }
     
     private func fetchDoctors() {
@@ -54,5 +57,5 @@ struct DoctorsList: View {
 }
 
 #Preview {
-    DoctorsList(departmentId: Department.defaultDepartment.id)
+    DoctorsList(departmentId: Department.defaultDepartment.id, expandedDoctorId: .constant(nil))
 }
