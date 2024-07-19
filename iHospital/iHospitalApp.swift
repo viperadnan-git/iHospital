@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct iHospitalApp: App {
+    @StateObject private var authViewModel = AuthViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Group {
+                if authViewModel.user != nil {
+                    MainView()
+                } else {
+                    LoginView()
+                }
+            }.environmentObject(authViewModel)
         }
     }
 }
