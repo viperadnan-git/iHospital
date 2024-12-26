@@ -9,6 +9,7 @@ iHospital is a comprehensive hospital management system designed to streamline o
 - [Features](#features)
 - [Accessibility Features](#accessibility-features)
 - [Screenshots](#screenshots)
+- [User Features](#user-features)
 - [Admin App](#admin-app)
 - [Future Scope](#future-scope)
 - [Technologies Used](#technologies-used)
@@ -18,23 +19,23 @@ iHospital is a comprehensive hospital management system designed to streamline o
 
 ## Features
 
-- **User Authentication**: Secure login and registration for users.
-- **Patient Management**: Comprehensive management of patient records and information.
-- **Appointment Scheduling**: Easy booking and management of appointments.
-- **Billing System**: Efficient handling of billing and invoicing.
-- **Lab Test Management**: Track lab tests and results.
-- **Admin Dashboard**: Specialized interface for administrators to manage users and data.
-- **Responsive Design**: Optimized for various devices with a native UI.
+- **🔐 User Authentication**: Secure login and registration for users.
+- **👥 Patient Management**: Comprehensive management of patient records and information.
+- **📅 Appointment Scheduling**: Easy booking and management of appointments.
+- **💳 Billing System**: Efficient handling of billing and invoicing.
+- **🔬 Lab Test Management**: Track lab tests and results.
+- **📊 Admin Dashboard**: Specialized interface for administrators to manage users and data.
+- **📱 Responsive Design**: Optimized for various devices with a native UI.
 
 ## Accessibility Features
 
 iHospital includes several accessibility features to enhance usability for all users:
 
-- **VoiceOver Support**: Provides screen reading capabilities for visually impaired users.
-- **Dynamic Type**: Supports adjustable text sizes for better readability.
-- **Color Contrast**: High contrast color schemes are available to assist users with visual impairments.
-- **Accessible Labels**: All interactive elements have descriptive labels for screen readers.
-- **Dark Mode Support**: Offers a dark theme option to reduce eye strain in low-light environments.
+- **🔊 VoiceOver Support**: Provides screen reading capabilities for visually impaired users.
+- **📱 Dynamic Type**: Supports adjustable text sizes for better readability.
+- **🎨 Color Contrast**: High contrast color schemes are available to assist users with visual impairments.
+- **🏷️ Accessible Labels**: All interactive elements have descriptive labels for screen readers.
+- **🌙 Dark Mode Support**: Offers a dark theme option to reduce eye strain in low-light environments.
 
 These features aim to ensure that all users can effectively navigate and utilize the application.
 
@@ -49,13 +50,37 @@ These features aim to ensure that all users can effectively navigate and utilize
   <img src="https://github.com/user-attachments/assets/bed65785-0348-44ce-a775-74e17ad5a450" width="16.66%" alt="Bed Booking"/>
 </div>
 
+## User Features
+
+- **🔐 User Authentication**: Secure login and registration for patients and healthcare staff.
+- **📋 Patient Management**: 
+  - View and update patient records.
+  - Access medical history and treatment details.
+- **📅 Appointment Scheduling**:
+  - Book, reschedule, or cancel appointments.
+  - Receive notifications and reminders for upcoming appointments.
+- **🔬 Lab Test Management**:
+  - Request lab tests and view results.
+  - Track the status of lab requests.
+- **💳 Billing and Invoicing**:
+  - View billing statements and payment history.
+  - Manage insurance information and payment options.
+- **📄 Medical Records Access**:
+  - Secure access to personal medical records.
+  - Download or share medical documents as needed.
+- **💬 Communication Tools**:
+  - Secure messaging with healthcare providers.
+  - Receive updates and alerts regarding health status.
+
+These features are designed to enhance the user experience, ensuring that both patients and healthcare professionals can manage their interactions effectively within the iHospital ecosystem.
+
 ## Admin App
 
 The [**iHospital Admin app**](https://github.com/viperadnan-git/iHospital-Admin) is a separate iPad application designed specifically for:
 
-- **Hospital Administrators**: Manage staff, patients, and overall hospital operations.
-- **Doctors**: Access patient records, manage appointments, and perform administrative tasks.
-- **Lab Technicians**: Manage lab tests, results, and patient interactions.
+- **👨‍💼 Hospital Administrators**: Manage staff, patients, and overall hospital operations.
+- **👨‍⚕️ Doctors**: Access patient records, manage appointments, and perform administrative tasks.
+- **👨‍🔬 Lab Technicians**: Manage lab tests, results, and patient interactions.
 
 This dedicated app ensures that each role has tailored functionalities to enhance workflow efficiency.
 
@@ -63,15 +88,15 @@ This dedicated app ensures that each role has tailored functionalities to enhanc
 
 The future development of iHospital includes the addition of a **Bed Management System**, which will enable:
 
-- Tracking of bed availability in real-time.
-- Management of bed assignments for patients.
-- Integration with patient admission and discharge processes.
+- 🛏️ Tracking of bed availability in real-time.
+- 📋 Management of bed assignments for patients.
+- 🔄 Integration with patient admission and discharge processes.
 
 ## Technologies Used
 
-- **SwiftUI**: For building the native user interface.
-- **Swift**: The programming language used for development.
-- **Supabase**: Backend as a service for database management and authentication.
+- **📱 SwiftUI**: For building the native user interface.
+- **⚡ Swift**: The programming language used for development.
+- **🗄️ Supabase**: Backend as a service for database management and authentication.
 
 ## Installation
 
